@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MissionController {
 
-    MissionService missionService;
+    private final MissionService missionService;
 
     @PostMapping("/create")
     public ApiResponseDto<Long> missionCreate(@RequestBody MissionCreateRequestDto missionCreateRequestDto) {
