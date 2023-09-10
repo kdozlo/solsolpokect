@@ -71,4 +71,13 @@ public class MissionService {
         return MissionInfoDetailResponseDto.of(mission.get().getMissionName(), mission.get().getReward() , mission.get().isComplete(),
                 mission.get().getGoal(), mission.get().getPicture(), mission.get().isAllow(), mission.get().getCreatedAt());
     }
+
+    public void missionDelete(long missionId) {
+        Optional<Mission> mission = missionRepository.findById(missionId);
+
+        if(mission.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        missionRepository.delete(mission.get());
+    }
 }
