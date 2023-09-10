@@ -2,12 +2,10 @@ package team21.solsolpokect.mission.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
-import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
+import team21.solsolpokect.mission.dto.request.MissionCompleteRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionPictureRequestDto;
 import team21.solsolpokect.mission.dto.response.MissionInfoDetailResponseDto;
@@ -91,5 +89,12 @@ public class MissionService {
         mission.get().updatePicture(missionPictureRequestDto.getPicture());
     }
 
+    public void missionComplete(long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {
+        Optional<Mission> mission = missionRepository.findById(missionId);
 
+        if(mission.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        mission.get().updateComplete(missionCompleteRequestDto.isComplete());
+    }
 }

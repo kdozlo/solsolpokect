@@ -6,5 +6,5 @@ import lombok.Getter;
 public class MissionCompleteRequestDto {
 
     private long userId;
-    private boolean allow;
+    private boolean complete;
 }

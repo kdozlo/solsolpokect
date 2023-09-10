@@ -69,4 +69,8 @@ public class Mission extends BaseTime {
     public void updatePicture(String picture) {
         this.picture = picture;
     }
+
+    public void updateComplete(boolean complete) {
+        this.complete = complete;
+    }
 }
