@@ -20,16 +20,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MissionController {
 
-    MissionService missionService;
+    private final MissionService missionService;
 
     @PostMapping("/create")
-    public ApiResponseDto<Long> missionCreate(@RequestBody MissionCreateRequestDto missionCreateRequestDto) {
-        return ResponseUtils.ok(missionService.missionCreate(missionCreateRequestDto), MsgType.MISSION_CREATE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionCreate(@RequestBody MissionCreateRequestDto missionCreateRequestDto) {
+        missionService.missionCreate(missionCreateRequestDto);
+        return ResponseUtils.ok(MsgType.MISSION_CREATE_SUCCESSFULLY);
     }
 
     @PutMapping("/allow/{mission-id}")
-    public ApiResponseDto<Long> missionAllow(@PathVariable("mission-id") long missionId, @RequestBody MissionAllowRequestDto missionAllowRequestDto) {
-        return ResponseUtils.ok(missionService.missionAllow(missionId, missionAllowRequestDto), missionAllowRequestDto.isAllow() ? MsgType.MISSION_ALLOW_SUCCESSFULLY : MsgType.MISSION_REJECT_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionAllow(@PathVariable("mission-id") long missionId, @RequestBody MissionAllowRequestDto missionAllowRequestDto) {
+        missionService.missionAllow(missionId, missionAllowRequestDto);
+        return ResponseUtils.ok(missionAllowRequestDto.isAllow() ? MsgType.MISSION_ALLOW_SUCCESSFULLY : MsgType.MISSION_REJECT_SUCCESSFULLY);
     }
 
     @GetMapping("/list")
@@ -45,20 +47,20 @@ public class MissionController {
     }
 
     @DeleteMapping("/{mission-id}")
-    public ApiResponseDto<Long> missionDelete(@PathVariable("mission-id") long missionId) {
-
-        return ResponseUtils.ok(missionService.missionDelete(missionId), MsgType.MISSION_DELETE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionDelete(@PathVariable("mission-id") long missionId) {
+        missionService.missionDelete(missionId);
+        return ResponseUtils.ok(MsgType.MISSION_DELETE_SUCCESSFULLY);
     }
 
     @PutMapping("/allow-picture/{mission-id}")
-    public ApiResponseDto<Long> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) {
-
-        return ResponseUtils.ok(missionService.missionAllowPicture(missionId, missionPictureRequestDto), MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) {
+        missionService.missionAllowPicture(missionId, missionPictureRequestDto);
+        return ResponseUtils.ok(MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
     }
 
     @PutMapping("/complete/{mission-id}")
-    public ApiResponseDto<Long> missionComplete(@PathVariable("mission-id") long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
-
-        return ResponseUtils.ok(missionService.missionComplete(missionId, missionCompleteRequestDto), MsgType.MISSION_COMPLETE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionComplete(@PathVariable("mission-id") long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
+        missionService.missionComplete(missionId, missionCompleteRequestDto);
+        return ResponseUtils.ok(MsgType.MISSION_COMPLETE_SUCCESSFULLY);
     }
 }
