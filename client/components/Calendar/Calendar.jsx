@@ -27,12 +27,8 @@ const Calendar = () => {
 
   return (
     <ScrollView>
-      <CalendarHeader selectedDate={selectedDate} />
-      <CalendarBody
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        monthDates={monthDates}
-      />
+      <CalendarHeader />
+      <CalendarBody monthDates={monthDates} />
     </ScrollView>
   );
 };

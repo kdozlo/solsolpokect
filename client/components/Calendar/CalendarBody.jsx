@@ -1,13 +1,15 @@
 import dayjs from 'dayjs';
 import { useCallback } from 'react';
 import { FlatList, FlatListComponent, View, Text } from 'react-native';
+import { useRecoilState } from 'recoil';
 
 import CalendarItem from './CalendarItem';
+import { accountDateAtom } from '../../recoil/accountBook';
 import { getDayColor, getDayText } from '../../utils/CalendarUtils';
 
 // 요일(글자 부분_ListHeaderComponent) + 날짜(숫자 부분_FlatList)
-const CalendarBody = ({ selectedDate, setSelectedDate, monthDates }) => {
-  // const [selectedDate, setSelectedDate] = useRecoilState(accountDateAtom);
+const CalendarBody = ({ monthDates }) => {
+  const [selectedDate, setSelectedDate] = useRecoilState(accountDateAtom);
 
   // 요일(글자 부분_ListHeaderComponent)
   // - 일 ~ 토요일 표시

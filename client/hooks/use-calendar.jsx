@@ -1,8 +1,11 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { accountDateAtom } from '../recoil/accountBook';
 
 export const useCalendar = now => {
-  const [selectedDate, setSelectedDate] = useState(now);
+  const [selectedDate, setSelectedDate] = useRecoilState(accountDateAtom);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {

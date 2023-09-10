@@ -9,8 +9,9 @@ import { accountDateAtom } from '../../recoil/accountBook';
 {
   /* < YYYY.MM.DD. > */
 }
-const CalendarHeader = ({ selectedDate }) => {
+const CalendarHeader = () => {
   // console.log('Calendar Header');
+  const selectedDate = useRecoilValue(accountDateAtom);
   const currentDateText = dayjs(selectedDate).format('YYYY.MM.DD');
 
   // Event Handlers.
