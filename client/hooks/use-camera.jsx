@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { useEffect, useRef, useState } from 'react';
-import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Camera } from 'expo-camera';
+import { useEffect, useRef, useState } from 'react';
 
 const ASYNC_KEY = {
   IMAGE: 'image',
 };
 
 export default () => {
-  let cameraRef = useRef(); // 카메라 컴포넌트의 속성을 가져다 쓰기 위한 ref
+  const cameraRef = useRef(); // 카메라 컴포넌트의 속성을 가져다 쓰기 위한 ref
   const [hasCameraPermission, setHasCameraPermission] = useState(null); // 카메라 접근 권한 여부
   const [image, setImage] = useState(null); // 카메라로 찍은 사진의 uri를 넣는 곳
   const [toggle, setToggle] = useState(Camera.Constants.Type.back); // 카메라가 현재 앞인지 뒤인지

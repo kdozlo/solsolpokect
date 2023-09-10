@@ -1,3 +1,5 @@
+import { Image, Text, TouchableOpacity } from 'react-native';
+
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 const GoBackHeader = ({ title }) => {
@@ -23,7 +25,6 @@ const GoBackHeader = ({ title }) => {
         style={{
           marginLeft: SIZES.padding * 1.5,
           color: 'black',
-          ...FONTS.h4,
         }}>
         {title}
       </Text>

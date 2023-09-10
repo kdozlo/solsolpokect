@@ -3,18 +3,19 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Dimensions } from 'react-native';
+import { RecoilRoot } from 'recoil';
 
+import AccountBook from './pages/AccountBook';
 import Calender from './pages/Calender';
+import ChooseQuest from './pages/ChooseQuest';
 import Detail from './pages/Detail';
 import Main from './pages/Main';
+import MakingQuest from './pages/MakingQuest';
 import QuestType1 from './pages/QuestType1';
 import QuestType3 from './pages/QuestType2';
 import QuestType2 from './pages/QuestType3';
-import ChooseQuest from './pages/ChooseQuest';
 import SignUp from './pages/SignUp';
 import TransactionHistory from './pages/TransactionHistory';
-import MakingQuest from './pages/MakingQuest';
-import { RecoilRoot } from 'recoil';
 
 const Stack = createNativeStackNavigator();
 const WIDTH = Dimensions.get('window').width;
