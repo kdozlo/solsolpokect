@@ -24,13 +24,14 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="AccountBook">
           <Stack.Screen
             name="Main"
             component={Main}
             options={{ headerShown: false }}
           />
 
+          <Stack.Screen name="AccountBook" component={AccountBook} />
           <Stack.Screen
             name="Calender"
             component={Calender}
