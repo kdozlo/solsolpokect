@@ -72,7 +72,7 @@ export default ({ navigation }) => {
       <Title navigation={navigation} title={'가계부 보기'} />
       <TouchableOpacity
         style={styles.forImageView}
-        onPress={() => navigation.navigate('Detail')}>
+        onPress={() => navigation.navigate('SignUp')}>
         {/* 회원 카드 부분  */}
         <Image
           source={require('../assets/images/user_gold_card.png')}
