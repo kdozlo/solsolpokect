@@ -10,3 +10,8 @@ export const accountDateAtom = atom({
   key: 'accountDate',
   default: dayjs(),
 });
+
+export const isPickerVisibleAtom = atom({
+  key: 'accountPickerModalBoolean',
+  default: false,
+});
