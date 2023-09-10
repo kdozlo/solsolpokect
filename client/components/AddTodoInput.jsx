@@ -2,7 +2,7 @@ import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 
-import { bottomSpace, ITEM_WIDTH } from '../utils/CanlendarUtils';
+import { bottomSpace, ITEM_WIDTH } from '../utils/CalendarUtils';
 
 export default ({
   value,

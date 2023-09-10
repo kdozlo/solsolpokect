@@ -29,7 +29,7 @@ import {
   ITEM_WIDTH,
   statusBarHeight,
   bottomSpace,
-} from '../utils/CanlendarUtils';
+} from '../utils/CalendarUtils';
 
 export default function App() {
   const now = dayjs();

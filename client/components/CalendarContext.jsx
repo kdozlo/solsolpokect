@@ -1,11 +1,10 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import dayjs from 'dayjs';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 
-import { getDayColor, getDayText } from '../utils/CanlendarUtils';
+import { getDayColor, getDayText } from '../utils/CalendarUtils';
 
-const columnSize = 100;
+const columnSize = 50;
 const Column = ({
   text,
   color,
@@ -13,7 +12,7 @@ const Column = ({
   disabled,
   onPress,
   isSelected,
-  hasTodo,
+  // hasTodo,
 }) => {
   return (
     <TouchableOpacity
@@ -27,9 +26,8 @@ const Column = ({
         backgroundColor: isSelected ? '#AAEBFF' : 'transparent',
         borderRadius: columnSize / 2,
       }}>
-      <Text style={{ color, opacity, fontWeight: hasTodo ? 'bold' : 'normal' }}>
-        {text}
-      </Text>
+      {/* <Text style={{ color, opacity, fontWeight: hasTodo ? 'bold' : 'normal' }}> */}
+      <Text style={{ color, opacity, fontWeight: 'normal' }}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -52,11 +50,13 @@ export default ({
   onPressRightArrow,
   onPressDate,
 }) => {
+  console.log('columns', columns);
+
   const ListHeaderComponent = () => {
     const currentDateText = dayjs(selectedDate).format('YYYY.MM.DD');
     return (
       <View>
-        {/* < YYYY.MM.DD. > */}
+        {/* < YYYY.MM.DD. >  부분*/}
         <View
           style={{
             flex: 1,
@@ -75,7 +75,7 @@ export default ({
           <ArrowButton iconName="arrow-right" onPress={onPressRightArrow} />
         </View>
 
-        {/* 일 ~ 토 */}
+        {/* 일 ~ 토  요일 표시 부분*/}
         <View style={{ flexDirection: 'row' }}>
           {[0, 1, 2, 3, 4, 5, 6].map(day => {
             const dayText = getDayText(day);
@@ -94,6 +94,10 @@ export default ({
       </View>
     );
   };
+
+  // 날짜 표시 부분이다. date라는 day.js 객체를 받아서 날짜, 요일(day), 달로 나누어서 값들에 저장한다.
+  // isSelected는 use-todo-List에서 isSame이란 함수를 사용해서 사용자가 선택한 일자와 같은 dayjs 객체를 특정한다.
+  // 특정된 날짜는 진하게 표시된다.
   const renderItem = ({ item: date }) => {
     const dateText = dayjs(date).get('date');
     const day = dayjs(date).get('day');
@@ -101,9 +105,9 @@ export default ({
     const isCurrentMonth = dayjs(date).isSame(selectedDate, 'month');
     const onPress = () => onPressDate(date);
     const isSelected = dayjs(date).isSame(selectedDate, 'date');
-    const hasTodo = todoList.find(todo =>
-      dayjs(todo.date).isSame(dayjs(date), 'date'),
-    );
+    // const hasTodo = todoList.find(todo =>
+    //   dayjs(todo.date).isSame(dayjs(date), 'date'),
+    // );
     return (
       <Column
         text={dateText}
@@ -111,7 +115,7 @@ export default ({
         opacity={isCurrentMonth ? 1 : 0.4}
         onPress={onPress}
         isSelected={isSelected}
-        hasTodo={hasTodo}
+        // hasTodo={hasTodo}
       />
     );
   };
