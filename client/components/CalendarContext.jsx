@@ -53,7 +53,7 @@ export default ({
   onPressDate,
 }) => {
   const ListHeaderComponent = () => {
-    const currentDateText = dayjs(selectedDate).format('YYYY.MM.DD.');
+    const currentDateText = dayjs(selectedDate).format('YYYY.MM.DD');
     return (
       <View>
         {/* < YYYY.MM.DD. > */}
