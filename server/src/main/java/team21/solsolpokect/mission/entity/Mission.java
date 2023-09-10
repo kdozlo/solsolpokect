@@ -61,4 +61,8 @@ public class Mission extends BaseTime {
                 .goal(goal)
                 .build();
     }
+
+    public void updateAllow(boolean allow) {
+        this.allow = allow;
+    }
 }

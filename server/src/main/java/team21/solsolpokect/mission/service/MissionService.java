@@ -2,8 +2,11 @@ package team21.solsolpokect.mission.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
+import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
 import team21.solsolpokect.mission.entity.Mission;
 import team21.solsolpokect.mission.repository.MissionRepository;
@@ -28,4 +31,12 @@ public class MissionService {
         missionRepository.save(Mission.of(user.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), false, missionCreateRequestDto.getGoal()));
     }
 
+    public void missionAllow(long missionId, MissionAllowRequestDto missionAllowRequestDto) {
+        Optional<Mission> mission = missionRepository.findById(missionId);
+
+        if(mission.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        mission.get().updateAllow(missionAllowRequestDto.isAllow());
+    }
 }

@@ -29,8 +29,9 @@ public class MissionController {
     }
 
     @PutMapping("/allow/{mission-id}")
-    public ApiResponseDto<Long> missionAllow(@PathVariable("mission-id") long missionId, @RequestBody MissionAllowRequestDto missionAllowRequestDto) {
-        return ResponseUtils.ok(missionService.missionAllow(missionId, missionAllowRequestDto), missionAllowRequestDto.isAllow() ? MsgType.MISSION_ALLOW_SUCCESSFULLY : MsgType.MISSION_REJECT_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionAllow(@PathVariable("mission-id") long missionId, @RequestBody MissionAllowRequestDto missionAllowRequestDto) {
+        missionService.missionAllow(missionId, missionAllowRequestDto);
+        return ResponseUtils.ok(missionAllowRequestDto.isAllow() ? MsgType.MISSION_ALLOW_SUCCESSFULLY : MsgType.MISSION_REJECT_SUCCESSFULLY);
     }
 
     @GetMapping("/list")
