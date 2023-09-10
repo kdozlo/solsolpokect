@@ -47,9 +47,9 @@ public class MissionController {
     }
 
     @DeleteMapping("/{mission-id}")
-    public ApiResponseDto<Long> missionDelete(@PathVariable("mission-id") long missionId) {
-
-        return ResponseUtils.ok(missionService.missionDelete(missionId), MsgType.MISSION_DELETE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionDelete(@PathVariable("mission-id") long missionId) {
+        missionService.missionDelete(missionId);
+        return ResponseUtils.ok(MsgType.MISSION_DELETE_SUCCESSFULLY);
     }
 
     @PutMapping("/allow-picture/{mission-id}")
