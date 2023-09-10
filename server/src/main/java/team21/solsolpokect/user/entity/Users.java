@@ -29,7 +29,7 @@ public class Users extends BaseTime {
     private Family family;
 
     @Column(nullable = false)
-    private int account;
+    private String account;
 
     @Column(nullable = false, length = 30)
     private String userId;
@@ -41,7 +41,7 @@ public class Users extends BaseTime {
     private int creditScore;
 
     @Builder
-    public Users(String role, String userName, Family family, int account, String userId, String password, int creditScore) {
+    public Users(String role, String userName, Family family, String account, String userId, String password, int creditScore) {
         this.role = role;
         this.userName = userName;
         this.family = family;
