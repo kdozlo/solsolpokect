@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team21.solsolpokect.common.entity.BaseTime;
+import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
 import team21.solsolpokect.user.entity.Users;
 
 import javax.persistence.*;
@@ -49,5 +50,15 @@ public class Mission extends BaseTime {
         this.picture = picture;
         this.user = user;
         this.allow = allow;
+    }
+
+    public static Mission of(Users user, String missionName, int reward, boolean complete, String goal) {
+        return builder()
+                .user(user)
+                .missionName(missionName)
+                .reward(reward)
+                .complete(complete)
+                .goal(goal)
+                .build();
     }
 }

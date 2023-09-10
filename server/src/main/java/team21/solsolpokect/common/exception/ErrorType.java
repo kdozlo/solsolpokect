@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 public enum ErrorType {
+    NOT_FOUND_USER(401, "등록된 사용자가 없습니다."),
     ;
     private int code;
     private String msg;
