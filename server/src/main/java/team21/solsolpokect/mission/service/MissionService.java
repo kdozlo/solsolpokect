@@ -8,11 +8,13 @@ import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
+import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.mission.entity.Mission;
 import team21.solsolpokect.mission.repository.MissionRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,5 +40,15 @@ public class MissionService {
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
         mission.get().updateAllow(missionAllowRequestDto.isAllow());
+    }
+
+    public List<MissionInfosResponseDto> missionList(long userId) {
+        Optional<Users> user = usersRepository.findById(userId);
+
+        if(user.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        return missionRepository.findAllByUserId(userId);
+
     }
 }
