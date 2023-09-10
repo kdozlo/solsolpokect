@@ -15,6 +15,9 @@ const userGoldCard = require('../assets/images/user_gold_card.png');
 const userSilverCard = require('../assets/images/user_silver_card.png');
 const wallieLogo = require('../assets/images/wallie-logo.png');
 
+//마스코트
+const whiteBear = require('../assets/images/white_bear.png');
+
 export default {
   wallieLogo,
   banner,
@@ -30,4 +33,7 @@ export default {
   questPlus,
   questMoney,
   questExcellent,
+
+  //마스코트 사진
+  whiteBear,
 };
