@@ -65,4 +65,8 @@ public class Mission extends BaseTime {
     public void updateAllow(boolean allow) {
         this.allow = allow;
     }
+
+    public void updatePicture(String picture) {
+        this.picture = picture;
+    }
 }

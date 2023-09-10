@@ -9,6 +9,7 @@ import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
+import team21.solsolpokect.mission.dto.request.MissionPictureRequestDto;
 import team21.solsolpokect.mission.dto.response.MissionInfoDetailResponseDto;
 import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.mission.entity.Mission;
@@ -79,5 +80,14 @@ public class MissionService {
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
         missionRepository.delete(mission.get());
+    }
+
+    public void missionAllowPicture(long missionId, MissionPictureRequestDto missionPictureRequestDto) {
+        Optional<Mission> mission = missionRepository.findById(missionId);
+
+        if(mission.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        mission.get().updatePicture(missionPictureRequestDto.getPicture());
     }
 }
