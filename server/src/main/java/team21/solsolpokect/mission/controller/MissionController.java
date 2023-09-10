@@ -59,8 +59,8 @@ public class MissionController {
     }
 
     @PutMapping("/complete/{mission-id}")
-    public ApiResponseDto<Long> missionComplete(@PathVariable("mission-id") long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
-
-        return ResponseUtils.ok(missionService.missionComplete(missionId, missionCompleteRequestDto), MsgType.MISSION_COMPLETE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionComplete(@PathVariable("mission-id") long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
+        missionService.missionComplete(missionId, missionCompleteRequestDto);
+        return ResponseUtils.ok(MsgType.MISSION_COMPLETE_SUCCESSFULLY);
     }
 }
