@@ -53,9 +53,9 @@ public class MissionController {
     }
 
     @PutMapping("/allow-picture/{mission-id}")
-    public ApiResponseDto<Long> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) {
-
-        return ResponseUtils.ok(missionService.missionAllowPicture(missionId, missionPictureRequestDto), MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
+    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) {
+        missionService.missionAllowPicture(missionId, missionPictureRequestDto);
+        return ResponseUtils.ok(MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
     }
 
     @PutMapping("/complete/{mission-id}")
