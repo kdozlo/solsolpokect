@@ -14,6 +14,7 @@ import { images } from '../constants/index';
 import { FlatListData } from '../test/FlatListData';
 // eslint-disable-next-line import/order, no-unused-vars
 import Divider from '../components/Divider';
+import ChooseQuest from './ChooseQuest';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -30,16 +31,16 @@ export default ({ navigation }) => {
   const icons = {
     1: images.questMoney,
     2: images.questExcellent,
-    '-1': images.questStar,
+    3: images.questStar,
   };
 
   const renderItem = ({ item: { id, type, name } }) => {
-    if (type === -1) {
+    if (type === 3) {
       return (
         <TouchableOpacity
           key={`index - ${id}`}
-          onPress={() => navigation.navigate(`QuestType${type}`)}
-          style={styles.renderItemStyle}>
+          onPress={() => navigation.navigate('ChooseQuest')}
+          style={[styles.renderItemStyle, { backgroundColor: '#F8F259' }]}>
           <Image
             source={icons[type]}
             resizeMode="contain"
@@ -104,7 +105,7 @@ export default ({ navigation }) => {
           renderItem={renderItem}
           keyExtractor={item => item.id}
           data={DATA}
-          horizontal={true}
+          numColumns={3}
         />
       </View>
     </View>
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
   },
 
   renderItemStyle: {
-    marginLeft: 40,
+    marginLeft: 50,
     width: columnSize,
     height: columnSize,
     backgroundColor: '#AAEBFF',
