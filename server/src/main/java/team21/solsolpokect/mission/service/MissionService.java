@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
+import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
+import team21.solsolpokect.mission.dto.response.MissionInfoDetailResponseDto;
 import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.mission.entity.Mission;
 import team21.solsolpokect.mission.repository.MissionRepository;
@@ -58,5 +60,15 @@ public class MissionService {
         }
 
         return missionInfosResponseDtos;
+    }
+
+    public MissionInfoDetailResponseDto missionDetail(long missionId) {
+        Optional<Mission> mission = missionRepository.findById(missionId);
+
+        if(mission.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        return MissionInfoDetailResponseDto.of(mission.get().getMissionName(), mission.get().getReward() , mission.get().isComplete(),
+                mission.get().getGoal(), mission.get().getPicture(), mission.get().isAllow(), mission.get().getCreatedAt());
     }
 }
