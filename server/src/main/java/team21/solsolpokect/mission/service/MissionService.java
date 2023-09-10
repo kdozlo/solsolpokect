@@ -14,6 +14,7 @@ import team21.solsolpokect.mission.repository.MissionRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,14 @@ public class MissionService {
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        return missionRepository.findAllByUserId(userId);
+        List<Mission> missions = missionRepository.findAllByUserId(userId);
+        List<MissionInfosResponseDto> missionInfosResponseDtos = new ArrayList<>();
 
+        for (Mission m : missions) {
+            missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
+                    m.isAllow(), m.getCreatedAt(), m.getUpdateAt()));
+        }
+
+        return missionInfosResponseDtos;
     }
 }
