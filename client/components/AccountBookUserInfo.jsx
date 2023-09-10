@@ -7,7 +7,7 @@ import AccountBookProfile from './AccountBookProfile';
 import FeedbackComment from './Feedback/FeedbackComment';
 import { isFeedbackVisibleAtom } from '../recoil/accountBook';
 
-const AccountBookUserInfo = props => {
+const AccountBookUserInfo = ({ scrollViewRef }) => {
   const isCommentVisible = useRecoilValue(isFeedbackVisibleAtom);
   return (
     <View style={{ width: '100%', marginTop: 20 }}>
@@ -16,7 +16,7 @@ const AccountBookUserInfo = props => {
         {/* 소비 내역 요약  */}
         <AccountBookProfile />
         {/* 일일 피드백 */}
-        <AccountBookFeedback />
+        <AccountBookFeedback scrollViewRef={scrollViewRef} />
         {/* 일일 거래 내역 조회 */}
       </View>
       {isCommentVisible && <FeedbackComment />}

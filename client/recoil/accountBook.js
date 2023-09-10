@@ -20,3 +20,8 @@ export const isFeedbackVisibleAtom = atom({
   key: 'accountFeedbackModalBoolean',
   default: false,
 });
+
+export const ScrollHeightAtom = atom({
+  key: 'accountScrollHeight',
+  default: 0,
+});
