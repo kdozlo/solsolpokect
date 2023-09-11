@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface MissionRepository extends JpaRepository<Mission,Long> {
 
-    @Query("SELECT m FROM Mission m WHERE m.user.userId = :userId AND m.deletedDate IS NULL  ORDER BY m.createdAt DESC")
-    List<Mission> findAllByUserId(@Param("userId")Long userId);
+    @Query("SELECT m FROM Mission m WHERE m.deletedAt IS NULL  ORDER BY m.createdAt DESC")
+    List<Mission> findAllByUserId(Long userId);
 }

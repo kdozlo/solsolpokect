@@ -55,7 +55,7 @@ public class MissionService {
 
         for (Mission m : missions) {
             missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
-                    m.isAllow(), m.getCreatedAt(), m.getUpdateAt()));
+                    m.isAllow(), m.getCreatedAt(), m.getUpdatedAt()));
         }
 
         return missionInfosResponseDtos;
