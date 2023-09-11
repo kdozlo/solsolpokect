@@ -21,8 +21,8 @@ public abstract class BaseTime {
 
     @LastModifiedDate
     @Column(nullable = false)
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 
     @Column(nullable = true)
-    private LocalDateTime deletedDate;
+    private LocalDateTime deletedAt;
 }
