@@ -37,6 +37,10 @@ public class AutoTransferController {
         return ResponseUtils.ok(MsgType.AUTOTRANSFER_UPDATE_SUCCESSFULLY);
     }
 
-
+    @DeleteMapping("/{transfer-id}")
+    public ApiResponseDto<Void> autoTransferDelete(@PathVariable("transfer-id") Long transferId) {
+        autoTransferService.autoTransferDelete(transferId);
+        return ResponseUtils.ok(MsgType.AUTOTRANSFER_DELETE_SUCCESSFULLY);
+    }
 
 }

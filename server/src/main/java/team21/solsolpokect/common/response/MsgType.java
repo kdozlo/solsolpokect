@@ -20,6 +20,7 @@ public enum MsgType {
     AUTOTRANSFER_CREATE_SUCCESSFULLY("자동 이체 생성 성공"),
     AUTOTRANSFER_LIST_SUCCESSFULLY("자동 이체 목록 조회 성공"),
     AUTOTRANSFER_UPDATE_SUCCESSFULLY("자동 이체 수정 성공"),
+    AUTOTRANSFER_DELETE_SUCCESSFULLY("자동 이체 삭제 성공"),
     ;
 
     private final String msg;
