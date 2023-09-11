@@ -7,9 +7,11 @@ const AccountBookProfile = props => {
   return (
     <TouchableOpacity
       style={{
+        flex: 2,
         backgroundColor: '#26293F',
         flexDirection: 'row',
         padding: 10,
+        marginRight: 10,
       }}>
       <Image source={images.father} />
       <View style={{ flexDirection: 'column' }}>
