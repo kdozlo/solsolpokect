@@ -1,10 +1,12 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
-const FeedbackComment = props => {
+import { images } from '../../constants';
+
+const FeedbackComment = ({ commentText }) => {
   return (
-    <View>
-      <Text>Feedback View</Text>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Image source={images.father} />
+      <Text>{commentText}</Text>
     </View>
   );
 };
