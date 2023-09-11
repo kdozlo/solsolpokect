@@ -31,6 +31,12 @@ public class AutoTransferController {
         return ResponseUtils.ok(autoTransferService.autoTransferList(userId), MsgType.AUTOTRANSFER_LIST_SUCCESSFULLY);
     }
 
+    @PutMapping("/{transfer-id}")
+    public ApiResponseDto<Void> autoTransferUpdate(@PathVariable("transfer-id") Long transferId) {
+        autoTransferService.autoTransferUpdate(transferId);
+        return ResponseUtils.ok(MsgType.AUTOTRANSFER_UPDATE_SUCCESSFULLY);
+    }
+
 
 
 }
