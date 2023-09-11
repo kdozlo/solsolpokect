@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE post set deleted_at = CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul') where post_id = ?")
+@SQLDelete(sql = "UPDATE Feedback set deleted_at = CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul') where feedback_id = ?")
 public class Feedback extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
