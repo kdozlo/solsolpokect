@@ -6,17 +6,15 @@ import { ScrollHeightAtom, isFeedbackVisibleAtom } from '../recoil/accountBook';
 
 const FEEDBACK_SCORE = 5;
 
-const AccountBookFeedback = ({ scrollViewRef }) => {
+const AccountBookFeedback = ({ flatListRef }) => {
   const [isCommentVisible, setIsCommentVisible] = useRecoilState(isFeedbackVisibleAtom);
   const currentHeight = useRecoilValue(ScrollHeightAtom);
-  // console.log(scrollViewRef.current);
 
   // Event Handler
   const handleFeedbackPress = () => {
     if (!isCommentVisible) {
-      scrollViewRef.current.scrollTo({
-        x: 0,
-        y: currentHeight,
+      flatListRef.current.scrollToOffset({
+        offset: currentHeight,
         animated: true,
       });
     }

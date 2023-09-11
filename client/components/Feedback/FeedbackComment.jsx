@@ -1,22 +1,8 @@
-import React from 'react';
 import { Text, View } from 'react-native';
-import { useRecoilState } from 'recoil';
 
-import { ScrollHeightAtom } from '../../recoil/accountBook';
-
-const FeedbackComment = ({ scrollViewRef }) => {
-  const [currentHeight, setCurrentHeight] = useRecoilState(ScrollHeightAtom);
-
-  const handleFeedbackBtnHeight = e => {
-    if (!currentHeight) {
-      setCurrentHeight(pre => {
-        return e.nativeEvent.layout.y;
-      });
-    }
-  };
-
+const FeedbackComment = () => {
   return (
-    <View onLayout={handleFeedbackBtnHeight}>
+    <View>
       <Text>Feedback Comment View</Text>
     </View>
   );
