@@ -58,4 +58,13 @@ public class AutoTransferService {
 
         autoTransfer.get().update(autoTransferUpdateRequestDto);
     }
+
+    public void autoTransferDelete(Long transferId) {
+        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findById(transferId);
+
+        if(autoTransfer.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_AUTO_TRANSFER);
+
+        autoTransferRepository.delete(autoTransfer.get());
+    }
 }
