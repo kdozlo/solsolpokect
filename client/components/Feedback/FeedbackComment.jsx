@@ -17,7 +17,7 @@ const FeedbackComment = ({ scrollViewRef }) => {
 
   return (
     <View onLayout={handleFeedbackBtnHeight}>
-      <Text>Feedback View</Text>
+      <Text>Feedback Comment View</Text>
     </View>
   );
 };
