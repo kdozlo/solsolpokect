@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { styled } from 'styled-components';
 
-import TransactionList from '../components/TransactionList';
+import TransactionList from '../components/Transaction/TransactionList';
 import { getTransactionList } from '../services/apis/transactionHistoryAPI';
 
 const TransactionHistory = props => {
@@ -15,6 +15,7 @@ const TransactionHistory = props => {
     getTransactionList().then(res => {
       // api result 저장
       setTransactionList(prev => res);
+      console.log(res);
 
       // 거래 일자 별로 데이터를 묶어줘야 한다.
       const classifiedData = new Map();

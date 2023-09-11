@@ -10,9 +10,7 @@ const TransactionItem = ({ data }) => {
     return (
       <Price>
         {isDeposit ? <Text>입금</Text> : <Text>출금</Text>}
-        <Text>
-          {time.slice(0, 2) + ':' + time.slice(2, 4) + ':' + time.slice(4)}
-        </Text>
+        <Text>{time.slice(0, 2) + ':' + time.slice(2, 4) + ':' + time.slice(4)}</Text>
         {isDeposit ? (
           <Text>{(data['입금금액'] * 1).toLocaleString('ko-KR')}원</Text>
         ) : (

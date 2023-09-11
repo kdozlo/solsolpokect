@@ -16,11 +16,7 @@ const TransactionList = ({ data }) => {
     for (const [date, transactions] of transactionsByDate.entries()) {
       componentList.push(
         <Transactions
-          ListHeaderComponent={
-            <Text>
-              {date.slice(0, 4) + '.' + date.slice(4, 6) + '.' + date.slice(6)}
-            </Text>
-          }
+          ListHeaderComponent={<Text>{date.slice(0, 4) + '.' + date.slice(4, 6) + '.' + date.slice(6)}</Text>}
           key={`${date} 거래 내역 묶음`}
           data={transactions}
           renderItem={renderTransactionItem}

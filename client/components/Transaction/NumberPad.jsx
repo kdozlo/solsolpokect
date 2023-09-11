@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Text } from 'react-native';
 import styled from 'styled-components';
 
-import { icons } from '../constants';
+import { icons } from '../../constants';
 
 const NumberPad = ({ onPress }) => {
   const buttons = [
