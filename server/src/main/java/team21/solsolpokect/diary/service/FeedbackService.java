@@ -50,7 +50,7 @@ public class FeedbackService {
         List<FeedbackInfosResponseDto> answer = new ArrayList<>();
         for(Feedback f : feedbackList){
             if (f != null) {
-                answer.add(FeedbackInfosResponseDto.of(f.getId(), f.getContents(), f.getCreatedAt(), f.getUpdateAt()));
+                answer.add(FeedbackInfosResponseDto.of(f.getId(), f.getContents(), f.getCreatedAt(), f.getUpdatedAt()));
             }
         }
         return answer;
