@@ -10,5 +10,5 @@ public class AutoTransferCreateRequestDto {
     private LocalDateTime autoDate;
     private int money;
     private long userId;
-    private int childAccount;
+    private String childAccount;
 }

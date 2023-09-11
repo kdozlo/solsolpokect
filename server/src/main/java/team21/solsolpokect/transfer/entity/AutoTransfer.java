@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team21.solsolpokect.common.entity.BaseTime;
+import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
 import team21.solsolpokect.user.entity.Users;
 
 import javax.persistence.*;
@@ -38,5 +39,15 @@ public class AutoTransfer extends BaseTime {
         this.money = money;
         this.childAccount = childAccount;
         this.user = user;
+    }
+
+    public static AutoTransfer of(AutoTransferCreateRequestDto autoTransferCreateRequestDto,
+                                  Users user) {
+        return builder()
+                .autoDate(autoTransferCreateRequestDto.getAutoDate())
+                .money(autoTransferCreateRequestDto.getMoney())
+                .childAccount(autoTransferCreateRequestDto.getChildAccount())
+                .user(user)
+                .build();
     }
 }
