@@ -19,10 +19,10 @@ public enum MsgType {
     MISSION_COMPLETE_SUCCESSFULLY("도전 과제 완료 전송 성공"),
     FEEDBACK_UPDATE_SUCCESSFULLY("피드백 수정 성공"),
     FEEDBACK_CHECK_SUCCESSFULLY("피드백 조회 성공"),
-    AUTOTRANSFER_CREATE_SUCCESSFULLY("자동 이체 생성 성공"),
-    AUTOTRANSFER_LIST_SUCCESSFULLY("자동 이체 목록 조회 성공"),
-    AUTOTRANSFER_UPDATE_SUCCESSFULLY("자동 이체 수정 성공"),
-    AUTOTRANSFER_DELETE_SUCCESSFULLY("자동 이체 삭제 성공"),
+    AUTO_TRANSFER_CREATE_SUCCESSFULLY("자동 이체 생성 성공"),
+    AUTO_TRANSFER_LIST_SUCCESSFULLY("자동 이체 목록 조회 성공"),
+    AUTO_TRANSFER_UPDATE_SUCCESSFULLY("자동 이체 수정 성공"),
+    AUTO_TRANSFER_DELETE_SUCCESSFULLY("자동 이체 삭제 성공"),
     ;
 
     private final String msg;
