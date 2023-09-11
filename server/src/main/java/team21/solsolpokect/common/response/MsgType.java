@@ -17,7 +17,8 @@ public enum MsgType {
     MISSION_DELETE_SUCCESSFULLY("도전 과제 삭제 성공"),
     MISSION_ALLOW_PICTURE_SUCCESSFULLY("도전 과제 인증 사진 전송 성공"),
     MISSION_COMPLETE_SUCCESSFULLY("도전 과제 완료 전송 성공"),
-    ;
+    FEEDBACK_UPDATE_SUCCESSFULLY("피드백 수정 성공"),
+    FEEDBACK_CHECK_SUCCESSFULLY("피드백 조회 성공");
 
     private final String msg;
 
