@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class AutoTransferModifyRequestDto {
+public class AutoTransferUpdateRequestDto {
 
     private LocalDateTime autoDate;
     private int money;

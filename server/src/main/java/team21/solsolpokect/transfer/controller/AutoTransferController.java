@@ -6,6 +6,7 @@ import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.common.response.MsgType;
 import team21.solsolpokect.common.response.ResponseUtils;
 import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
+import team21.solsolpokect.transfer.dto.request.AutoTransferUpdateRequestDto;
 import team21.solsolpokect.transfer.dto.response.AutoTransferResponseDto;
 import team21.solsolpokect.transfer.service.AutoTransferService;
 
@@ -31,8 +32,9 @@ public class AutoTransferController {
     }
 
     @PutMapping("/{transfer-id}")
-    public ApiResponseDto<Void> autoTransferUpdate(@PathVariable("transfer-id") Long transferId) {
-        autoTransferService.autoTransferUpdate(transferId);
+    public ApiResponseDto<Void> autoTransferUpdate(@PathVariable("transfer-id") Long transferId,
+                                                   @RequestBody AutoTransferUpdateRequestDto autoTransferUpdateRequestDto) {
+        autoTransferService.autoTransferUpdate(transferId, autoTransferUpdateRequestDto);
         return ResponseUtils.ok(MsgType.AUTO_TRANSFER_UPDATE_SUCCESSFULLY);
     }
 

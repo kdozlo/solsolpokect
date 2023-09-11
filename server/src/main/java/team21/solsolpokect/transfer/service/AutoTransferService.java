@@ -2,14 +2,10 @@ package team21.solsolpokect.transfer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
-import team21.solsolpokect.common.response.ApiResponseDto;
-import team21.solsolpokect.common.response.MsgType;
-import team21.solsolpokect.common.response.ResponseUtils;
-import team21.solsolpokect.mission.entity.Mission;
 import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
+import team21.solsolpokect.transfer.dto.request.AutoTransferUpdateRequestDto;
 import team21.solsolpokect.transfer.dto.response.AutoTransferResponseDto;
 import team21.solsolpokect.transfer.entity.AutoTransfer;
 import team21.solsolpokect.transfer.repository.AutoTransferRepository;
@@ -52,5 +48,14 @@ public class AutoTransferService {
         }
 
         return autoTransferResponseDtoList;
+    }
+
+    public void autoTransferUpdate(Long transferId, AutoTransferUpdateRequestDto autoTransferUpdateRequestDto) {
+        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findById(transferId);
+
+        if(autoTransfer.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_AUTO_TRANSFER);
+
+        autoTransfer.get().update(autoTransferUpdateRequestDto);
     }
 }

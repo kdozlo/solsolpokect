@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import team21.solsolpokect.common.entity.BaseTime;
 import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
+import team21.solsolpokect.transfer.dto.request.AutoTransferUpdateRequestDto;
 import team21.solsolpokect.user.entity.Users;
 
 import javax.persistence.*;
@@ -51,5 +52,10 @@ public class AutoTransfer extends BaseTime {
                 .childAccount(autoTransferCreateRequestDto.getChildAccount())
                 .user(user)
                 .build();
+    }
+
+    public void update(AutoTransferUpdateRequestDto autoTransferUpdateRequestDto) {
+        this.autoDate = autoTransferUpdateRequestDto.getAutoDate();
+        this.money = autoTransferUpdateRequestDto.getMoney();
     }
 }
