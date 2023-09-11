@@ -4,9 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { ScrollHeightAtom, isFeedbackVisibleAtom } from '../recoil/accountBook';
 
-const FEEDBACK_SCORE = 5;
-
-const AccountBookFeedback = ({ flatListRef }) => {
+const AccountBookFeedback = ({ flatListRef, isWriter, dailyScore }) => {
   const [isCommentVisible, setIsCommentVisible] = useRecoilState(isFeedbackVisibleAtom);
   const currentHeight = useRecoilValue(ScrollHeightAtom);
 
@@ -23,6 +21,7 @@ const AccountBookFeedback = ({ flatListRef }) => {
 
   return (
     <TouchableOpacity
+      disabled={!isWriter}
       style={{
         flex: 1,
         padding: 10,
@@ -36,7 +35,7 @@ const AccountBookFeedback = ({ flatListRef }) => {
         <Text>오늘의</Text>
         <Text>점수</Text>
       </View>
-      <Text>{FEEDBACK_SCORE}점</Text>
+      <Text>{dailyScore}점</Text>
     </TouchableOpacity>
   );
 };
