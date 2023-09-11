@@ -1,21 +1,41 @@
 import React, { useRef } from 'react';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { isFeedbackVisibleAtom } from '../recoil/accountBook';
+import { ScrollHeightAtom, isFeedbackVisibleAtom } from '../recoil/accountBook';
 
-const AccountBookFeedback = props => {
-  const setIsCommentVisible = useSetRecoilState(isFeedbackVisibleAtom);
+const AccountBookFeedback = ({ flatListRef, isWriter, dailyScore }) => {
+  const [isCommentVisible, setIsCommentVisible] = useRecoilState(isFeedbackVisibleAtom);
+  const currentHeight = useRecoilValue(ScrollHeightAtom);
 
   // Event Handler
   const handleFeedbackPress = () => {
+    if (!isCommentVisible) {
+      flatListRef.current.scrollToOffset({
+        offset: currentHeight,
+        animated: true,
+      });
+    }
     setIsCommentVisible(prev => !prev);
-    // Todo: 화면 feedbackComment 컴포넌트로 scroll 되도록 처리 필요
   };
 
   return (
-    <TouchableOpacity onPress={handleFeedbackPress}>
-      <Text>피드백 컴포넌트</Text>
+    <TouchableOpacity
+      disabled={!isWriter}
+      style={{
+        flex: 1,
+        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center',
+        backgroundColor: 'pink',
+      }}
+      onPress={handleFeedbackPress}>
+      <View style={{ marginRight: 20 }}>
+        <Text>오늘의</Text>
+        <Text>점수</Text>
+      </View>
+      <Text>{dailyScore}점</Text>
     </TouchableOpacity>
   );
 };
