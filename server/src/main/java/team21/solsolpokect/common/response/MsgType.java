@@ -17,6 +17,10 @@ public enum MsgType {
     MISSION_DELETE_SUCCESSFULLY("도전 과제 삭제 성공"),
     MISSION_ALLOW_PICTURE_SUCCESSFULLY("도전 과제 인증 사진 전송 성공"),
     MISSION_COMPLETE_SUCCESSFULLY("도전 과제 완료 전송 성공"),
+    AUTOTRANSFER_CREATE_SUCCESSFULLY("자동 이체 생성 성공"),
+    AUTOTRANSFER_LIST_SUCCESSFULLY("자동 이체 목록 조회 성공"),
+    AUTOTRANSFER_UPDATE_SUCCESSFULLY("자동 이체 수정 성공"),
+    AUTOTRANSFER_DELETE_SUCCESSFULLY("자동 이체 삭제 성공"),
     ;
 
     private final String msg;
