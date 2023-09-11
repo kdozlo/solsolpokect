@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class FeedbackRequestDto {
 
-    private String userId;
+    private Long userId;
     private String contents;
 }
