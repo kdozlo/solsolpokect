@@ -1,15 +1,16 @@
 package team21.solsolpokect.transfer.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.common.response.MsgType;
 import team21.solsolpokect.common.response.ResponseUtils;
+import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
+import team21.solsolpokect.transfer.dto.response.AutoTransferResponseDto;
 import team21.solsolpokect.transfer.service.AutoTransferService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/auto-transfer")
@@ -23,4 +24,13 @@ public class AutoTransferController {
         autoTransferService.autoTransferCreate(autoTransferCreateRequestDto);
         return ResponseUtils.ok(MsgType.AUTOTRANSFER_CREATE_SUCCESSFULLY);
     }
+
+    @GetMapping("/list/{user-id}")
+    public ApiResponseDto<List<AutoTransferResponseDto>> autoTransferList(@PathVariable("user-id") Long userId) {
+
+        return ResponseUtils.ok(autoTransferService.autoTransferList(userId), MsgType.AUTOTRANSFER_LIST_SUCCESSFULLY);
+    }
+
+
+
 }
