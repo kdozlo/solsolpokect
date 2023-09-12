@@ -25,7 +25,7 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="TransactionHistory">
+        <Stack.Navigator initialRouteName="AccountBook">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} />

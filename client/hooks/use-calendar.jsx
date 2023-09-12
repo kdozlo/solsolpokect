@@ -17,8 +17,8 @@ export const useCalendar = now => {
   };
 
   const handleConfirm = date => {
-    setSelectedDate(dayjs(date));
     hideDatePicker();
+    setSelectedDate(dayjs(date));
   };
 
   const subtract1Month = () => {

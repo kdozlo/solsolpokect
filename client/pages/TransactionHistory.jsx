@@ -17,7 +17,6 @@ const TransactionHistory = props => {
     getTransactionList().then(res => {
       // api result 저장
       setTransactionList(prev => res);
-      console.log(res);
 
       // 거래 일자 별로 데이터를 묶어줘야 한다.
       const classifiedData = new Map();
@@ -30,26 +29,19 @@ const TransactionHistory = props => {
         }
       });
 
+      console.log(res);
       setTransactionsByDate(classifiedData);
     });
   }, []);
 
   return (
-    <View style={StyleSheet.container}>
-      <Text>거래 이체 내역</Text>
+    <View style={{ width: '100%' }}>
+      {/* <Text>거래 이체 내역</Text> */}
       <TransactionFilter setTypeModalVisible={setTypeModalVisible} />
       <TransactionList data={transactionsByDate} />
       <TransactionTypeModal setModalVisible={setTypeModalVisible} modalVisible={typeModalVisible} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default TransactionHistory;
