@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Appearance,
   Button,
+  Alert,
 } from 'react-native';
 
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
@@ -26,9 +27,34 @@ export default ({ navigation, route }) => {
     handleConfirm,
     hideDatePicker,
     getGoalDate,
-    buttonColor,
-    setButtonColor,
+    questList,
+    storeAndsetQuestList,
+    name,
+    missionName,
+    reward,
+    appeal,
+    setName,
+    setMissionName,
+    setReward,
+    setAppeal,
   } = useQuestList();
+
+  const addQuestList = () => {
+    const lastId = questList.length === 0 ? 0 : questList[questList.length - 1].id;
+
+    const newQuest = {
+      id: lastId + 1,
+      type,
+      date: getGoalDate(),
+
+      name,
+      missionName,
+      reward,
+      appeal,
+    };
+
+    storeAndsetQuestList([newQuest, ...questList]);
+  };
 
   const renderItem = ({ item: { id, type, setType, holder, title } }) => {
     if (id === 1) {
@@ -43,16 +69,12 @@ export default ({ navigation, route }) => {
               marginLeft: 20,
               borderRadius: 50,
             }}>
-            <Button
-              title="날짜 정하기!"
-              color="#ffffff"
-              onPress={showDatePicker}
-            />
+            <Button title="날짜 정하기!" color="#ffffff" onPress={showDatePicker} />
           </View>
 
           <TextInput
             style={[styles.input, { opacity: dateInputVisible }]}
-            onChangeText={type}
+            onChangeText={setType}
             value={getGoalDate()}
             placeholder={holder}
             onEndEditing={() => {}}
@@ -82,8 +104,8 @@ export default ({ navigation, route }) => {
                 borderColor: '#3D70FF',
               },
             ]}
-            onChangeText={type}
-            value={setType}
+            onChangeText={setAppeal}
+            value={type}
             placeholder={holder}
             editable
             multiline={true}
@@ -99,8 +121,8 @@ export default ({ navigation, route }) => {
         <Text style={styles.forText}>{title}</Text>
         <TextInput
           style={styles.input}
-          onChangeText={type}
-          value={setType}
+          onChangeText={id === 2 ? setMissionName : id === 3 ? setReward : setName}
+          value={type}
           placeholder={holder}
         />
       </View>
@@ -109,15 +131,20 @@ export default ({ navigation, route }) => {
 
   return (
     <View style={styles.forFullScreen}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
       <TouchableOpacity
         style={styles.forLastButton}
         onPress={() => {
-          navigation.navigate(`QuestType${type}`);
+          Alert.alert('작성하신 내용을 제출하시겠습니까?', '', [
+            { style: 'cancel', text: '아니요' },
+            {
+              text: '네',
+              onPress: () => {
+                addQuestList();
+                // navigation.navigate('Main');
+              },
+            },
+          ]);
         }}>
         <Text style={styles.forLastText}> 제출하기</Text>
       </TouchableOpacity>
