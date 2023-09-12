@@ -14,6 +14,7 @@ import MakingQuest from './pages/MakingQuest';
 import QuestType1 from './pages/QuestType1';
 import QuestType3 from './pages/QuestType2';
 import QuestType2 from './pages/QuestType3';
+import SelectAccount from './pages/SelectAccount';
 import SignUp from './pages/SignUp';
 import TransactionHistory from './pages/TransactionHistory';
 
@@ -25,10 +26,11 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="AccountBook">
+        <Stack.Navigator initialRouteName="SelectAccount">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} />
+          <Stack.Screen name="SelectAccount" component={SelectAccount} />
           <Stack.Screen
             name="Calender"
             component={Calender}

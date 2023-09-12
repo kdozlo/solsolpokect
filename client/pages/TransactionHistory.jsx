@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { styled } from 'styled-components';
 
+import TransactionFilter from '../components/Transaction/TransactionFilter';
 import TransactionList from '../components/Transaction/TransactionList';
 import TransactionTypeModal from '../components/Transaction/TransactionTypeModal';
 import { getTransactionList } from '../services/apis/transactionHistoryAPI';

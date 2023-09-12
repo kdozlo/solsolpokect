@@ -1,4 +1,7 @@
 // Bank Logo
+const giup = require('../assets/images/bankLogo/giup.png');
+const gukmin = require('../assets/images/bankLogo/gukmin.png');
+const nonghyup = require('../assets/images/bankLogo/nonghyup.png');
 const shinhan = require('../assets/images/bankLogo/shinhan.png');
 
 // Family
@@ -28,6 +31,9 @@ export default {
   questExcellent,
   // Bank logo
   shinhan,
+  nonghyup,
+  gukmin,
+  giup,
   // Family
   father,
   mather,
