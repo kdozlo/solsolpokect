@@ -26,4 +26,10 @@ public class Family extends BaseTime {
     public Family(String familyName) {
         this.familyName = familyName;
     }
+
+    public static Family from(String familyName) {
+        return builder()
+                .familyName(familyName)
+                .build();
+    }
 }

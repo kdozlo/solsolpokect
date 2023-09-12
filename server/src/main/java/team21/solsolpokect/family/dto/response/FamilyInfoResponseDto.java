@@ -7,6 +7,6 @@ import java.util.List;
 @Getter
 public class FamilyInfoResponseDto {
 
-    List<Long> userId;
+    List<String> userId;
     String familyName;
 }

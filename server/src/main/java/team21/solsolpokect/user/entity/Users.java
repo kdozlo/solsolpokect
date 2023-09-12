@@ -50,4 +50,8 @@ public class Users extends BaseTime {
         this.password = password;
         this.creditScore = creditScore;
     }
+
+    public void updateFamily(Family family) {
+        this.family = family;
+    }
 }
