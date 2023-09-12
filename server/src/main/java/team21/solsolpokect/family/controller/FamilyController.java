@@ -23,8 +23,8 @@ public class FamilyController {
         return ResponseUtils.ok(MsgType.FAMILY_CREATE_SUCCESSFULLY);
     }
 
-    @GetMapping("/info/{family-id}")
-    public ApiResponseDto<FamilyInfoResponseDto> familyDetail(@PathVariable("family-id") Long familyId) {
-        return ResponseUtils.ok(familyService.familyDetail(familyId), MsgType.FAMILY_DETAIL_SUCCESSFULLY);
+    @GetMapping("/info/{user-id}")
+    public ApiResponseDto<FamilyInfoResponseDto> familyDetail(@PathVariable("user-id") Long userId) {
+        return ResponseUtils.ok(familyService.familyDetail(userId), MsgType.FAMILY_DETAIL_SUCCESSFULLY);
     }
 }
