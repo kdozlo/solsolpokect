@@ -17,7 +17,7 @@ public class Family extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, length = 20)
     private String familyName;
@@ -25,5 +25,11 @@ public class Family extends BaseTime {
     @Builder
     public Family(String familyName) {
         this.familyName = familyName;
+    }
+
+    public static Family from(String familyName) {
+        return builder()
+                .familyName(familyName)
+                .build();
     }
 }
