@@ -3,11 +3,13 @@ import { StyleSheet, View, Text } from 'react-native';
 import { styled } from 'styled-components';
 
 import TransactionList from '../components/Transaction/TransactionList';
+import TransactionTypeModal from '../components/Transaction/TransactionTypeModal';
 import { getTransactionList } from '../services/apis/transactionHistoryAPI';
 
 const TransactionHistory = props => {
   const [transactionList, setTransactionList] = useState([]);
   const [transactionsByDate, setTransactionsByDate] = useState(new Map()); // 순서를 지켜주기 위해서 Map 객체를 사용
+  const [typeModalVisible, setTypeModalVisible] = useState(false);
 
   // 1. API 데이터 받아오기
   useEffect(() => {
@@ -35,7 +37,9 @@ const TransactionHistory = props => {
   return (
     <View style={StyleSheet.container}>
       <Text>거래 이체 내역</Text>
+      <TransactionFilter setTypeModalVisible={setTypeModalVisible} />
       <TransactionList data={transactionsByDate} />
+      <TransactionTypeModal setModalVisible={setTypeModalVisible} modalVisible={typeModalVisible} />
     </View>
   );
 };

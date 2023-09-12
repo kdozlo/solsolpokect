@@ -148,9 +148,7 @@ const SignUp = ({ navigation }) => {
 
               {/* 신한 은행 계좌번호로 대체 예정*/}
               <View style={{ justifyContent: 'center', marginLeft: 5 }}>
-                <Text style={{ color: 'black', ...FONTS.body3 }}>
-                  {selectedAccount?.['계좌번호']}
-                </Text>
+                <Text style={{ color: 'black', ...FONTS.body3 }}>{selectedAccount?.['계좌번호']}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -231,9 +229,7 @@ const SignUp = ({ navigation }) => {
             setSelectedAccount(item);
             setModalVisible(false);
           }}>
-          <Text style={{ color: COLORS.black, ...FONTS.body4 }}>
-            {item['계좌번호']}
-          </Text>
+          <Text style={{ color: COLORS.black, ...FONTS.body4 }}>{item['계좌번호']}</Text>
         </TouchableOpacity>
       );
     };
@@ -273,9 +269,7 @@ const SignUp = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : null}
-      style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : null} style={{ flex: 1 }}>
       {/* <LinearGradient
         colors={[COLORS.lime, COLORS.emerald]}
         style={{ flex: 1 }}> */}
