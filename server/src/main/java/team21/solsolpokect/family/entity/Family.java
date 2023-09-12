@@ -23,7 +23,7 @@ public class Family extends BaseTime {
     private String familyName;
 
     @Builder
-    public Family(String familyName) {
+    private Family(String familyName) {
         this.familyName = familyName;
     }
 

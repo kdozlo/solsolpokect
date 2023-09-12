@@ -15,7 +15,7 @@ public class FamilyDetailResponseDto {
     String familyName;
 
     @Builder
-    public FamilyDetailResponseDto(Long id, List<String> userId, String familyName) {
+    private FamilyDetailResponseDto(Long id, List<String> userId, String familyName) {
         this.id = id;
         this.userId = userId;
         this.familyName = familyName;

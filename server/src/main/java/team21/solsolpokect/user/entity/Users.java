@@ -41,7 +41,7 @@ public class Users extends BaseTime {
     private int creditScore;
 
     @Builder
-    public Users(String role, String userName, Family family, String account, String userId, String password, int creditScore) {
+    private Users(String role, String userName, Family family, String account, String userId, String password, int creditScore) {
         this.role = role;
         this.userName = userName;
         this.family = family;

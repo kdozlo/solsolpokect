@@ -15,7 +15,7 @@ public class AutoTransferResponseDto {
     private String childAccount;
 
     @Builder
-    public AutoTransferResponseDto(long autoTransferId, int money, LocalDateTime autoDate, String childAccount) {
+    private AutoTransferResponseDto(long autoTransferId, int money, LocalDateTime autoDate, String childAccount) {
         this.autoTransferId = autoTransferId;
         this.money = money;
         this.autoDate = autoDate;

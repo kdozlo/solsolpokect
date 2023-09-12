@@ -17,7 +17,7 @@ public class MissionInfoDetailResponseDto {
     private LocalDateTime createdAt;
 
     @Builder
-    public MissionInfoDetailResponseDto(String missionName, int reward, boolean complete, String goal,
+    private MissionInfoDetailResponseDto(String missionName, int reward, boolean complete, String goal,
                                         String picture, boolean allow, LocalDateTime createdAt) {
         this.missionName = missionName;
         this.reward = reward;

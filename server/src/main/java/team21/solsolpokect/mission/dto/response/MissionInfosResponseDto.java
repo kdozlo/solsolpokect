@@ -16,7 +16,7 @@ public class MissionInfosResponseDto {
     private LocalDateTime updateAt;
 
     @Builder
-    public MissionInfosResponseDto(long missionId, String missionName, boolean complete, boolean allow, LocalDateTime createdAt, LocalDateTime updateAt) {
+    private MissionInfosResponseDto(long missionId, String missionName, boolean complete, boolean allow, LocalDateTime createdAt, LocalDateTime updateAt) {
         this.missionId = missionId;
         this.missionName = missionName;
         this.complete = complete;

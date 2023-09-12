@@ -37,7 +37,7 @@ public class AutoTransfer extends BaseTime {
     private Users user;
 
     @Builder
-    public AutoTransfer(LocalDateTime autoDate, int money, String childAccount, Users user) {
+    private AutoTransfer(LocalDateTime autoDate, int money, String childAccount, Users user) {
         this.autoDate = autoDate;
         this.money = money;
         this.childAccount = childAccount;
