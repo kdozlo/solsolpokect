@@ -6,6 +6,7 @@ import java.util.List;
 
 @Getter
 public class FamilyCreateRequestDto {
+
     List<Long> userId;
     String familyName;
 }
