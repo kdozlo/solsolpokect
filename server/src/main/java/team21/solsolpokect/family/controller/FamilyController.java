@@ -19,7 +19,7 @@ public class FamilyController {
 
     @PostMapping("/create")
     public ApiResponseDto<Void> familyCreate(@RequestBody FamilyCreateRequestDto familyCreateRequestDto) {
-        familyService.missionCreate(familyCreateRequestDto);
+        familyService.familyCreate(familyCreateRequestDto);
         return ResponseUtils.ok(MsgType.FAMILY_CREATE_SUCCESSFULLY);
     }
 
