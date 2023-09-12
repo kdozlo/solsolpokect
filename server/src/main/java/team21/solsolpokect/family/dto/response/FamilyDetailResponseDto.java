@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class FamilyInfoResponseDto {
+public class FamilyDetailResponseDto {
 
     List<String> userId;
     String familyName;

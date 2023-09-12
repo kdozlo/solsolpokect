@@ -7,7 +7,7 @@ import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.common.response.MsgType;
 import team21.solsolpokect.common.response.ResponseUtils;
 import team21.solsolpokect.family.dto.request.FamilyCreateRequestDto;
-import team21.solsolpokect.family.dto.response.FamilyInfoResponseDto;
+import team21.solsolpokect.family.dto.response.FamilyDetailResponseDto;
 import team21.solsolpokect.family.service.FamilyService;
 
 @RestController
@@ -24,7 +24,7 @@ public class FamilyController {
     }
 
     @GetMapping("/info/{user-id}")
-    public ApiResponseDto<FamilyInfoResponseDto> familyDetail(@PathVariable("user-id") Long userId) {
+    public ApiResponseDto<FamilyDetailResponseDto> familyDetail(@PathVariable("user-id") Long userId) {
         return ResponseUtils.ok(familyService.familyDetail(userId), MsgType.FAMILY_DETAIL_SUCCESSFULLY);
     }
 }
