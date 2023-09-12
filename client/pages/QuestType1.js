@@ -15,33 +15,34 @@ import {
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
 import { useQuestList } from '../hooks/use-questList';
 
-export default ({ navigation }) => {
+export default ({ navigation, route }) => {
+  const { appeal, date, missionName, reward, name } = route.params;
   const DATA = [
     {
       id: 1,
       title: '목표 기한',
-      content: 'text value',
+      content: date,
     },
     {
       id: 2,
       title: '도전 내용',
-      content: 'text value',
+      content: missionName,
     },
 
     {
       id: 3,
       title: '보상이 여러분을 기다려요...',
-      content: 'text value',
+      content: reward,
     },
     {
       id: 4,
       title: '도전자',
-      content: 'text value',
+      content: name,
     },
     {
       id: 5,
       title: '퀘스트 NPC가 남긴 말...',
-      content: 'text value',
+      content: appeal,
     },
   ];
 
@@ -56,11 +57,7 @@ export default ({ navigation }) => {
 
   return (
     <View style={styles.forFullScreen}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
       <TouchableOpacity
         style={styles.forLastButton}
         onPress={() => {

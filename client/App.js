@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable import/namespace */
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,12 +26,8 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="AccountBook">
-          <Stack.Screen
-            name="Main"
-            component={Main}
-            options={{ headerShown: false }}
-          />
+        <Stack.Navigator initialRouteName="Main">
+          <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} />
           <Stack.Screen
@@ -108,10 +105,7 @@ export default function App() {
           />
 
           <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen
-            name="TransactionHistory"
-            component={TransactionHistory}
-          />
+          <Stack.Screen name="TransactionHistory" component={TransactionHistory} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>

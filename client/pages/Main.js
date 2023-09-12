@@ -1,20 +1,13 @@
+/* eslint-disable prettier/prettier */
 // eslint-disable-next-line import/order
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  FlatList,
-  Animated,
-} from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList, Animated } from 'react-native';
 import Title from '../components/Title';
 import { images } from '../constants/index';
-import { FlatListData } from '../test/FlatListData';
 // eslint-disable-next-line import/order, no-unused-vars
 import Divider from '../components/Divider';
 import ChooseQuest from './ChooseQuest';
+import { useRecoilValue } from 'recoil';
+import { QuestListState, useQuestList } from '../hooks/use-questList';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -25,7 +18,9 @@ const numColumns = Math.floor(divisor);
 const columnSize = WIDTH / numColumns;
 
 export default ({ navigation }) => {
-  const { DATA } = FlatListData();
+  const DATA = useRecoilValue(QuestListState);
+
+  const { deleteList } = useQuestList();
 
   //icons.questMoney
   const icons = {
@@ -34,19 +29,16 @@ export default ({ navigation }) => {
     3: images.questStar,
   };
 
-  const renderItem = ({ item: { id, type, name } }) => {
+  const renderItem = ({ item: { id, type, appeal, date, missionName, reward, name } }) => {
     if (type === 3) {
+      let constName = '퀘스트 추가하기';
       return (
         <TouchableOpacity
           key={`index - ${id}`}
           onPress={() => navigation.navigate('ChooseQuest')}
           style={[styles.renderItemStyle, { backgroundColor: '#F8F259' }]}>
-          <Image
-            source={icons[type]}
-            resizeMode="contain"
-            style={styles.renderItemImage}
-          />
-          <Text style={styles.renderItemText}>{name}</Text>
+          <Image source={icons[type]} resizeMode="contain" style={styles.renderItemImage} />
+          <Text style={styles.renderItemText}>{constName}</Text>
         </TouchableOpacity>
       );
     }
@@ -54,14 +46,21 @@ export default ({ navigation }) => {
     return (
       <TouchableOpacity
         key={`index - ${id}`}
-        onPress={() => navigation.navigate(`QuestType${type}`)}
+        onPress={() =>
+          navigation.navigate(`QuestType${type}`, {
+            appeal,
+            date,
+            missionName,
+            reward,
+            name,
+          })
+        }
+        onLongPress={() => {
+          deleteList(id);
+        }}
         style={styles.renderItemStyle}>
-        <Image
-          source={icons[type]}
-          resizeMode="contain"
-          style={styles.renderItemImage}
-        />
-        <Text style={styles.renderItemText}>{name}</Text>
+        <Image source={icons[type]} resizeMode="contain" style={styles.renderItemImage} />
+        <Text style={styles.renderItemText}>{missionName}</Text>
       </TouchableOpacity>
     );
   };
@@ -70,14 +69,9 @@ export default ({ navigation }) => {
     <View>
       {/* Header 부분 */}
       <Title navigation={navigation} title={'가계부 보기'} />
-      <TouchableOpacity
-        style={styles.forImageView}
-        onPress={() => navigation.navigate('SignUp')}>
+      <TouchableOpacity style={styles.forImageView} onPress={() => navigation.navigate('SignUp')}>
         {/* 회원 카드 부분  */}
-        <Image
-          source={require('../assets/images/user_gold_card.png')}
-          style={styles.forImage}
-        />
+        <Image source={require('../assets/images/user_gold_card.png')} style={styles.forImage} />
         <View style={styles.forNameView}>
           <Text style={styles.forText}>김 대 영</Text>
         </View>
@@ -101,12 +95,7 @@ export default ({ navigation }) => {
         <Divider />
         <Divider />
 
-        <FlatList
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          data={DATA}
-          numColumns={3}
-        />
+        <FlatList renderItem={renderItem} keyExtractor={item => item.id} data={DATA} numColumns={3} />
       </View>
     </View>
   );

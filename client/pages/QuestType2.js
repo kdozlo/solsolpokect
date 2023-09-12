@@ -18,33 +18,34 @@ import useCamera from '../hooks/use-camera';
 import CameraModal from '../components/CameraModal';
 import TakeOrShowPic from '../components/TakeOrShowPic';
 
-export default ({ navigation }) => {
+export default ({ navigation, route }) => {
+  const { appeal, date, missionName, reward, name } = route.params;
   const DATA = [
     {
       id: 1,
       title: '목표 기한',
-      content: 'text value',
+      content: date,
     },
     {
       id: 2,
       title: '도전내용',
-      content: 'text value',
+      content: missionName,
     },
 
     {
       id: 3,
       title: '보상 내용',
-      content: 'text value',
+      content: reward,
     },
     {
       id: 4,
       title: '도전자',
-      content: 'text value',
+      content: name,
     },
     {
       id: 5,
       title: 'NPC가 남긴 말',
-      content: 'text value',
+      content: appeal,
     },
   ];
 
@@ -71,18 +72,9 @@ export default ({ navigation }) => {
 
   return (
     <View style={styles.forFullScreen}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
 
-      <TakeOrShowPic
-        onPress={onPressCamera}
-        photoAlready={photoAlready}
-        image={image}
-        navigation={navigation}
-      />
+      <TakeOrShowPic onPress={onPressCamera} photoAlready={photoAlready} image={image} navigation={navigation} />
 
       <CameraModal
         cameraRef={cameraRef}
