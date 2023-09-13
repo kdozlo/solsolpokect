@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Text } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { icons } from '../../constants';
 import { transferMoneyAtom } from '../../recoil/transfer';
+import { shuffleNumber } from '../../utils/TransferUtils';
 
-const NumberPad = ({ navigation }) => {
+const NumberPad = ({ navigation, buttonValueList }) => {
+  const [buttonValues, setButtonValues] = useState(buttonValueList);
   const setMoney = useSetRecoilState(transferMoneyAtom);
 
   const handlePressNumber = number => {
@@ -15,37 +17,30 @@ const NumberPad = ({ navigation }) => {
   const handlePressDelete = () => {
     setMoney(prev => parseInt(prev / 10));
   };
-  const handlePressDone = () => {
-    console.log('비밀번호 페이지로 이동');
-    // navigation.navigate();
-  };
+  const handlePressString = string => {
+    if (string === '완료') {
+      console.log('비밀번호 페이지로 이동');
+      // navigation.navigate();
+    } else if (string === '재배열') {
+      const numButtonValues = buttonValues.filter(button => typeof button === 'number');
+      const shuffledNumbers = shuffleNumber(numButtonValues);
 
-  const buttons = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    <Image
-      source={icons.back}
-      resizeMode="contain"
-      style={{
-        width: 20,
-        height: 20,
-        tintColor: 'black',
-      }}
-    />,
-    0,
-    '완료',
-  ];
+      let shuffledIndex = 0;
+      const shuffledButtonValues = buttonValues.map(buttonValue => {
+        if (typeof buttonValue === 'number') {
+          return shuffledNumbers[shuffledIndex++];
+        } else {
+          return buttonValue;
+        }
+      });
+
+      setButtonValues(shuffledButtonValues);
+    }
+  };
 
   return (
     <KeyPad>
-      {buttons.map((value, index) => {
+      {buttonValues.map((value, index) => {
         return (
           <PadButton
             key={index}
@@ -53,7 +48,7 @@ const NumberPad = ({ navigation }) => {
               if (typeof value === 'number') {
                 handlePressNumber(value);
               } else if (typeof value === 'string') {
-                handlePressDone();
+                handlePressString(value);
               } else {
                 handlePressDelete();
               }
