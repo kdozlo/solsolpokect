@@ -47,7 +47,7 @@ const SelectMoney = ({ navigation }) => {
       </GoBackHeader>
       <View style={{ alignItems: 'center' }}>
         <TransferMoney />
-        <NumberPad buttonValueList={buttonValueList} pagekind={'transfer'} />
+        <NumberPad buttonValueList={buttonValueList} pageKind={'transfer'} />
       </View>
     </View>
   );
