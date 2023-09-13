@@ -1,29 +1,29 @@
-import { Image, Text, TouchableOpacity } from 'react-native';
+import { Image, Text, TouchableOpacity, View, Pressable } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
-const GoBackHeader = ({ title, children }) => {
+const GoBackHeader = ({ title, navigation, children }) => {
   return (
     <TouchableOpacity
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: 'col',
         marginTop: SIZES.padding * 6,
-        paddingHorizontal: SIZES.padding * 2,
       }}>
-      <Image
-        source={icons.back}
-        resizeMode="contain"
-        style={{
-          width: 20,
-          height: 20,
-          tintColor: 'black',
-        }}
-      />
-      {children}
+      <Pressable onPress={() => navigation.goBack()}>
+        <Image
+          source={icons.back}
+          resizeMode="contain"
+          style={{
+            width: 20,
+            height: 20,
+            tintColor: 'black',
+          }}
+        />
+      </Pressable>
+      <View>{children}</View>
       <Text
         style={{
-          marginLeft: SIZES.padding * 1.5,
           color: 'black',
         }}>
         {title}
@@ -32,4 +32,4 @@ const GoBackHeader = ({ title, children }) => {
   );
 };
 
-export default GoBackHeader;
+export default withNavigation(GoBackHeader);
