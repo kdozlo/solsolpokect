@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.infra.ShinhanApiService;
 import team21.solsolpokect.diary.dto.response.diary.DiaryInfoDetailResponseDto;
 import team21.solsolpokect.diary.repository.DiaryRepository;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final ShinhanApiService shinhanApiService;
