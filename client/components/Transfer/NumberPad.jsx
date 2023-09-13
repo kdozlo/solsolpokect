@@ -1,27 +1,38 @@
 import React, { useState } from 'react';
 import { Image, Text } from 'react-native';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { icons } from '../../constants';
+import { authPinCountAtom } from '../../recoil/auth';
 import { transferMoneyAtom } from '../../recoil/transfer';
 import { shuffleNumber } from '../../utils/TransferUtils';
+import { TOTAL_PINS } from '../../utils/const/auth';
 
-const NumberPad = ({ navigation, buttonValueList }) => {
+const NumberPad = ({ navigation, buttonValueList, pageKind }) => {
   const [buttonValues, setButtonValues] = useState(buttonValueList);
+  const [pinCount, setPinCount] = useRecoilState(authPinCountAtom);
   const setMoney = useSetRecoilState(transferMoneyAtom);
 
   const handlePressNumber = number => {
-    setMoney(prev => prev * 10 + number);
+    if (pageKind === 'transfer') {
+      setMoney(prev => prev * 10 + number);
+    } else if (pageKind === 'password') {
+      if (pinCount < TOTAL_PINS) setPinCount(pre => pre + 1);
+    }
   };
   const handlePressDelete = () => {
-    setMoney(prev => parseInt(prev / 10));
+    if (pageKind === 'transfer') {
+      setMoney(prev => parseInt(prev / 10));
+    } else if (pageKind === 'password') {
+      if (pinCount > 0) setPinCount(pre => pre - 1);
+    }
   };
   const handlePressString = string => {
-    if (string === '완료') {
+    if (pageKind === 'transfer') {
       console.log('비밀번호 페이지로 이동');
       // navigation.navigate();
-    } else if (string === '재배열') {
+    } else if (pageKind === 'password') {
       const numButtonValues = buttonValues.filter(button => typeof button === 'number');
       const shuffledNumbers = shuffleNumber(numButtonValues);
 

@@ -9,6 +9,7 @@ import AccountBook from './pages/AccountBook';
 import Calender from './pages/Calender';
 import ChooseQuest from './pages/ChooseQuest';
 import Detail from './pages/Detail';
+import EnterPassword from './pages/EnterPassword';
 import Main from './pages/Main';
 import MakingQuest from './pages/MakingQuest';
 import QuestType1 from './pages/QuestType1';
@@ -27,12 +28,13 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SelectAccount">
+        <Stack.Navigator initialRouteName="EnterPassword">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} options={{ headerShown: false }} />
           <Stack.Screen name="SelectAccount" component={SelectAccount} options={{ headerShown: false }} />
           <Stack.Screen name="SelectMoney" component={SelectMoney} options={{ headerShown: false }} />
+          <Stack.Screen name="EnterPassword" component={EnterPassword} options={{ headerShown: false }} />
           <Stack.Screen
             name="Calender"
             component={Calender}
