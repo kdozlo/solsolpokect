@@ -42,12 +42,17 @@ const SelectMoney = ({ navigation }) => {
       <GoBackHeader title={'얼마를 보낼까요?'} navigation={navigation}>
         <View style>
           <Text>{dummyUser.name}님께</Text>
-          <AccountInfo bankLogo={bankInfo.image} bankName={bankInfo.name} accountNum={transferAccountNum} />
+          <AccountInfo
+            isLogoVisible={true}
+            bankLogo={bankInfo.image}
+            bankName={bankInfo.name}
+            accountNum={transferAccountNum}
+          />
         </View>
       </GoBackHeader>
       <View style={{ alignItems: 'center' }}>
-        <TransferMoney />
-        <NumberPad buttonValueList={buttonValueList} pageKind={'transfer'} />
+        <TransferMoney pageKind={'SelectMoney'} />
+        <NumberPad buttonValueList={buttonValueList} pageKind={'transfer'} navigation={navigation} />
       </View>
     </View>
   );

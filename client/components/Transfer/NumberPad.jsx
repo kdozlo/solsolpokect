@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Text } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
@@ -14,6 +15,7 @@ const NumberPad = ({ navigation, buttonValueList, pageKind }) => {
   const [pinCount, setPinCount] = useRecoilState(authPinCountAtom);
   const setMoney = useSetRecoilState(transferMoneyAtom);
 
+  // Event handler
   const handlePressNumber = number => {
     if (pageKind === 'transfer') {
       setMoney(prev => prev * 10 + number);
@@ -30,8 +32,7 @@ const NumberPad = ({ navigation, buttonValueList, pageKind }) => {
   };
   const handlePressString = string => {
     if (pageKind === 'transfer') {
-      console.log('비밀번호 페이지로 이동');
-      // navigation.navigate();
+      navigation.navigate('CheckTransferInfo');
     } else if (pageKind === 'password') {
       const numButtonValues = buttonValues.filter(button => typeof button === 'number');
       const shuffledNumbers = shuffleNumber(numButtonValues);
@@ -98,4 +99,4 @@ const PadButton = styled.TouchableOpacity`
   border-color: #ffffff;
 `;
 
-export default NumberPad;
+export default withNavigation(NumberPad);

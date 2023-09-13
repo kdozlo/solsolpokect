@@ -7,6 +7,7 @@ import { RecoilRoot } from 'recoil';
 
 import AccountBook from './pages/AccountBook';
 import Calender from './pages/Calender';
+import CheckTransferInfo from './pages/CheckTransferInfo';
 import ChooseQuest from './pages/ChooseQuest';
 import Detail from './pages/Detail';
 import EnterPassword from './pages/EnterPassword';
@@ -28,13 +29,15 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="EnterPassword">
+        <Stack.Navigator initialRouteName="SelectAccount">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} options={{ headerShown: false }} />
           <Stack.Screen name="SelectAccount" component={SelectAccount} options={{ headerShown: false }} />
           <Stack.Screen name="SelectMoney" component={SelectMoney} options={{ headerShown: false }} />
           <Stack.Screen name="EnterPassword" component={EnterPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="CheckTransferInfo" component={CheckTransferInfo} options={{ headerShown: false }} />
+
           <Stack.Screen
             name="Calender"
             component={Calender}
