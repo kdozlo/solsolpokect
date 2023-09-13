@@ -9,7 +9,6 @@ import team21.solsolpokect.common.response.ResponseUtils;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCompleteRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
-import team21.solsolpokect.mission.dto.request.MissionPictureRequestDto;
 import team21.solsolpokect.mission.dto.response.MissionInfoDetailResponseDto;
 import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.mission.service.MissionService;
