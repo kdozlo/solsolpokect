@@ -11,7 +11,7 @@ import team21.solsolpokect.family.dto.response.FamilyDetailResponseDto;
 import team21.solsolpokect.family.service.FamilyService;
 
 @RestController
-@RequestMapping("api/mission")
+@RequestMapping("api/family")
 @RequiredArgsConstructor
 public class FamilyController {
 

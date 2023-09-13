@@ -2,13 +2,13 @@ package team21.solsolpokect.mission.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.service.S3Uploader;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCompleteRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
-import team21.solsolpokect.mission.dto.request.MissionPictureRequestDto;
 import team21.solsolpokect.mission.dto.response.MissionInfoDetailResponseDto;
 import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.mission.entity.Mission;
@@ -16,6 +16,7 @@ import team21.solsolpokect.mission.repository.MissionRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,18 +84,20 @@ public class MissionService {
         missionRepository.delete(mission.get());
     }
 
-    public void missionAllowPicture(long missionId, MissionPictureRequestDto missionPictureRequestDto) throws IOException {
+    @Transactional
+    public void missionAllowPicture(long missionId, long userId, MultipartFile picture) throws IOException {
         Optional<Mission> mission = missionRepository.findById(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
-        if(missionPictureRequestDto.getPicture().isEmpty())
+        if(picture.isEmpty())
             throw new CustomException(ErrorType.PICTURE_IS_NULL);
 
-        String imgUrl = s3Uploader.upload(missionPictureRequestDto.getPicture());
+        String imgUrl = s3Uploader.upload(picture);
 
         mission.get().updatePicture(imgUrl);
+
     }
 
     public void missionComplete(long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {

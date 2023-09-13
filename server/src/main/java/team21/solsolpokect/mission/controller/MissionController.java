@@ -2,6 +2,7 @@ package team21.solsolpokect.mission.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.common.response.MsgType;
 import team21.solsolpokect.common.response.ResponseUtils;
@@ -53,9 +54,11 @@ public class MissionController {
         return ResponseUtils.ok(MsgType.MISSION_DELETE_SUCCESSFULLY);
     }
 
-    @PutMapping("/allow-picture/{mission-id}")
-    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) throws IOException {
-        missionService.missionAllowPicture(missionId, missionPictureRequestDto);
+    @PutMapping("/allow-picture/{mission-id}/{user-id}")
+    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") long missionId, @PathVariable("user-id") long userId,
+                                                    @RequestPart MultipartFile picture) throws IOException {
+        System.out.println("mission id : " + missionId + "user id : " + userId);
+        missionService.missionAllowPicture(missionId, userId, picture);
         return ResponseUtils.ok(MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
     }
 
