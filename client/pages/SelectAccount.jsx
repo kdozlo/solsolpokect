@@ -16,7 +16,7 @@ import GoBackHeader from '../components/GoBackHeader';
 import BankListModal from '../components/Transfer/BankListModal';
 import { icons, images } from '../constants';
 import { transferAccountNumberAtom, transferBankInfoModalAtom, transferSelectedBankAtom } from '../recoil/transfer';
-import { BANK_LOGO_INFO } from '../utils/const/bank';
+import { BANK_INFO_LIST } from '../utils/const/bank';
 
 const SelectAccount = ({ navigation }) => {
   const selectedBankIndex = useRecoilValue(transferSelectedBankAtom); // 선택된 은행 이름
@@ -33,7 +33,7 @@ const SelectAccount = ({ navigation }) => {
           Keyboard.dismiss();
         }}>
         <View style={{ height: '100%' }}>
-          <GoBackHeader title={'누구에게 보낼까요?'} />
+          <GoBackHeader title={'누구에게 보낼까요?'} navigation={navigation} />
           <Text style={{ marginVertical: 20 }}>계좌번호 입력</Text>
 
           <View>
@@ -56,7 +56,7 @@ const SelectAccount = ({ navigation }) => {
                   marginLeft: 5,
                 }}>
                 <Image
-                  source={BANK_LOGO_INFO[selectedBankIndex].image} // 이 부분을 신한은행 로고로 변경
+                  source={BANK_INFO_LIST[selectedBankIndex].image} // 이 부분을 신한은행 로고로 변경
                   resizeMode="contain"
                   style={{
                     width: 30,
@@ -70,7 +70,7 @@ const SelectAccount = ({ navigation }) => {
                     lineHeight: 16,
                     fontSize: 13,
                   }}>
-                  {BANK_LOGO_INFO[selectedBankIndex].name}
+                  {BANK_INFO_LIST[selectedBankIndex].name}
                 </Text>
               </View>
 

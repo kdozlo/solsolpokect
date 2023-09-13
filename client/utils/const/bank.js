@@ -1,6 +1,6 @@
 import { images } from '../../constants';
 
-export const BANK_LOGO_INFO = [
+export const BANK_INFO_LIST = [
   { name: '신한', image: images.shinhan },
   { name: '제주', image: images.shinhan },
   { name: '국민', image: images.gukmin },

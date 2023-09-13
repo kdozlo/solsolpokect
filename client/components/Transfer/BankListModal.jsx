@@ -4,7 +4,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { COLORS, SIZES, images } from '../../constants';
 import { transferBankInfoModalAtom, transferSelectedBankAtom } from '../../recoil/transfer';
-import { BANK_LOGO_INFO } from '../../utils/const/bank';
+import { BANK_INFO_LIST } from '../../utils/const/bank';
 
 // 모달 창 컴포넌트
 // - 여러 개의 은행 정보를 리스트 형태로 표현해준다.
@@ -52,7 +52,7 @@ const BankListModal = props => {
               borderRadius: SIZES.radius,
             }}>
             <FlatList
-              data={BANK_LOGO_INFO}
+              data={BANK_INFO_LIST}
               renderItem={bankItem}
               keyExtractor={(_, index) => `bank-${index}`}
               showsVerticalScrollIndicator={false}
