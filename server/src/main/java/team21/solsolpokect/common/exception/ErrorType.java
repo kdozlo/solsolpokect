@@ -13,6 +13,7 @@ public enum ErrorType {
     NOT_FOUND_FEEDBACK(401, "등록된 피드백이 없습니다."),
     NOT_FOUND_AUTO_TRANSFER(401, "등록된 자동이체가 없습니다"),
     NOT_FOUND_FAMILY(401, "등록된 가족이 없습니다"),
+    PICTURE_IS_NULL(400, "이미지가 첨부되지 않았습니다."),
     ;
     private int code;
     private String msg;

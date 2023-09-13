@@ -13,6 +13,7 @@ import team21.solsolpokect.mission.dto.response.MissionInfoDetailResponseDto;
 import team21.solsolpokect.mission.dto.response.MissionInfosResponseDto;
 import team21.solsolpokect.mission.service.MissionService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -53,7 +54,7 @@ public class MissionController {
     }
 
     @PutMapping("/allow-picture/{mission-id}")
-    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) {
+    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") long missionId, @RequestBody MissionPictureRequestDto missionPictureRequestDto) throws IOException {
         missionService.missionAllowPicture(missionId, missionPictureRequestDto);
         return ResponseUtils.ok(MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
     }

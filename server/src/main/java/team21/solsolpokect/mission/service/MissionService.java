@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
+import team21.solsolpokect.common.service.S3Uploader;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCompleteRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
@@ -15,6 +16,7 @@ import team21.solsolpokect.mission.repository.MissionRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ public class MissionService {
 
     private final MissionRepository missionRepository;
     private final UsersRepository usersRepository;
+    private final S3Uploader s3Uploader;
 
     public void missionCreate(MissionCreateRequestDto missionCreateRequestDto) {
         Optional<Users> user = usersRepository.findById(missionCreateRequestDto.getUserId());
@@ -80,13 +83,18 @@ public class MissionService {
         missionRepository.delete(mission.get());
     }
 
-    public void missionAllowPicture(long missionId, MissionPictureRequestDto missionPictureRequestDto) {
+    public void missionAllowPicture(long missionId, MissionPictureRequestDto missionPictureRequestDto) throws IOException {
         Optional<Mission> mission = missionRepository.findById(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
-        mission.get().updatePicture(missionPictureRequestDto.getPicture());
+        if(missionPictureRequestDto.getPicture().isEmpty())
+            throw new CustomException(ErrorType.PICTURE_IS_NULL);
+
+        String imgUrl = s3Uploader.upload(missionPictureRequestDto.getPicture());
+
+        mission.get().updatePicture(imgUrl);
     }
 
     public void missionComplete(long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {

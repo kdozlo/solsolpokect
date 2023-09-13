@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team21.solsolpokect.common.entity.BaseTime;
-import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
 import team21.solsolpokect.user.entity.Users;
 
 import javax.persistence.*;
