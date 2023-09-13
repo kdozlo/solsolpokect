@@ -2,6 +2,7 @@ package team21.solsolpokect.diary.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.entity.DateUtils;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
@@ -28,7 +30,7 @@ public class FeedbackService {
         String contents = requestDto.getContents();
         Long userId = requestDto.getUserId();
 
-        Optional<Users> users = usersRepository.findById(userId);
+        Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(userId);
         if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
         Feedback feedback = Feedback.of(contents, users.get());
@@ -37,16 +39,16 @@ public class FeedbackService {
 
     public void feedbackUpdate(Long feedbackId, FeedbackRequestDto requestDto) {
 
-        Optional<Feedback> feedback = feedbackRepository.findById(feedbackId);
+        Optional<Feedback> feedback = feedbackRepository.findByIdAndDeletedAtIsNull(feedbackId);
         if(feedback.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_FEEDBACK);
 
-        if(usersRepository.findById(requestDto.getUserId()).isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+        if(usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId()).isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
         feedback.get().update(requestDto.getContents());
     }
 
     public List<FeedbackInfosResponseDto> feedbackInfos(Long userId, String year, String month) {
 
-        List<Feedback> feedbackList = feedbackRepository.findAllByUserIdAndCreatedAtBetween(userId, DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
+        List<Feedback> feedbackList = feedbackRepository.findAllByUsersAndCreatedAtBetweenAndDeletedAtIsNull(userId, DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
         List<FeedbackInfosResponseDto> answer = new ArrayList<>();
         for(Feedback f : feedbackList){
             if (f != null) {

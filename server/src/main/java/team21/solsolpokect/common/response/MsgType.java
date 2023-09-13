@@ -24,6 +24,8 @@ public enum MsgType {
     AUTO_TRANSFER_DELETE_SUCCESSFULLY("자동 이체 삭제 성공"),
     FAMILY_CREATE_SUCCESSFULLY("가족 생성 성공"),
     FAMILY_DETAIL_SUCCESSFULLY("가족 정보 조회 성공"),
+    SIGNUP_SUCCESSFULLY("회원가입 성공"),
+    LOGIN_SUCCESSFULLY("로그인 성공"),
     ;
 
     private final String msg;
