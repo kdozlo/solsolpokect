@@ -29,7 +29,7 @@ public class FamilyService {
 
         //유저 아이디를 통해 유저 정보를 가져와서 family 정보 업데이트 해주기
         for (String userId : familyCreateRequestDto.getUserId()) {
-            Optional<Users> user = usersRepository.findByUserId(userId);
+            Optional<Users> user = usersRepository.findByUserIdAndDeletedAtIsNull(userId);
             if(user.isEmpty())
                 throw new CustomException(ErrorType.NOT_FOUND_USER);
 
@@ -50,7 +50,7 @@ public class FamilyService {
             throw new CustomException(ErrorType.NOT_FOUND_FAMILY);
 
         //가족으로 묶인 유저 리스트 구하기
-        List<Users> usersList = usersRepository.findAllByFamilyId(family.getId());
+        List<Users> usersList = usersRepository.findAllByFamilyIdAndDeletedAtIsNull(family.getId());
 
         //가족으로 묶인 유저 아이디 리스트 구하기
         List<String> usersIdList = new ArrayList<>();
