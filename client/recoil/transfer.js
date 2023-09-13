@@ -10,6 +10,11 @@ export const transferAccountNumberAtom = atom({
   default: null,
 });
 
+export const transferMoneyAtom = atom({
+  key: 'transferMoneyAtom',
+  default: 0,
+});
+
 export const transferBankInfoModalAtom = atom({
   key: 'transferBankInfoModalAtom',
   default: false,

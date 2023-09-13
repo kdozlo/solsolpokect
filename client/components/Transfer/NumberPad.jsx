@@ -1,20 +1,35 @@
 import React from 'react';
 import { Image, Text } from 'react-native';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { icons } from '../../constants';
+import { transferMoneyAtom } from '../../recoil/transfer';
 
-const NumberPad = ({ onPress }) => {
+const NumberPad = ({ navigation }) => {
+  const setMoney = useSetRecoilState(transferMoneyAtom);
+
+  const handlePressNumber = number => {
+    setMoney(prev => prev * 10 + number);
+  };
+  const handlePressDelete = () => {
+    setMoney(prev => parseInt(prev / 10));
+  };
+  const handlePressDone = () => {
+    console.log('비밀번호 페이지로 이동');
+    // navigation.navigate();
+  };
+
   const buttons = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
     <Image
       source={icons.back}
       resizeMode="contain"
@@ -24,7 +39,7 @@ const NumberPad = ({ onPress }) => {
         tintColor: 'black',
       }}
     />,
-    '0',
+    0,
     '완료',
   ];
 
@@ -32,21 +47,26 @@ const NumberPad = ({ onPress }) => {
     <KeyPad>
       {buttons.map((value, index) => {
         return (
-          <Number
+          <PadButton
             key={index}
             onPress={() => {
-              onPress(value, index);
+              if (typeof value === 'number') {
+                handlePressNumber(value);
+              } else if (typeof value === 'string') {
+                handlePressDone();
+              } else {
+                handlePressDelete();
+              }
             }}
             delayPressIn={0}>
-            {console.log(icons.barcode)}
-            {typeof value == 'string' ? (
+            {typeof value === 'string' || typeof value === 'number' ? (
               <Text large heavy>
                 {value}
               </Text>
             ) : (
               value
             )}
-          </Number>
+          </PadButton>
         );
       })}
     </KeyPad>
@@ -62,7 +82,7 @@ const KeyPad = styled.View`
   background-color: #ffffff;
 `;
 
-const Number = styled.TouchableOpacity`
+const PadButton = styled.TouchableOpacity`
   width: 64px;
   height: 64px;
   align-items: center;

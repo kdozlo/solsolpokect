@@ -2,7 +2,7 @@ import { Image, Text, TouchableOpacity } from 'react-native';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
-const GoBackHeader = ({ title }) => {
+const GoBackHeader = ({ title, children }) => {
   return (
     <TouchableOpacity
       style={{
@@ -20,7 +20,7 @@ const GoBackHeader = ({ title }) => {
           tintColor: 'black',
         }}
       />
-
+      {children}
       <Text
         style={{
           marginLeft: SIZES.padding * 1.5,

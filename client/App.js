@@ -15,6 +15,7 @@ import QuestType1 from './pages/QuestType1';
 import QuestType3 from './pages/QuestType2';
 import QuestType2 from './pages/QuestType3';
 import SelectAccount from './pages/SelectAccount';
+import SelectMoney from './pages/SelectMoney';
 import SignUp from './pages/SignUp';
 import TransactionHistory from './pages/TransactionHistory';
 
@@ -29,8 +30,9 @@ export default function App() {
         <Stack.Navigator initialRouteName="SelectAccount">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
-          <Stack.Screen name="AccountBook" component={AccountBook} />
-          <Stack.Screen name="SelectAccount" component={SelectAccount} />
+          <Stack.Screen name="AccountBook" component={AccountBook} options={{ headerShown: false }} />
+          <Stack.Screen name="SelectAccount" component={SelectAccount} options={{ headerShown: false }} />
+          <Stack.Screen name="SelectMoney" component={SelectMoney} options={{ headerShown: false }} />
           <Stack.Screen
             name="Calender"
             component={Calender}

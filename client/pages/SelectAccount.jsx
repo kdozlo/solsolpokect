@@ -18,7 +18,7 @@ import { icons, images } from '../constants';
 import { transferAccountNumberAtom, transferBankInfoModalAtom, transferSelectedBankAtom } from '../recoil/transfer';
 import { BANK_LOGO_INFO } from '../utils/const/bank';
 
-const SelectAccount = props => {
+const SelectAccount = ({ navigation }) => {
   const selectedBankIndex = useRecoilValue(transferSelectedBankAtom); // 선택된 은행 이름
   const setAccountNumber = useSetRecoilState(transferAccountNumberAtom);
 
@@ -114,7 +114,7 @@ const SelectAccount = props => {
               }}
               onPress={() => {
                 setAccountNumber(accountNumValue);
-                // 화면 이동 로직 작성 필요
+                navigation.navigate('SelectMoney');
               }}>
               <Text>다음</Text>
             </Pressable>
