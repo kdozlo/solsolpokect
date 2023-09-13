@@ -1,19 +1,17 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable prettier/prettier */
-import {
-  View,
-  Text,
-  Pressable,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, Pressable, TouchableOpacity, Dimensions, Image, StyleSheet } from 'react-native';
 import { images } from '../constants/index';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import MakingQuest from './MakingQuest';
+
+const icons = {
+  0: images.background,
+  1: images.MoneyCloud,
+  2: images.CameraCloud,
+};
 
 export default ({ navigation }) => {
   return (
@@ -29,8 +27,7 @@ export default ({ navigation }) => {
             navigation.goBack();
             navigation.navigate('MakingQuest', { type: 2 });
           }}>
-          <FontAwesome name="camera" size={100} color="#ffffff" />
-          <Text style={styles.forButtonText}>인증 챌린지!</Text>
+          <Image source={icons[2]} style={styles.forImage} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -39,8 +36,7 @@ export default ({ navigation }) => {
             navigation.goBack();
             navigation.navigate('MakingQuest', { type: 1 });
           }}>
-          <MaterialIcons name="attach-money" size={100} color="#ffffff" />
-          <Text style={styles.forButtonText}> 머니 챌린지!</Text>
+          <Image source={icons[1]} style={styles.forImage} />
         </TouchableOpacity>
       </View>
     </Pressable>
@@ -51,12 +47,12 @@ const styles = StyleSheet.create({
   fullScreen: {
     flex: 3,
     backgroundColor: '#AAEBFF',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   forImage: {
     alignSelf: 'center',
-    width: 100,
-    height: 100,
+    width: 300,
+    height: 300,
   },
   forTitle: {
     alignSelf: 'center',
