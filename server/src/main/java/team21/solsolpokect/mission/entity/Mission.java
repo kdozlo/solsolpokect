@@ -51,11 +51,12 @@ public class Mission extends BaseTime {
         this.allow = allow;
     }
 
-    public static Mission of(Users user, String missionName, int reward, boolean complete, String goal) {
+    public static Mission of(Users user, String missionName, int reward, boolean allow, boolean complete, String goal) {
         return builder()
                 .user(user)
                 .missionName(missionName)
                 .reward(reward)
+                .allow(allow)
                 .complete(complete)
                 .goal(goal)
                 .build();

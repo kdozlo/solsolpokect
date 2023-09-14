@@ -31,13 +31,19 @@ public class MissionService {
     private final UsersRepository usersRepository;
     private final S3Uploader s3Uploader;
 
-    public void missionCreate(MissionCreateRequestDto missionCreateRequestDto) {
-        Optional<Users> user = usersRepository.findById(missionCreateRequestDto.getUserId());
+    public void missionCreate(Long userId, MissionCreateRequestDto missionCreateRequestDto) {
+        Optional<Users> child = usersRepository.findById(missionCreateRequestDto.getUserId()); //자녀
+        Optional<Users> user = usersRepository.findById(userId); //현재 로그인 사용자
 
-        if(user.isEmpty())
+
+        if(child.isEmpty() || user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        missionRepository.save(Mission.of(user.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), false, missionCreateRequestDto.getGoal()));
+        boolean allow = false;
+        if(user.get().getRole().equals("부모"))
+            allow = true;
+
+        missionRepository.save(Mission.of(child.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), allow,false, missionCreateRequestDto.getGoal()));
     }
 
     public void missionAllow(long missionId, MissionAllowRequestDto missionAllowRequestDto) {
