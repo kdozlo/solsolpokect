@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 
 public class DateUtils {
+
     public static LocalDateTime getStartOfMonth(String year, String month) {
         int intYear = Integer.parseInt(year);
         int intMonth = Integer.parseInt(month);
