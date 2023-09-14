@@ -27,6 +27,8 @@ public enum MsgType {
     SIGNUP_SUCCESSFULLY("회원가입 성공"),
     LOGIN_SUCCESSFULLY("로그인 성공"),
     USER_INFO_SUCCESSFULLY("유저정보 조회 성공"),
+    DAILY_SCORE_CREATE_SUCCESSFULLY("일일 점수 작성 성공"),
+    DAILY_SCORE_UPDATE_SUCCESSFULLY("일일 점수 수정 성공"),
     ;
 
     private final String msg;

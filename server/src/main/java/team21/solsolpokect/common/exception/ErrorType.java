@@ -14,6 +14,7 @@ public enum ErrorType {
     NOT_MATCHING_INFO(401, "회원 정보가 일치하지 않습니다."),
     NOT_TOKEN(401, "토큰이 없습니다."),
     NOT_VALID_TOKEN(401, "토큰이 유효하지 않습니다."),
+    NOT_FOUND_DIARY(401, "등록된 가계부가 없습니다."),
     ;
     private int code;
     private String msg;
