@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AutoTransferService {
 
-    AutoTransferRepository autoTransferRepository;
+    private final AutoTransferRepository autoTransferRepository;
     private final UsersRepository usersRepository;
 
     public void autoTransferCreate(AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
@@ -33,13 +33,13 @@ public class AutoTransferService {
     }
 
     public List<AutoTransferResponseDto> autoTransferList(Long userId) {
-        Optional<Users> user = usersRepository.findById(userId);
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
 
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
         List<AutoTransfer> autoTransferList =
-                autoTransferRepository.findAllByUserId(userId);
+                autoTransferRepository.findAllByUserIdAndDeletedAtIsNull(userId);
 
         List<AutoTransferResponseDto> autoTransferResponseDtoList = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class AutoTransferService {
     }
 
     public void autoTransferUpdate(Long transferId, AutoTransferUpdateRequestDto autoTransferUpdateRequestDto) {
-        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findById(transferId);
+        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findByIdAndDeletedAtIsNull(transferId);
 
         if(autoTransfer.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_AUTO_TRANSFER);
@@ -60,7 +60,7 @@ public class AutoTransferService {
     }
 
     public void autoTransferDelete(Long transferId) {
-        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findById(transferId);
+        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findByIdAndDeletedAtIsNull(transferId);
 
         if(autoTransfer.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_AUTO_TRANSFER);

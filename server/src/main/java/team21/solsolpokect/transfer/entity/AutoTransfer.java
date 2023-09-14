@@ -23,7 +23,7 @@ public class AutoTransfer extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime autoDate;
 
     @Column(nullable = false)

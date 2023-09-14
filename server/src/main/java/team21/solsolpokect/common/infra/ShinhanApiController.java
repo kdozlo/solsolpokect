@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class ShinhanApiController {
@@ -20,7 +22,7 @@ public class ShinhanApiController {
     }
 
     @PostMapping("/api/callTransfer")
-    public ResponseEntity<String> callShinhanTransferApi() throws JsonProcessingException {
+    public List<ResponseEntity<String>> callShinhanTransferApi() throws JsonProcessingException {
 
         return shinhanApiService.callShinhanTransferApi();
     }
