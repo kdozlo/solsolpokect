@@ -44,6 +44,7 @@ public class ShinhanApiService {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
+        apiUrl += "/v1/search/transaction";
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(
                     apiUrl,
