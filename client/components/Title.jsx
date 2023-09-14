@@ -1,21 +1,19 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+/* eslint-disable prettier/prettier */
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, SafeAreaView } from 'react-native';
+import { images } from '../constants';
 const WIDTH = Dimensions.get('window').width;
 const HIGHT = Dimensions.get('window').height;
 
+const icons = {
+  0: images.background,
+};
+
 export default ({ navigation, title }) => {
   return (
-    <TouchableOpacity
-      style={styles.header}
-      onPress={() => navigation.navigate('Calender')}>
-      <View style={{}}>
+    <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('Calender')}>
+      <SafeAreaView>
         <Text style={styles.headerFont}>{title}</Text>
-      </View>
+      </SafeAreaView>
     </TouchableOpacity>
   );
 };

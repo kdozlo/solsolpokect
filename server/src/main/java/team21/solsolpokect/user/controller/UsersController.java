@@ -1,15 +1,13 @@
 package team21.solsolpokect.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.common.response.MsgType;
 import team21.solsolpokect.common.response.ResponseUtils;
 import team21.solsolpokect.user.dto.request.LoginRequestDto;
 import team21.solsolpokect.user.dto.request.SignupRequestDto;
+import team21.solsolpokect.user.dto.response.UsersInfoResponseDto;
 import team21.solsolpokect.user.service.UsersService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,5 +32,10 @@ public class UsersController {
 
         usersService.login(requestDto,response);
         return ResponseUtils.ok(MsgType.LOGIN_SUCCESSFULLY);
+    }
+
+    @GetMapping("/info/{user-id}")
+    public ApiResponseDto<UsersInfoResponseDto> userInfo(@PathVariable("user-id") Long id) {
+        return ResponseUtils.ok(usersService.userInfo(id),MsgType.USER_INFO_SUCCESSFULLY);
     }
 }
