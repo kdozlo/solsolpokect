@@ -55,11 +55,11 @@ public class FamilyService {
         List<Users> usersList = usersRepository.findAllByFamilyIdAndDeletedAtIsNull(family.getId());
 
         //가족으로 묶인 유저 아이디 리스트 구하기
-        List<String> usersId = new ArrayList<>();
+        List<Long> usersId = new ArrayList<>();
         List<String> usersName = new ArrayList<>();
         List<String> roles = new ArrayList<>();
         for (int i = 0; i < usersList.size(); i++) {
-            usersId.add(usersList.get(i).getUserId());
+            usersId.add(usersList.get(i).getId());
             usersName.add(usersList.get(i).getUserName());
             roles.add(usersList.get(i).getRole());
         }
