@@ -38,27 +38,32 @@ public class UsersService {
         usersRepository.save(users);
     }
 
-    public void login(LoginRequestDto requestDto, HttpServletResponse response) {
+    public UsersInfoResponseDto login(LoginRequestDto requestDto, HttpServletResponse response) {
 
         String userId = requestDto.getUserId();
         String password = requestDto.getPassword();
 
-        Users user = usersRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(
-                () -> new CustomException(ErrorType.NOT_MATCHING_INFO)
-        );
+        Optional<Users> user = usersRepository.findByUserIdAndDeletedAtIsNull(userId);
+        if(user.isEmpty())throw new CustomException(ErrorType.NOT_MATCHING_INFO);
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.get().getPassword())) {
             throw new CustomException(ErrorType.NOT_MATCHING_INFO);
         }
 
-        String token = jwtUtil.createToken(user.getUserId());
+        String token = jwtUtil.createToken(user.get().getUserId());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+
+        return getUsersInfoResponseDto(user);
     }
 
     public UsersInfoResponseDto userInfo(Long id) {
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(id);
         if(user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
+        return getUsersInfoResponseDto(user);
+    }
+
+    private static UsersInfoResponseDto getUsersInfoResponseDto(Optional<Users> user) {
         String role = user.get().getRole();
         String username = user.get().getUserName();
         Long familyId = 0L;
