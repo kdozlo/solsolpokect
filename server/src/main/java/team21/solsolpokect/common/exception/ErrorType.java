@@ -15,7 +15,7 @@ public enum ErrorType {
     NOT_TOKEN(401, "토큰이 없습니다."),
     NOT_VALID_TOKEN(401, "토큰이 유효하지 않습니다."),
     NOT_FOUND_DIARY(401, "등록된 가계부가 없습니다."),
-    ;
+    TODAY_IS_NOT_SUNDAY(401, "오늘은 일요일이 아닙니다.");
     private int code;
     private String msg;
 

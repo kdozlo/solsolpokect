@@ -8,7 +8,9 @@ import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.diary.dto.request.feedback.FeedbackRequestDto;
 import team21.solsolpokect.diary.dto.response.feedback.FeedbackInfosResponseDto;
+import team21.solsolpokect.diary.entity.Diary;
 import team21.solsolpokect.diary.entity.Feedback;
+import team21.solsolpokect.diary.repository.DiaryRepository;
 import team21.solsolpokect.diary.repository.FeedbackRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
@@ -24,9 +26,13 @@ public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
     private final UsersRepository usersRepository;
+    private final DiaryRepository diaryRepository;
 
     public void feedbackCreate(FeedbackRequestDto requestDto) {
 
+//        if (!now().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+//            throw new CustomException(ErrorType.TODAY_IS_NOT_SUNDAY);
+//        }
         String contents = requestDto.getContents();
         Long userId = requestDto.getUserId();
 
@@ -35,12 +41,23 @@ public class FeedbackService {
 
         Feedback feedback = Feedback.of(contents, users.get());
         feedbackRepository.save(feedback);
+
+        Optional<Diary> diary = diaryRepository.findByUsers(users.get());
+        if(diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
+
+        diary.get().feedbackUpdate(feedback);
     }
 
     public void feedbackUpdate(Long feedbackId, FeedbackRequestDto requestDto) {
 
         Optional<Feedback> feedback = feedbackRepository.findByIdAndDeletedAtIsNull(feedbackId);
         if(feedback.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_FEEDBACK);
+        Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
+        if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        if (users.get().getId() != feedback.get().getUsers().getId()) {
+            throw new CustomException(ErrorType.NOT_MATCHING_INFO);
+        }
 
         if(usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId()).isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
         feedback.get().update(requestDto.getContents());
@@ -48,7 +65,10 @@ public class FeedbackService {
 
     public List<FeedbackInfosResponseDto> feedbackInfos(Long userId, String year, String month) {
 
-        List<Feedback> feedbackList = feedbackRepository.findAllByUsersAndCreatedAtBetweenAndDeletedAtIsNull(userId, DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
+        Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(userId);
+        if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        List<Feedback> feedbackList = feedbackRepository.findAllByUsersAndCreatedAtBetweenAndDeletedAtIsNull(users.get(), DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
         List<FeedbackInfosResponseDto> answer = new ArrayList<>();
         for(Feedback f : feedbackList){
             if (f != null) {
