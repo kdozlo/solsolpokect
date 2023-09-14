@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Image, Modal, TouchableOpacity, View } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import NumberPad from './NumberPad';
 import PasswordPins from './PasswordPins';
 import { icons } from '../../constants';
-import { authPinCountAtom } from '../../recoil/auth';
-import { transferPWModalAtom } from '../../recoil/transfer';
+import { authPWModalAtom, authPWValueAtom, authPinCountAtom } from '../../recoil/auth';
 
 const PasswordModal = ({ navigation }) => {
-  const [isModalOpen, setIsModalOpen] = useRecoilState(transferPWModalAtom);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(authPWModalAtom);
+  const setPinCount = useSetRecoilState(authPinCountAtom);
+  const setPWValue = useSetRecoilState(authPWValueAtom);
+
   const buttonValueList = [
     1,
     2,
@@ -45,8 +47,10 @@ const PasswordModal = ({ navigation }) => {
         }}
         onPress={() => {
           setIsModalOpen(false);
+          setPinCount(0);
+          setPWValue('');
         }}>
-        <PasswordPins />
+        <PasswordPins navigation={navigation} />
         <NumberPad buttonValueList={buttonValueList} pageKind={'password'} navigation={navigation} />
       </TouchableOpacity>
     </Modal>

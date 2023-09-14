@@ -1,18 +1,27 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { COLORS } from '../../constants';
 import { authPinCountAtom } from '../../recoil/auth';
 import { TOTAL_PINS } from '../../utils/const/auth';
 
-const PasswordPins = () => {
+const transferApiResult = 'success';
+
+const PasswordPins = ({ navigation }) => {
   const pinCount = useRecoilValue(authPinCountAtom);
 
   console.log(pinCount);
   if (pinCount === TOTAL_PINS) {
-    // 이체 api 호출하고 성공 시 성공화면 실패 시 실패화면으로 이동
-    console.log('이체 수행' + pinCount);
+    // 이체 api 호출하고 성공 시 성공화면 실패 시 validation 문구 추가
+    if (transferApiResult === 'success') {
+      navigation.navigate('TransferSuccess');
+    } else {
+      console.log('비밀번호가 틀렸습니다.');
+      console.log('유효하지 않은 계좌번호입니다.');
+      console.log('비밀번호가 틀렸습니다.');
+    }
   }
 
   const renderPins = () => {
@@ -60,4 +69,4 @@ const PasswordPins = () => {
     </View>
   );
 };
-export default PasswordPins;
+export default withNavigation(PasswordPins);

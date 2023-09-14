@@ -7,14 +7,15 @@ import GoBackHeader from '../components/GoBackHeader';
 import AccountBalance from '../components/Transfer/AccountBalance';
 import PasswordModal from '../components/Transfer/PasswordModal';
 import TransferMoney from '../components/Transfer/TransferMoney';
-import { transferAccountNumberAtom, transferPWModalAtom, transferSelectedBankAtom } from '../recoil/transfer';
+import { authPWModalAtom } from '../recoil/auth';
+import { transferAccountNumberAtom, transferSelectedBankAtom } from '../recoil/transfer';
 import { dummyUser } from '../test/dummyData/user';
 import { BANK_INFO_LIST } from '../utils/const/bank';
 
 const CheckTransferInfo = ({ navigation }) => {
   const transferAccountNum = useRecoilValue(transferAccountNumberAtom);
   const selectedBankIndex = useRecoilValue(transferSelectedBankAtom);
-  const [isModalOpen, setIsModalOpen] = useRecoilState(transferPWModalAtom);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(authPWModalAtom);
 
   const bankInfo = BANK_INFO_LIST[selectedBankIndex];
 

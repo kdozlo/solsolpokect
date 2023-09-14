@@ -5,22 +5,26 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { icons } from '../../constants';
-import { authPinCountAtom } from '../../recoil/auth';
+import { authPWValueAtom, authPinCountAtom } from '../../recoil/auth';
 import { transferMoneyAtom } from '../../recoil/transfer';
 import { shuffleNumber } from '../../utils/TransferUtils';
 import { TOTAL_PINS } from '../../utils/const/auth';
 
 const NumberPad = ({ navigation, buttonValueList, pageKind }) => {
   const [buttonValues, setButtonValues] = useState(buttonValueList);
-  const [pinCount, setPinCount] = useRecoilState(authPinCountAtom);
   const setMoney = useSetRecoilState(transferMoneyAtom);
+  const [pinCount, setPinCount] = useRecoilState(authPinCountAtom);
+  const setPW = useSetRecoilState(authPWValueAtom);
 
   // Event handler
   const handlePressNumber = number => {
     if (pageKind === 'transfer') {
       setMoney(prev => prev * 10 + number);
     } else if (pageKind === 'password') {
-      if (pinCount < TOTAL_PINS) setPinCount(pre => pre + 1);
+      if (pinCount < TOTAL_PINS) {
+        setPinCount(pre => pre + 1);
+        setPW(pre => pre + `${number}`);
+      }
     }
   };
   const handlePressDelete = () => {

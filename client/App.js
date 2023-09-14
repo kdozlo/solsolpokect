@@ -19,6 +19,7 @@ import SelectAccount from './pages/SelectAccount';
 import SelectMoney from './pages/SelectMoney';
 import SignUp from './pages/SignUp';
 import TransactionHistory from './pages/TransactionHistory';
+import TransferSuccess from './pages/TransferSuccess';
 
 const Stack = createNativeStackNavigator();
 const WIDTH = Dimensions.get('window').width;
@@ -35,6 +36,7 @@ export default function App() {
           <Stack.Screen name="SelectAccount" component={SelectAccount} options={{ headerShown: false }} />
           <Stack.Screen name="SelectMoney" component={SelectMoney} options={{ headerShown: false }} />
           <Stack.Screen name="CheckTransferInfo" component={CheckTransferInfo} options={{ headerShown: false }} />
+          <Stack.Screen name="TransferSuccess" component={TransferSuccess} options={{ headerShown: false }} />
 
           <Stack.Screen
             name="Calender"
