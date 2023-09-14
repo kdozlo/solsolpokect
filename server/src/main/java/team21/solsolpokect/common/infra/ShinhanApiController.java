@@ -23,7 +23,7 @@ public class ShinhanApiController {
     }
 
     @PostMapping("/api/callTransfer")
-    @Scheduled(fixedDelay = 10000) //테스트 용
+//    @Scheduled(fixedDelay = 10000) //테스트 용
 //    @Scheduled(cron = "* * * 1 * *") //실제 서비스 시 - 매달 1일 마다
     public List<ResponseEntity<String>> callShinhanTransferApi() throws JsonProcessingException {
 
