@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AutoTransferController {
 
-    AutoTransferService autoTransferService;
+    private final AutoTransferService autoTransferService;
 
     @PostMapping("/create")
     public ApiResponseDto<Void> autoTransferCreate(@RequestBody AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
