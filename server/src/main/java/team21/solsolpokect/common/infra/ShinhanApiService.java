@@ -3,6 +3,7 @@ package team21.solsolpokect.common.infra;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import team21.solsolpokect.transfer.entity.AutoTransfer;
@@ -51,10 +52,11 @@ public class ShinhanApiService {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
-        apiUrl += "/v1/search/transaction";
+        String searchApiUrl = apiUrl + "/v1/search/transaction";
+        System.out.println(apiUrl);
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    apiUrl,
+                    searchApiUrl,
                     HttpMethod.POST,
                     requestEntity,
                     String.class
@@ -78,6 +80,7 @@ public class ShinhanApiService {
         }
     }
 
+    @Transactional
     public List<ResponseEntity<String>> callShinhanTransferApi() {
         // 요청 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -92,6 +95,7 @@ public class ShinhanApiService {
 
         List<ResponseEntity<String>> responseEntityList = new ArrayList<>();
 
+        String transferApiUrl = apiUrl + "/v1/transfer/krw";
         for (AutoTransfer at : autoTransferList) {
             Map<String, String> dataBody = new HashMap<>();
             dataBody.put("출금계좌번호", at.getUser().getAccount());
@@ -109,16 +113,16 @@ public class ShinhanApiService {
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
-            apiUrl += "/v1/transfer/krw";
             try {
                 ResponseEntity<String> responseEntity = restTemplate.exchange(
-                        apiUrl,
+                        transferApiUrl,
                         HttpMethod.POST,
                         requestEntity,
                         String.class
                 );
 
                 if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                    System.out.println(responseEntity.getBody());
                     responseEntityList.add(responseEntity);
                 } else {
                     // API 응답이 실패인 경우에 대한 처리
