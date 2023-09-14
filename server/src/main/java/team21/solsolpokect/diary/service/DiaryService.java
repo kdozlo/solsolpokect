@@ -7,9 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team21.solsolpokect.common.exception.CustomException;
+import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.infra.ShinhanApiService;
+import team21.solsolpokect.diary.dto.request.diary.DiaryScoreRequestDto;
 import team21.solsolpokect.diary.dto.response.diary.DiaryInfoDetailResponseDto;
+import team21.solsolpokect.diary.entity.Diary;
 import team21.solsolpokect.diary.repository.DiaryRepository;
+import team21.solsolpokect.user.entity.Users;
+import team21.solsolpokect.user.repository.UsersRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -17,6 +23,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.time.LocalDateTime.now;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +33,8 @@ import java.util.List;
 public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final ShinhanApiService shinhanApiService;
+    private final UsersRepository usersRepository;
+
     public List<DiaryInfoDetailResponseDto> diaryCheck(Long userId, String diaryDate) throws JsonProcessingException {
         // shinhanApiService.callShinhanApi() 메서드의 반환 타입은 ResponseEntity<String>입니다.
         ResponseEntity<String> responseEntity = shinhanApiService.callShinhanApi();
@@ -60,5 +71,23 @@ public class DiaryService {
             e.printStackTrace();
             return null; // 또는 예외를 던질 수 있음
         }
+    }
+
+    public void scoreCreaete(DiaryScoreRequestDto requestDto) {
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
+        if(user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        Diary diary = Diary.of(user.get(), now(), requestDto.getDailyScore());
+        diaryRepository.save(diary);
+    }
+
+    public void scoreUpdate(Long diaryId, DiaryScoreRequestDto requestDto) {
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
+        if(user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        Optional<Diary> diary = diaryRepository.findById(diaryId);
+        if(diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
+
+        diary.get().scoreUpdate(requestDto.getDailyScore());
     }
 }
