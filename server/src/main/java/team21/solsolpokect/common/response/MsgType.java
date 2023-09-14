@@ -26,6 +26,7 @@ public enum MsgType {
     FAMILY_DETAIL_SUCCESSFULLY("가족 정보 조회 성공"),
     SIGNUP_SUCCESSFULLY("회원가입 성공"),
     LOGIN_SUCCESSFULLY("로그인 성공"),
+    USER_INFO_SUCCESSFULLY("유저정보 조회 성공"),
     ;
 
     private final String msg;
