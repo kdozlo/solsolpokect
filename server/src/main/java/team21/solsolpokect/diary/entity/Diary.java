@@ -51,4 +51,8 @@ public class Diary {
     public void scoreUpdate(int dailyScore) {
         this.dailyScore += dailyScore;
     }
+
+    public void feedbackUpdate(Feedback feedback) {
+        this.feedback = feedback;
+    }
 }

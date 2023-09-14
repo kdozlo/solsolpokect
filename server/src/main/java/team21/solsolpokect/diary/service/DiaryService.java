@@ -36,6 +36,10 @@ public class DiaryService {
     private final UsersRepository usersRepository;
 
     public List<DiaryInfoDetailResponseDto> diaryCheck(Long userId, String diaryDate) throws JsonProcessingException {
+
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
+        if(user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
         // shinhanApiService.callShinhanApi() 메서드의 반환 타입은 ResponseEntity<String>입니다.
         ResponseEntity<String> responseEntity = shinhanApiService.callShinhanApi();
 
@@ -49,7 +53,6 @@ public class DiaryService {
 
             // JSON 데이터에서 거래내역 배열을 가져옴
             JsonNode transactions = jsonNode.get("dataBody").get("거래내역");
-
             // 거래내역을 List<DiaryInfoDetailResponseDto>로 매핑
             List<DiaryInfoDetailResponseDto> diaryInfoList = new ArrayList<>();
             for (JsonNode transaction : transactions) {
