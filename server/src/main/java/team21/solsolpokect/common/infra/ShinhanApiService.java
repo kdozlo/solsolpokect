@@ -52,11 +52,9 @@ public class ShinhanApiService {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
-        String searchApiUrl = apiUrl + "/v1/search/transaction";
-        System.out.println(apiUrl);
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    searchApiUrl,
+                    apiUrl + "/v1/search/transaction",
                     HttpMethod.POST,
                     requestEntity,
                     String.class
@@ -95,7 +93,6 @@ public class ShinhanApiService {
 
         List<ResponseEntity<String>> responseEntityList = new ArrayList<>();
 
-        String transferApiUrl = apiUrl + "/v1/transfer/krw";
         for (AutoTransfer at : autoTransferList) {
             Map<String, String> dataBody = new HashMap<>();
             dataBody.put("출금계좌번호", at.getUser().getAccount());
@@ -115,7 +112,7 @@ public class ShinhanApiService {
 
             try {
                 ResponseEntity<String> responseEntity = restTemplate.exchange(
-                        transferApiUrl,
+                        apiUrl + "/v1/transfer/krw",
                         HttpMethod.POST,
                         requestEntity,
                         String.class
