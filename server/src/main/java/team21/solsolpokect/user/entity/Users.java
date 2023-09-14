@@ -66,4 +66,8 @@ public class Users extends BaseTime {
     public void updateFamily(Family family) {
         this.family = family;
     }
+
+    public void updateCreditScore(int score) {
+        this.creditScore += score;
+    }
 }

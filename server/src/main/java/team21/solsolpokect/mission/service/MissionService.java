@@ -85,7 +85,6 @@ public class MissionService {
         missionRepository.delete(mission.get());
     }
 
-    @Transactional
     public void missionAllowPicture(long missionId, long userId, MultipartFile picture) throws IOException {
         Optional<Mission> mission = missionRepository.findById(missionId);
 
@@ -106,6 +105,8 @@ public class MissionService {
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        mission.get().getUser().updateCreditScore(mission.get().getReward());
 
         mission.get().updateComplete(missionCompleteRequestDto.isComplete());
     }
