@@ -2,6 +2,7 @@ package team21.solsolpokect.family.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.family.dto.request.FamilyCreateRequestDto;
@@ -11,19 +12,18 @@ import team21.solsolpokect.family.repository.FamilyRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FamilyService {
 
     private final FamilyRepository familyRepository;
     private final UsersRepository usersRepository;
 
-    @Transactional
     public void familyCreate(FamilyCreateRequestDto familyCreateRequestDto) {
         Family family = Family.from(familyCreateRequestDto.getFamilyName());
 
@@ -55,11 +55,11 @@ public class FamilyService {
         List<Users> usersList = usersRepository.findAllByFamilyIdAndDeletedAtIsNull(family.getId());
 
         //가족으로 묶인 유저 아이디 리스트 구하기
-        List<String> usersId = new ArrayList<>();
+        List<Long> usersId = new ArrayList<>();
         List<String> usersName = new ArrayList<>();
         List<String> roles = new ArrayList<>();
         for (int i = 0; i < usersList.size(); i++) {
-            usersId.add(usersList.get(i).getUserId());
+            usersId.add(usersList.get(i).getId());
             usersName.add(usersList.get(i).getUserName());
             roles.add(usersList.get(i).getRole());
         }

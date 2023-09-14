@@ -10,13 +10,13 @@ import java.util.List;
 public class FamilyDetailResponseDto {
 
     Long id;
-    List<String> usersId;
+    List<Long> usersId;
     List<String> usersName;
     List<String> roles;
     String familyName;
 
     @Builder
-    private FamilyDetailResponseDto(Long id, List<String> usersId, List<String> usersName, List<String> roles, String familyName) {
+    private FamilyDetailResponseDto(Long id, List<Long> usersId, List<String> usersName, List<String> roles, String familyName) {
         this.id = id;
         this.usersId = usersId;
         this.usersName = usersName;
@@ -24,7 +24,7 @@ public class FamilyDetailResponseDto {
         this.familyName = familyName;
     }
 
-    public static FamilyDetailResponseDto of(List<String> usersId, List<String> usersName, List<String> roles, Family family) {
+    public static FamilyDetailResponseDto of(List<Long> usersId, List<String> usersName, List<String> roles, Family family) {
         return builder()
                 .id(family.getId())
                 .usersId(usersId)
