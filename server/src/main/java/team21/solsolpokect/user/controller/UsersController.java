@@ -28,10 +28,10 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public ApiResponseDto<Void> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response){
+    public ApiResponseDto<UsersInfoResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response){
 
-        usersService.login(requestDto,response);
-        return ResponseUtils.ok(MsgType.LOGIN_SUCCESSFULLY);
+
+        return ResponseUtils.ok(usersService.login(requestDto,response), MsgType.LOGIN_SUCCESSFULLY);
     }
 
     @GetMapping("/info/{user-id}")
