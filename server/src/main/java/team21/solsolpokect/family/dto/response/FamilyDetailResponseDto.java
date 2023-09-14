@@ -3,7 +3,6 @@ package team21.solsolpokect.family.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import team21.solsolpokect.family.entity.Family;
-import team21.solsolpokect.user.entity.Users;
 
 import java.util.List;
 
