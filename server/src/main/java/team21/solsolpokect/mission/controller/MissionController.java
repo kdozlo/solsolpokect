@@ -23,9 +23,9 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    @PostMapping("/create")
-    public ApiResponseDto<Void> missionCreate(@RequestBody MissionCreateRequestDto missionCreateRequestDto) {
-        missionService.missionCreate(missionCreateRequestDto);
+    @PostMapping("/create/{user-id}")
+    public ApiResponseDto<Void> missionCreate(@PathVariable("user-id") long userId, @RequestBody MissionCreateRequestDto missionCreateRequestDto) {
+        missionService.missionCreate(userId, missionCreateRequestDto);
         return ResponseUtils.ok(MsgType.MISSION_CREATE_SUCCESSFULLY);
     }
 
