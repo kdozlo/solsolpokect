@@ -1,7 +1,6 @@
 package team21.solsolpokect.diary.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.entity.DateUtils;
