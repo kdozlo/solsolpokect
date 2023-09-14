@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class ShinhanApiService {
 
     private final RestTemplate restTemplate;
@@ -78,7 +79,6 @@ public class ShinhanApiService {
         }
     }
 
-    @Transactional
     public List<ResponseEntity<String>> callShinhanTransferApi() {
         // 요청 헤더 설정
         HttpHeaders headers = new HttpHeaders();

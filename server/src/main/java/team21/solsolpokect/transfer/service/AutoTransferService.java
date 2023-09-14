@@ -2,6 +2,7 @@ package team21.solsolpokect.transfer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AutoTransferService {
 
     private final AutoTransferRepository autoTransferRepository;
