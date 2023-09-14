@@ -27,6 +27,10 @@ public class UsersService {
 
     public void signup(SignupRequestDto requestDto) {
 
+        if (!requestDto.getRole().equals("부모") || !requestDto.getRole().equals("자녀")) {
+            throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
+        }
+
         String encodePw = passwordEncoder.encode(requestDto.getPassword());
 
         Optional<Users> isExist = usersRepository.findByUserIdAndDeletedAtIsNull(requestDto.getUserId());
