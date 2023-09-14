@@ -9,6 +9,7 @@ import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.jwt.JwtUtil;
 import team21.solsolpokect.user.dto.request.LoginRequestDto;
 import team21.solsolpokect.user.dto.request.SignupRequestDto;
+import team21.solsolpokect.user.dto.response.UsersInfoResponseDto;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
@@ -52,5 +53,19 @@ public class UsersService {
 
         String token = jwtUtil.createToken(user.getUserId());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+    }
+
+    public UsersInfoResponseDto userInfo(Long id) {
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(id);
+        if(user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        String role = user.get().getRole();
+        String username = user.get().getUserName();
+        Long familyId = 0L;
+        if(user.get().getFamily()!=null) familyId = user.get().getFamily().getId();
+        String account = user.get().getAccount();
+        int creditScore = user.get().getCreditScore();
+
+        return UsersInfoResponseDto.of(role, username, familyId, account, creditScore);
     }
 }
