@@ -19,3 +19,8 @@ export const transferBankInfoModalAtom = atom({
   key: 'transferBankInfoModalAtom',
   default: false,
 });
+
+export const transferPWModalAtom = atom({
+  key: 'transferPWModalAtom',
+  default: false,
+});

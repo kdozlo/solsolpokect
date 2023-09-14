@@ -10,7 +10,6 @@ import Calender from './pages/Calender';
 import CheckTransferInfo from './pages/CheckTransferInfo';
 import ChooseQuest from './pages/ChooseQuest';
 import Detail from './pages/Detail';
-import EnterPassword from './pages/EnterPassword';
 import Main from './pages/Main';
 import MakingQuest from './pages/MakingQuest';
 import QuestType1 from './pages/QuestType1';
@@ -35,7 +34,6 @@ export default function App() {
           <Stack.Screen name="AccountBook" component={AccountBook} options={{ headerShown: false }} />
           <Stack.Screen name="SelectAccount" component={SelectAccount} options={{ headerShown: false }} />
           <Stack.Screen name="SelectMoney" component={SelectMoney} options={{ headerShown: false }} />
-          <Stack.Screen name="EnterPassword" component={EnterPassword} options={{ headerShown: false }} />
           <Stack.Screen name="CheckTransferInfo" component={CheckTransferInfo} options={{ headerShown: false }} />
 
           <Stack.Screen

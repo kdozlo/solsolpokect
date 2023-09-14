@@ -1,18 +1,20 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import AccountInfo from '../components/AccountInfo';
 import GoBackHeader from '../components/GoBackHeader';
 import AccountBalance from '../components/Transfer/AccountBalance';
+import PasswordModal from '../components/Transfer/PasswordModal';
 import TransferMoney from '../components/Transfer/TransferMoney';
-import { transferAccountNumberAtom, transferMoneyAtom, transferSelectedBankAtom } from '../recoil/transfer';
+import { transferAccountNumberAtom, transferPWModalAtom, transferSelectedBankAtom } from '../recoil/transfer';
 import { dummyUser } from '../test/dummyData/user';
 import { BANK_INFO_LIST } from '../utils/const/bank';
 
 const CheckTransferInfo = ({ navigation }) => {
   const transferAccountNum = useRecoilValue(transferAccountNumberAtom);
   const selectedBankIndex = useRecoilValue(transferSelectedBankAtom);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(transferPWModalAtom);
 
   const bankInfo = BANK_INFO_LIST[selectedBankIndex];
 
@@ -50,10 +52,21 @@ const CheckTransferInfo = ({ navigation }) => {
             marginLeft: 10,
             borderRadius: 5,
             backgroundColor: 'blue',
+          }}
+          onPress={() => {
+            setIsModalOpen(true);
           }}>
           <Text>이체</Text>
         </Pressable>
       </View>
+      {isModalOpen && (
+        <PasswordModal
+          onPress={() => {
+            setIsModalOpen(true);
+          }}
+          navigation={navigation}
+        />
+      )}
     </View>
   );
 };
