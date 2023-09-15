@@ -42,7 +42,7 @@ public class FeedbackService {
         Feedback feedback = Feedback.of(contents, users.get());
         feedbackRepository.save(feedback);
 
-        Optional<Diary> diary = diaryRepository.findByUsers(users.get());
+        Optional<Diary> diary = diaryRepository.findById(requestDto.getDairyId());
         if(diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
         diary.get().feedbackUpdate(feedback);
