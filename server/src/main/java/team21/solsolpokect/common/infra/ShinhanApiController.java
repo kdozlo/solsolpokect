@@ -17,9 +17,9 @@ public class ShinhanApiController {
     private final ShinhanApiService shinhanApiService;
 
     @GetMapping("/api/callShinhanApi")
-    public ResponseEntity<String> callShinhanApi() throws JsonProcessingException {
+    public ResponseEntity<String> callShinhanTransactionApi(String account) throws JsonProcessingException {
 
-        return shinhanApiService.callShinhanApi();
+        return shinhanApiService.callShinhanTransactionApi(account);
     }
 
     @PostMapping("/api/callTransfer")
