@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 import { atom } from 'recoil';
 
+import { dummyUser } from '../test/dummyData/user';
+
 export const accountUserAtom = atom({
   key: 'accountUser',
-  default: '',
+  default: dummyUser.userId,
 });
 
 export const accountDateAtom = atom({

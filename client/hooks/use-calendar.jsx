@@ -6,8 +6,7 @@ import { accountDateAtom, isPickerVisibleAtom } from '../recoil/accountBook';
 
 export const useCalendar = now => {
   const [selectedDate, setSelectedDate] = useRecoilState(accountDateAtom);
-  const [isDatePickerVisible, setDatePickerVisibility] =
-    useRecoilState(isPickerVisibleAtom);
+  const [isDatePickerVisible, setDatePickerVisibility] = useRecoilState(isPickerVisibleAtom);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -18,8 +17,8 @@ export const useCalendar = now => {
   };
 
   const handleConfirm = date => {
-    setSelectedDate(dayjs(date));
     hideDatePicker();
+    setSelectedDate(dayjs(date));
   };
 
   const subtract1Month = () => {

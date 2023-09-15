@@ -15,6 +15,10 @@ export const COLORS = {
   red: '#FF4134',
   lightRed: '#FFF1F0',
 
+  blue: '#316FE1',
+  lightBlue1: '#F3F5FA',
+  lightBlue2: '#A3D8FF',
+
   purple: '#6B3CE9',
   lightpurple: '#F3EFFF',
 

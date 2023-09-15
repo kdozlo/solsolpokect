@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -14,11 +15,10 @@ import {
   Platform,
   ImageBackground,
 } from 'react-native';
+import { atom, useRecoilState } from 'recoil';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { getAccountList } from '../services/apis/accountListAPI';
-import { atom, useRecoilState } from 'recoil';
-import axios from 'axios';
 
 export const usernameState = atom({
   key: 'usernameState',
@@ -61,7 +61,7 @@ export const SignUp = ({ navigation }) => {
 
   const userInfo = {
     role: selectedRole,
-    username: username,
+    username,
     account: selectedAccount?.['계좌번호'],
     userId: 'wjsaos2081',
     password: userPassword,
@@ -447,42 +447,16 @@ export const SignUp = ({ navigation }) => {
   return (
     <ImageBackground source={ICONS[0]} style={{ flex: 1 }}>
       <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : null} style={{ flex: 1 }}>
-        {/* <LinearGradient
-        colors={[COLORS.lime, COLORS.emerald]}
-        style={{ flex: 1 }}> */}
         <ScrollView>
           {renderHeader({ title: 'SignUp' })}
-          {/* { renderLogo()} */}
           {renderForm()}
           {renderButton()}
         </ScrollView>
         {renderAccountListModal()}
         {renderRoleListModal()}
-        {/* </LinearGradient> */}
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
 
 export default SignUp;
-
-// 로고 컴포넌트 : 해당 컴포넌트를 활용하여 스플레시 화면으로 대체해볼 것
-// function renderLogo() {
-//   return (
-//     <View
-//       style={{
-//         marginTop: SIZES.padding * 5,
-//         height: 100,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//       }}>
-//       <Image
-//         source={images.wallieLogo}
-//         resizeMode="contain"
-//         style={{
-//           width: '60%',
-//         }}
-//       />
-//     </View>
-//   );
-// }

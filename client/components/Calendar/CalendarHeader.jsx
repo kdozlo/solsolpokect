@@ -29,9 +29,7 @@ const CalendarHeader = () => {
         <ArrowButton iconName="arrow-left" onPress={subtract1Month} />
 
         <TouchableOpacity onPress={showDatePicker}>
-          <Text style={{ fontSize: 20, color: '#404040' }}>
-            {currentDateText}
-          </Text>
+          <Text style={{ fontSize: 20, color: '#404040' }}>{currentDateText}</Text>
         </TouchableOpacity>
 
         <ArrowButton iconName="arrow-right" onPress={add1Month} />
