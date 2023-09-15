@@ -18,6 +18,7 @@ import team21.solsolpokect.user.repository.UsersRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class DiaryService {
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
         if (user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        Diary diary = Diary.of(user.get(), now(), requestDto.getDailyScore());
+        Diary diary = Diary.of(user.get(), StringToLocalDateTime(requestDto.getDate()), requestDto.getDailyScore());
         diaryRepository.save(diary);
     }
 
@@ -94,5 +95,17 @@ public class DiaryService {
         if (diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
         diary.get().scoreUpdate(requestDto.getDailyScore());
+    }
+
+    public LocalDateTime StringToLocalDateTime(String date) {
+        date += "T00:00:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        try {
+            return LocalDateTime.parse(date, formatter);
+        } catch (Exception e) {
+            System.err.println("날짜 파싱 오류: " + e.getMessage());
+        }
+        return null;
     }
 }
