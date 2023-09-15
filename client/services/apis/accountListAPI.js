@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // 타입스크립트 적용해보기
 export const getAccountList = async userName => {
   userName = 'WmokLBDC09/yfin==';

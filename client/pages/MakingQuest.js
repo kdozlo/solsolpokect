@@ -14,8 +14,9 @@ import {
 
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
 import { useQuestList } from '../hooks/use-questList';
-
+import axios from 'axios';
 /* eslint-disable prettier/prettier */
+
 export default ({ navigation, route }) => {
   const { type } = route.params;
 
@@ -39,7 +40,7 @@ export default ({ navigation, route }) => {
     setAppeal,
   } = useQuestList();
 
-  const addQuestList = () => {
+  const addQuestList = async () => {
     const lastId = questList.length === 0 ? 0 : questList[questList.length - 1].id;
 
     const newQuest = {
@@ -53,41 +54,55 @@ export default ({ navigation, route }) => {
       appeal,
     };
 
+    await axios
+      .post('http://3.39.248.247:8080/api/mission/create', {
+        userId: newQuest.name,
+        missionName: newQuest.missionName,
+        reward: newQuest.reward,
+        goal: newQuest.appeal,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.error(error.response);
+      });
+
     storeAndsetQuestList([newQuest, ...questList]);
   };
 
   const renderItem = ({ item: { id, type, setType, holder, title } }) => {
-    if (id === 1) {
-      return (
-        <View style={styles.forView}>
-          <Text style={styles.forText}>{title}</Text>
-          <View
-            style={{
-              backgroundColor: '#007AFF',
-              width: 150,
-              marginTop: 20,
-              marginLeft: 20,
-              borderRadius: 50,
-            }}>
-            <Button title="날짜 정하기!" color="#ffffff" onPress={showDatePicker} />
-          </View>
+    // if (id === 1) {
+    //   return (
+    //     <View style={styles.forView}>
+    //       <Text style={styles.forText}>{title}</Text>
+    //       <View
+    //         style={{
+    //           backgroundColor: '#007AFF',
+    //           width: 150,
+    //           marginTop: 20,
+    //           marginLeft: 20,
+    //           borderRadius: 50,
+    //         }}>
+    //         <Button title="날짜 정하기!" color="#ffffff" onPress={showDatePicker} />
+    //       </View>
 
-          <TextInput
-            style={[styles.input, { opacity: dateInputVisible }]}
-            onChangeText={setType}
-            value={getGoalDate()}
-            placeholder={holder}
-            onEndEditing={() => {}}
-          />
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="time"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-        </View>
-      );
-    }
+    //       <TextInput
+    //         style={[styles.input, { opacity: dateInputVisible }]}
+    //         onChangeText={setType}
+    //         value={getGoalDate()}
+    //         placeholder={holder}
+    //         onEndEditing={() => {}}
+    //       />
+    //       <DateTimePickerModal
+    //         isVisible={isDatePickerVisible}
+    //         mode="time"
+    //         onConfirm={handleConfirm}
+    //         onCancel={hideDatePicker}
+    //       />
+    //     </View>
+    //   );
+    // }
 
     if (id === 5) {
       return (
@@ -141,6 +156,7 @@ export default ({ navigation, route }) => {
               text: '네',
               onPress: () => {
                 addQuestList();
+                navigation.navigate('Main');
                 // navigation.navigate('Main');
               },
             },

@@ -38,12 +38,12 @@ export const appealState = atom({
 
 export const useQuestList = () => {
   const DATA = [
-    {
-      id: 1,
-      type: date,
-      title: '목표 기한?',
-      holder: '언제까지 이루면 될까요?',
-    },
+    // {
+    //   id: 1,
+    //   type: date,
+    //   title: '목표 기한?',
+    //   holder: '언제까지 이루면 될까요?',
+    // },
     {
       id: 2,
       type: missionName,
