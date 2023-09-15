@@ -27,7 +27,7 @@ public class UsersService {
 
     public void signup(SignupRequestDto requestDto) {
 
-        if (!requestDto.getRole().equals("부모") || !requestDto.getRole().equals("자녀")) {
+        if (!requestDto.getRole().equals("부모") && !requestDto.getRole().equals("자녀")) {
             throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
         }
 
