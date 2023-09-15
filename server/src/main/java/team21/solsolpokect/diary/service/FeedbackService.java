@@ -15,6 +15,7 @@ import team21.solsolpokect.diary.repository.FeedbackRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,8 +53,12 @@ public class FeedbackService {
 
         Optional<Feedback> feedback = feedbackRepository.findByIdAndDeletedAtIsNull(feedbackId);
         if(feedback.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_FEEDBACK);
+
         Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
         if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        Optional<Diary> dairy = diaryRepository.findById(requestDto.getDairyId());
+        if(dairy.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
         if (users.get().getId() != feedback.get().getUsers().getId()) {
             throw new CustomException(ErrorType.NOT_MATCHING_INFO);
