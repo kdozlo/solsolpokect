@@ -21,7 +21,6 @@ public class ShinhanApiService {
     private final RestTemplate restTemplate;
     private final AutoTransferRepository autoTransferRepository;
 
-    private final String accountNumber = "110184999999";
     @Value("${shinhan.api.url}")
     private String apiUrl;
 
@@ -32,7 +31,7 @@ public class ShinhanApiService {
         this.restTemplate = restTemplate;
         this.autoTransferRepository = autoTransferRepository;
     }
-    public ResponseEntity<String> callShinhanApi() {
+    public ResponseEntity<String> callShinhanTransactionApi(String account) {
         // 요청 헤더 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -43,7 +42,7 @@ public class ShinhanApiService {
         dataHeader.put("apikey", apiKey);
 
         Map<String, String> dataBody = new HashMap<>();
-        dataBody.put("계좌번호", accountNumber);
+        dataBody.put("계좌번호", account);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("dataHeader", dataHeader);

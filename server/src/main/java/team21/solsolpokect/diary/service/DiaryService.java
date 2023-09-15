@@ -40,7 +40,7 @@ public class DiaryService {
         if (user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
         // shinhanApiService.callShinhanApi() 메서드의 반환 타입은 ResponseEntity<String>입니다.
-        ResponseEntity<String> responseEntity = shinhanApiService.callShinhanApi();
+        ResponseEntity<String> responseEntity = shinhanApiService.callShinhanTransactionApi(user.get().getAccount());
 
         // ResponseEntity에서 실제 데이터를 추출
         String jsonData = responseEntity.getBody();
