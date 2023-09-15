@@ -67,11 +67,11 @@ public class Users extends BaseTime {
         this.family = family;
     }
 
-    public void updateCreditScore(int score) {
+    public void plusCreditScore(int score) {
         this.creditScore += score;
     }
 
-    public void updateMinusCreditScore(int score) {
+    public void minusCreditScore(int score) {
         this.creditScore -= score;
     }
 }

@@ -83,7 +83,7 @@ public class DiaryService {
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
         if (user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        user.get().updateCreditScore(requestDto.getDailyScore());
+        user.get().plusCreditScore(requestDto.getDailyScore());
 
         Diary diary = Diary.of(user.get(), StringToLocalDateTime(requestDto.getDate()), requestDto.getDailyScore());
         diaryRepository.save(diary);
@@ -96,8 +96,8 @@ public class DiaryService {
         Optional<Diary> diary = diaryRepository.findById(diaryId);
         if (diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
-        user.get().updateMinusCreditScore(diary.get().getDailyScore()); //기존 일일 점수 minus
-        user.get().updateCreditScore(requestDto.getDailyScore()); //새로운 일일 점수 plus
+        user.get().minusCreditScore(diary.get().getDailyScore()); //기존 일일 점수 minus
+        user.get().plusCreditScore(requestDto.getDailyScore()); //새로운 일일 점수 plus
         diary.get().scoreUpdate(requestDto.getDailyScore());
     }
 
