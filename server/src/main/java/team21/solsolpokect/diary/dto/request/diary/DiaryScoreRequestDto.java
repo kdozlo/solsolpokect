@@ -7,4 +7,5 @@ public class DiaryScoreRequestDto {
 
     private Long userId;
     private int dailyScore;
+    private String date;
 }
