@@ -83,6 +83,8 @@ public class DiaryService {
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
         if (user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
+        user.get().updateCreditScore(requestDto.getDailyScore());
+
         Diary diary = Diary.of(user.get(), StringToLocalDateTime(requestDto.getDate()), requestDto.getDailyScore());
         diaryRepository.save(diary);
     }
