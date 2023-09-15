@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, View, Text, TouchableWithoutFeedback, Animated } from 'react-native';
+import { Image, View, Text, TouchableWithoutFeedback, Animated, FlatList, StyleSheet } from 'react-native';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
@@ -12,8 +12,8 @@ import { dummyUser, dummyUsers } from '../../test/dummyData/user';
 // FlatList 사용도로고 리팩터링
 const FamilyList = ({ pageInfo }) => {
   const withoutUserList = dummyUsers.filter(user => dummyUser.userId !== user.userId);
-  let renderingFamilyList;
 
+  let renderingFamilyList;
   switch (pageInfo) {
     case 'AccountBook':
       renderingFamilyList = [dummyUser, ...withoutUserList];
@@ -26,30 +26,32 @@ const FamilyList = ({ pageInfo }) => {
   }
 
   // 선택된 유저는 transition을 통해서 좀 더 크게 표현하기 + 티어 높은 순으로 표현
-  const renderUserProfile = user => {
+  const renderUserProfile = ({ item }) => {
     switch (pageInfo) {
       case 'AccountBook':
-        return <AccountBookMember user={user} />;
+        return <AccountBookMember user={item} />;
       case 'ManagingPocketMoney':
-        return <PocketMoneyMember user={user} />;
+        return <PocketMoneyMember user={item} />;
     }
   };
 
   return (
-    <List>
-      {renderingFamilyList.map(user => {
-        return renderUserProfile(user);
-      })}
-    </List>
+    <FlatList
+      style={styles.familyList}
+      data={renderingFamilyList}
+      numColumns={renderingFamilyList.length}
+      keyExtractor={(_, index) => `member-${index}`}
+      renderItem={renderUserProfile}
+    />
   );
 };
 
-const List = styled.View`
-  width: 40%;
-  flex-direction: row;
-  align-self: flex-start;
-  margin-bottom: 20px;
-  justify-content: space-between;
-`;
+const styles = StyleSheet.create({
+  familyList: {
+    width: '40%',
+    marginBottom: 20,
+    backgroundColor: 'red',
+  },
+});
 
 export default FamilyList;

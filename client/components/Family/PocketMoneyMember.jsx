@@ -16,7 +16,7 @@ const PocketMoneyMember = ({ user }) => {
   const [accountNum, setAccountNum] = useRecoilState(transferAccountNumberAtom);
   const [bankIndex, setBankIndex] = useRecoilState(transferSelectedBankAtom);
 
-  console.log(user);
+  console.log(selectedUser);
   return (
     <TouchableWithoutFeedback
       disabled={false}

@@ -12,6 +12,7 @@ const info = require('../assets/icons/info.png');
 const internet = require('../assets/icons/internet.png');
 const more = require('../assets/icons/more.png');
 const phone = require('../assets/icons/phone.png');
+const plus = require('../assets/icons/plus.png');
 const reload = require('../assets/icons/reload.png');
 const scan = require('../assets/icons/scan.png');
 const send = require('../assets/icons/send.png');
@@ -36,4 +37,5 @@ export default {
   scan,
   send,
   user,
+  plus,
 };
