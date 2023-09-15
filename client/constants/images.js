@@ -1,6 +1,8 @@
 // Bank Logo
 const shinhan = require('../assets/images/bankLogo/shinhan.png');
 const background = require('../assets/images/background.png');
+const mascot = require('../assets/images/bankLogo/mascotBear.png');
+const TitleLogo = require('../assets/images/bankLogo/TitleLogo.png');
 
 // Family
 const daughter = require('../assets/images/family/daughter.png');
@@ -21,6 +23,10 @@ const CameraCloud = require('../assets/images/buttons/CameraCloud.png');
 const EmptyCloud = require('../assets/images/buttons/emptyCloud.png');
 const star = require('../assets/images/buttons/StarDesign.png');
 const Cam = require('../assets/images/buttons/CameraDesign.png');
+const Login = require('../assets/images/buttons/LoginButton.png');
+const Regist = require('../assets/images/buttons/RegistButton.png');
+const Id = require('../assets/images/buttons/IDbutton.png');
+const Password = require('../assets/images/buttons/PasswordButton.png');
 
 // user Tear
 const userGoldCard = require('../assets/images/user_gold_card.png');
@@ -43,8 +49,15 @@ export default {
   EmptyCloud,
   Cam,
   star,
+  Login,
+  Regist,
+  Id,
+  Password,
+
   // Bank logo
   shinhan,
+  mascot,
+  TitleLogo,
   // Family
   father,
   mather,

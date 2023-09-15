@@ -17,6 +17,7 @@ import QuestType3 from './pages/QuestType2';
 import QuestType2 from './pages/QuestType3';
 import SignUp from './pages/SignUp';
 import TransactionHistory from './pages/TransactionHistory';
+import FirstPage from './pages/FirstPage';
 
 const Stack = createNativeStackNavigator();
 const WIDTH = Dimensions.get('window').width;
@@ -26,8 +27,10 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Main">
+        <Stack.Navigator initialRouteName="FirstPage">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
+
+          <Stack.Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} />
           <Stack.Screen
@@ -104,7 +107,7 @@ export default function App() {
             }}
           />
 
-          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
           <Stack.Screen name="TransactionHistory" component={TransactionHistory} />
         </Stack.Navigator>
       </NavigationContainer>

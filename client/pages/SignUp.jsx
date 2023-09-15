@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,12 +12,39 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  ImageBackground,
 } from 'react-native';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { getAccountList } from '../services/apis/accountListAPI';
+import { atom, useRecoilState } from 'recoil';
+import axios from 'axios';
 
-const SignUp = ({ navigation }) => {
+export const usernameState = atom({
+  key: 'usernameState',
+  default: '',
+});
+
+export const userIdState = atom({
+  key: 'userIdState',
+  default: '',
+});
+
+export const userPasswordState = atom({
+  key: 'userPasswordState',
+  default: '',
+});
+
+export const userRoleState = atom({
+  key: 'userRoleState',
+  default: '',
+});
+
+const ICONS = {
+  0: images.background,
+};
+
+export const SignUp = ({ navigation }) => {
   // global States(can use in Project anywhere)
 
   // use in Page States(using in SignUP.jsx)
@@ -25,12 +53,52 @@ const SignUp = ({ navigation }) => {
   const [selectedAccount, setSelectedAccount] = React.useState(null); // 선택된 전화번호 나라
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const [selectedRole, setSelectedRole] = useState(null); // 선택된 역할
+  const [roleModalVisible, setRoleModalVisible] = useState(false);
+
+  const [username, setUsername] = useRecoilState(usernameState);
+  const [userPassword, setUserPassword] = useRecoilState(userPasswordState);
+
+  const userInfo = {
+    role: selectedRole,
+    username: username,
+    account: selectedAccount?.['계좌번호'],
+    userId: 'wjsaos2081',
+    password: userPassword,
+  };
+
+  const submit = async () => {
+    await axios
+      .post('http://3.39.248.247:8080/api/users/signup', {
+        role: userInfo.role,
+        username: userInfo.username,
+        account: userInfo.account,
+        userId: userInfo.userId,
+        password: userInfo.password,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.error(error.response);
+      });
+  };
+
   // Get AccountList
   useEffect(() => {
     // 마은에 안드는 코드.. 고치자!
     getAccountList().then(res => setAccountList(res));
-    console.log(accountList);
+    console.log(selectedAccount?.['계좌번호']);
   }, []);
+
+  const RoleList = [
+    { id: 1, role: 'parent', name: '부모' },
+    {
+      id: 2,
+      role: 'Child',
+      name: '자녀',
+    },
+  ];
 
   // UI Components
   // 1. 뒤로가기 버튼 컴포넌트
@@ -46,7 +114,8 @@ const SignUp = ({ navigation }) => {
           alignItems: 'center',
           marginTop: SIZES.padding * 6,
           paddingHorizontal: SIZES.padding * 2,
-        }}>
+        }}
+        onPress={() => navigation.goBack()}>
         <Image
           source={icons.back}
           resizeMode="contain"
@@ -102,6 +171,8 @@ const SignUp = ({ navigation }) => {
             placeholder="이름을 입력해주세요."
             placeholderTextColor={'black'}
             selectionColor={'black'} // 텍스트 입력의 강조 표시 및 커서 색상입니다.
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
 
@@ -148,9 +219,7 @@ const SignUp = ({ navigation }) => {
 
               {/* 신한 은행 계좌번호로 대체 예정*/}
               <View style={{ justifyContent: 'center', marginLeft: 5 }}>
-                <Text style={{ color: 'black', ...FONTS.body3 }}>
-                  {selectedAccount?.['계좌번호']}
-                </Text>
+                <Text style={{ color: 'black', ...FONTS.body3 }}>{selectedAccount?.['계좌번호']}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -174,6 +243,8 @@ const SignUp = ({ navigation }) => {
             placeholderTextColor={'black'}
             selectionColor={'black'}
             secureTextEntry={!showPassword}
+            value={userPassword}
+            onChangeText={setUserPassword}
           />
 
           {/* 비밀번호 표시 버튼 */}
@@ -196,6 +267,56 @@ const SignUp = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
+
+        {/* 역할 고르기 */}
+        <View style={{ marginTop: SIZES.padding * 2 }}>
+          <Text style={{ color: 'black', ...FONTS.body3 }}>가족 구성원 중 누구이신가요? </Text>
+
+          <View style={{ flexDirection: 'row' }}>
+            {/* 모달 띄우는 버튼 컴포넌트 */}
+            <TouchableOpacity
+              style={{
+                width: 100,
+                height: 50,
+                marginHorizontal: 5,
+                borderBottomColor: 'black',
+                borderBottomWidth: 1,
+                flexDirection: 'row',
+                ...FONTS.body2,
+              }}
+              onPress={() => setRoleModalVisible(true)}>
+              {/* 드롭 다운 아래 화살표(기호에 따라 표시) */}
+              <View style={{ justifyContent: 'center' }}>
+                <Image
+                  source={icons.down}
+                  style={{
+                    width: 10,
+                    height: 10,
+                    tintColor: 'black',
+                  }}
+                />
+              </View>
+
+              {/* 신한 은행 로고 넣어줄 예정 */}
+              <View style={{ justifyContent: 'center', marginLeft: 5 }}>
+                <Image
+                  source={images.usFlag} // 이 부분을 신한은행 로고로 변경
+                  resizeMode="contain"
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+
+              {/* 신한 은행 계좌번호로 대체 예정*/}
+              <View style={{ justifyContent: 'center', marginLeft: 5 }}>
+                <Text style={{ color: 'black', ...FONTS.body3 }}>{selectedRole}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* 역할 고르기 끝  */}
       </View>
     );
   }
@@ -212,8 +333,12 @@ const SignUp = ({ navigation }) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          onPress={() => navigation.navigate('Home')}>
-          <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Continue</Text>
+          onPress={() => {
+            // console.log(userInfo);
+            // submit();
+            navigation.navigate('Main');
+          }}>
+          <Text style={{ color: COLORS.white, ...FONTS.h3 }}>회원 가입!</Text>
         </TouchableOpacity>
       </View>
     );
@@ -231,9 +356,7 @@ const SignUp = ({ navigation }) => {
             setSelectedAccount(item);
             setModalVisible(false);
           }}>
-          <Text style={{ color: COLORS.black, ...FONTS.body4 }}>
-            {item['계좌번호']}
-          </Text>
+          <Text style={{ color: COLORS.black, ...FONTS.body4 }}>{item['계좌번호']}</Text>
         </TouchableOpacity>
       );
     };
@@ -272,22 +395,72 @@ const SignUp = ({ navigation }) => {
     );
   }
 
+  function renderRoleListModal() {
+    // 계좌 1개의 정보를 담는 컴포넌트
+    const RoleItem = ({ item: { id, role, name } }) => {
+      return (
+        <TouchableOpacity
+          style={{ padding: SIZES.padding, flexDirection: 'row' }}
+          onPress={() => {
+            setSelectedRole(name);
+            setRoleModalVisible(false);
+          }}>
+          <Text style={{ color: COLORS.black, ...FONTS.body4 }}>{name}</Text>
+        </TouchableOpacity>
+      );
+    };
+
+    return (
+      <Modal animationType="slide" transparent={true} visible={roleModalVisible}>
+        {/* 리스트 선택 화면 */}
+        <TouchableWithoutFeedback onPress={() => setRoleModalVisible(false)}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                height: 400,
+                width: SIZES.width * 0.8,
+                backgroundColor: COLORS.white,
+                borderRadius: SIZES.radius,
+              }}>
+              <FlatList
+                data={RoleList}
+                renderItem={RoleItem}
+                keyExtractor={id => `계좌-${id}`}
+                showsVerticalScrollIndicator={false}
+                style={{
+                  padding: SIZES.padding * 2,
+                  marginBottom: SIZES.padding * 2,
+                }}
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    );
+  }
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : null}
-      style={{ flex: 1 }}>
-      {/* <LinearGradient
+    <ImageBackground source={ICONS[0]} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : null} style={{ flex: 1 }}>
+        {/* <LinearGradient
         colors={[COLORS.lime, COLORS.emerald]}
         style={{ flex: 1 }}> */}
-      <ScrollView>
-        {renderHeader({ title: 'SignUp' })}
-        {/* { renderLogo()} */}
-        {renderForm()}
-        {renderButton()}
-      </ScrollView>
-      {renderAccountListModal()}
-      {/* </LinearGradient> */}
-    </KeyboardAvoidingView>
+        <ScrollView>
+          {renderHeader({ title: 'SignUp' })}
+          {/* { renderLogo()} */}
+          {renderForm()}
+          {renderButton()}
+        </ScrollView>
+        {renderAccountListModal()}
+        {renderRoleListModal()}
+        {/* </LinearGradient> */}
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
