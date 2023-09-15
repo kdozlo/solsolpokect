@@ -16,13 +16,13 @@ public class TimeChecking {
     private long afterTime = 0L;
 
     // 해당 경로의 모든 메서드 실행시 aop 동작, nochecking annotation을 해당 경로의 메서드에 추가시 aop 동작x
-    @Before("execution(* com..service..*(..))")
+    @Before("execution(* team21..service..*(..))")
     public void beforeMethod() {
         beforeTime = System.currentTimeMillis();
         log.info("코드 실행 이전");
     }
 
-    @After("execution(* com..service..*(..))")
+    @After("execution(* team21..service..*(..))")
     public void afterMethod() {
         afterTime = System.currentTimeMillis();
         log.info("코드 실행 시간 = {}", (afterTime - beforeTime));
