@@ -70,4 +70,8 @@ public class Users extends BaseTime {
     public void updateCreditScore(int score) {
         this.creditScore += score;
     }
+
+    public void updateMinusCreditScore(int score) {
+        this.creditScore -= score;
+    }
 }
