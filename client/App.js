@@ -12,6 +12,7 @@ import ChooseQuest from './pages/ChooseQuest';
 import Detail from './pages/Detail';
 import Main from './pages/Main';
 import MakingQuest from './pages/MakingQuest';
+import ManagingPocketMoney from './pages/ManagingPocketMoney';
 import QuestType1 from './pages/QuestType1';
 import QuestType3 from './pages/QuestType2';
 import QuestType2 from './pages/QuestType3';
@@ -29,7 +30,7 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SelectAccount">
+        <Stack.Navigator initialRouteName="ManagingPocketMoney">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="AccountBook" component={AccountBook} options={{ headerShown: false }} />
@@ -37,6 +38,7 @@ export default function App() {
           <Stack.Screen name="SelectMoney" component={SelectMoney} options={{ headerShown: false }} />
           <Stack.Screen name="CheckTransferInfo" component={CheckTransferInfo} options={{ headerShown: false }} />
           <Stack.Screen name="TransferSuccess" component={TransferSuccess} options={{ headerShown: false }} />
+          <Stack.Screen name="ManagingPocketMoney" component={ManagingPocketMoney} options={{ headerShown: false }} />
 
           <Stack.Screen
             name="Calender"
