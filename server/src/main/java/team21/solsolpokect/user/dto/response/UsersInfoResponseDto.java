@@ -6,6 +6,8 @@ import lombok.Getter;
 @Getter
 public class UsersInfoResponseDto {
 
+    private Long id;
+    private String userId;
     private String role;
     private String username;
     private Long familyId;
@@ -13,7 +15,9 @@ public class UsersInfoResponseDto {
     private int creditScore;
 
     @Builder
-    private UsersInfoResponseDto(String role, String username, Long familyId, String account, int creditScore) {
+    private UsersInfoResponseDto(Long id, String userId, String role, String username, Long familyId, String account, int creditScore) {
+        this.id = id;
+        this.userId=userId;
         this.role = role;
         this.username = username;
         this.familyId = familyId;
@@ -21,8 +25,10 @@ public class UsersInfoResponseDto {
         this.creditScore = creditScore;
     }
 
-    public static UsersInfoResponseDto of(String role, String username, Long familyId, String account, int creditScore) {
+    public static UsersInfoResponseDto of(Long id, String userId, String role, String username, Long familyId, String account, int creditScore) {
         return builder()
+                .id(id)
+                .userId(userId)
                 .role(role)
                 .username(username)
                 .familyId(familyId)
