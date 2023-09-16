@@ -3,10 +3,11 @@ package team21.solsolpokect.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
+import team21.solsolpokect.common.handler.TransactionHandler;
 import team21.solsolpokect.common.jwt.JwtUtil;
+import team21.solsolpokect.common.redis.RedisLockRepository;
 import team21.solsolpokect.user.dto.request.LoginRequestDto;
 import team21.solsolpokect.user.dto.request.SignupRequestDto;
 import team21.solsolpokect.user.dto.response.UsersInfoResponseDto;
@@ -18,14 +19,24 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UsersService {
 
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final RedisLockRepository redisLockRepository;
+    private final TransactionHandler transactionHandler;
 
     public void signup(SignupRequestDto requestDto) {
+        if (requestDto.getUserId() == null) {
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+        }
+        redisLockRepository.runOnLock(
+                requestDto.getUserId(),
+                () -> transactionHandler.runOnWriteTransaction(() -> signupLogic(requestDto)));
+    }
+
+    public Void signupLogic(SignupRequestDto requestDto) {
 
         if (!requestDto.getRole().equals("부모") && !requestDto.getRole().equals("자녀")) {
             throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
@@ -40,6 +51,7 @@ public class UsersService {
 
         Users users = Users.of(requestDto.getUserId(), encodePw, requestDto.getRole(), requestDto.getAccount(), requestDto.getUsername());
         usersRepository.save(users);
+        return null;
     }
 
     public UsersInfoResponseDto login(LoginRequestDto requestDto, HttpServletResponse response) {
