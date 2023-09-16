@@ -32,15 +32,33 @@ public class MissionService {
     private final S3Uploader s3Uploader;
 
     public void missionCreate(Long userId, MissionCreateRequestDto missionCreateRequestDto) {
-        Optional<Users> child = usersRepository.findByIdAndDeletedAtIsNull(missionCreateRequestDto.getUserId()); //자녀
-        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId); //현재 로그인 사용자
+        //미션 종류 에러 처리
+        if(missionCreateRequestDto.getCategory() > 1)
+            throw new CustomException(ErrorType.NOT_CREATE_MISSION);
 
+        Optional<Users> child = usersRepository.findByIdAndDeletedAtIsNull(missionCreateRequestDto.getUserId()); //자녀
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId); //현재 로그인 사용자, 미션 작성자
+
+        //미션 하는 사람의 유저 정보 확인, 미션 작성자의 유저 정보 확인
         if(child.isEmpty() || user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
+        //미션 하는 사람의 유저가 자녀가 아닌 경우
+        if(!child.get().getRole().equals("자녀"))
+            throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
+
         boolean allow = false;
-        if(user.get().getRole().equals("부모"))
+        //미션 작성자의 role
+        if(user.get().getRole().equals("부모")) {
+                if(!child.get().getFamily().getId().equals(user.get().getFamily().getId()))
+                    throw new CustomException(ErrorType.NOT_FOUND_FAMILY);
             allow = true;
+        } else if(user.get().getRole().equals("자녀")) {
+            if (!user.get().getId().equals(child.get().getId()))
+                throw new CustomException(ErrorType.NOT_MATCHING_INFO);
+        } else {
+            throw new CustomException(ErrorType.NOT_VALID_USER);
+        }
 
         missionRepository.save(Mission.of(child.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), allow, false, missionCreateRequestDto.getGoal(), missionCreateRequestDto.getCategory()));
     }
