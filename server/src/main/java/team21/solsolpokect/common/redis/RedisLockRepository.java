@@ -36,7 +36,7 @@ public class RedisLockRepository {
         return key;
     }
 
-    public <T> void runOnLock(String key, Supplier<T> task) {
+    public <T> void runOnLock(Object key, Supplier<T> task) {
         RLock lock = redissonClient.getLock("EnterLock" + key);
         try {
             //선행 락 점유 스레드가 존재하면 waitTime동안 락 점유를 기다리며 leaseTime 시간 이후로는 자동으로 락이 해제되기 때문에 다른 스레드도 일정 시간이 지난 후 락을 점유할 수 있습니다.

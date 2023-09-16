@@ -6,12 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.entity.DateUtils;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
+import team21.solsolpokect.common.handler.TransactionHandler;
+import team21.solsolpokect.common.redis.RedisLockRepository;
 import team21.solsolpokect.diary.dto.request.feedback.FeedbackRequestDto;
 import team21.solsolpokect.diary.dto.response.feedback.FeedbackInfosResponseDto;
 import team21.solsolpokect.diary.entity.Diary;
 import team21.solsolpokect.diary.entity.Feedback;
 import team21.solsolpokect.diary.repository.DiaryRepository;
 import team21.solsolpokect.diary.repository.FeedbackRepository;
+import team21.solsolpokect.user.dto.request.SignupRequestDto;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
@@ -21,14 +24,24 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
     private final UsersRepository usersRepository;
     private final DiaryRepository diaryRepository;
+    private final RedisLockRepository redisLockRepository;
+    private final TransactionHandler transactionHandler;
 
     public void feedbackCreate(FeedbackRequestDto requestDto) {
+        if (requestDto.getUserId() == null) {
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+        }
+        redisLockRepository.runOnLock(
+                requestDto.getUserId(),
+                () -> transactionHandler.runOnWriteTransaction(() -> feedbackCreateLogic(requestDto)));
+    }
+
+    public Void feedbackCreateLogic(FeedbackRequestDto requestDto) {
 
 //        if (!now().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
 //            throw new CustomException(ErrorType.TODAY_IS_NOT_SUNDAY);
@@ -46,8 +59,10 @@ public class FeedbackService {
         if(diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
         diary.get().feedbackUpdate(feedback);
+        return null;
     }
 
+    @Transactional
     public void feedbackUpdate(Long feedbackId, FeedbackRequestDto requestDto) {
 
         Optional<Feedback> feedback = feedbackRepository.findByIdAndDeletedAtIsNull(feedbackId);
