@@ -15,7 +15,6 @@ import team21.solsolpokect.diary.repository.FeedbackRepository;
 import team21.solsolpokect.user.entity.Users;
 import team21.solsolpokect.user.repository.UsersRepository;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,7 +72,14 @@ public class FeedbackService {
         Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(userId);
         if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        List<Feedback> feedbackList = feedbackRepository.findAllByUsersAndCreatedAtBetweenAndDeletedAtIsNull(users.get(), DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
+        List<Diary> diaryList = diaryRepository.findAllByUsersAndDailyDateBetween(users.get(), DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
+        List<Feedback> feedbackList = new ArrayList<>();
+
+        for(Diary d : diaryList) {
+            if(d.getFeedback() != null)
+                feedbackList.add(d.getFeedback());
+        }
+
         List<FeedbackInfosResponseDto> answer = new ArrayList<>();
         for(Feedback f : feedbackList){
             if (f != null) {
