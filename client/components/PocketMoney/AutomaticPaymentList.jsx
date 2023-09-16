@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Pressable, StyleSheet, Text, Image, FlatList } from 'react-native';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import HamburgerModal from './HamburgerModal';
 import { icons } from '../../constants';
+import { accountUserAtom } from '../../recoil/accountBook';
 import {
   automaticCurrentMoneyAtom,
   automaticPaymentItemAtom,
@@ -11,28 +12,26 @@ import {
   pocketMoneyModalAtom,
 } from '../../recoil/pocketMoney';
 import { getAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
-import { dummyPaymentList } from '../../test/dummyData/managingPocketMoney';
-import { parentDummyUser } from '../../test/dummyData/user';
 
 const AutomaticPaymentList = () => {
+  const selectedUserId = useRecoilValue(accountUserAtom);
   const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
   // const [automaticPaymentList, setAutomaticPaymentList] = useState();
-  useEffect(() => {
-    setAutomaticPaymentList(dummyPaymentList);
-  }, []);
+  // useEffect(() => {
+  //   setAutomaticPaymentList(dummyPaymentList);
+  // }, []);
 
   const [modifyModalVisible, setModifyModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(0);
 
   // 정기용돈 리스트 받아오기
   const getPaymentData = async () => {
-    const result = await getAutomaticPaymentList(parentDummyUser.id);
+    const result = await getAutomaticPaymentList(selectedUserId);
     setAutomaticPaymentList(result);
   };
   useEffect(() => {
     getPaymentData();
-    // console.log(automaticPaymentList);
-  }, []);
+  }, [selectedUserId]);
 
   // 헤더 컴포넌트
   const renderHeader = () => {
@@ -75,6 +74,7 @@ const AutomaticPaymentList = () => {
 
   return (
     <FlatList
+      style={styles.container}
       data={automaticPaymentList}
       keyExtractor={(_, index) => `autoPay-${index}`}
       ListHeaderComponent={renderHeader}
@@ -84,6 +84,7 @@ const AutomaticPaymentList = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {},
   header: {},
   paymentItem: {},
   modifyButton: {

@@ -136,7 +136,7 @@ const PocketMoneyModal = () => {
                       parseInt(parentDummyUser.id),
                       selectedUserInfo.account,
                     );
-                    console.log('result', result);
+                    // console.log('result', result);
                     setAutomaticPaymentList(pre => [...pre, result]);
                   }
                 }}>

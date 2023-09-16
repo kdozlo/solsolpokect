@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
@@ -19,11 +19,12 @@ const PocketMoneyMember = ({ user }) => {
   // console.log('selectedID', selectedUserId);
   return (
     <TouchableWithoutFeedback
+      style={styles.container}
       disabled={false}
       key={user.userId}
       onPress={() => {
         setSelectedUser(pre => {
-          return user.userId;
+          return user.id;
         });
         setBankIndex(pre => 0);
         setAccountNum(pre => user.account);
@@ -31,10 +32,16 @@ const PocketMoneyMember = ({ user }) => {
       }}>
       <View style={{ transform: [{ scale: user.id === selectedUserId ? 1.5 : 1 }] }}>
         <Image source={images.father} />
-        <Text style={{ color: 'black' }}>{user.name}</Text>
+        <Text style={{ color: 'black' }}>{user.username}</Text>
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginRight: 50,
+  },
+});
 
 export default PocketMoneyMember;

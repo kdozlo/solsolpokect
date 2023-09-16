@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Image, Pressable, Text, View, StyleSheet } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 
@@ -7,16 +7,24 @@ import GoBackHeader from '../components/GoBackHeader';
 import AutomaticPaymentList from '../components/PocketMoney/AutomaticPaymentList';
 import PocketMoneyModal from '../components/PocketMoney/PocketMoneyModal';
 import { COLORS, icons } from '../constants';
+import { accountUserAtom } from '../recoil/accountBook';
 import { pocketMoneyModalAtom } from '../recoil/pocketMoney';
 
 const ManagingPocketMoney = ({ navigation }) => {
   const setModalVisible = useSetRecoilState(pocketMoneyModalAtom);
+  const setSelectedUserId = useSetRecoilState(accountUserAtom);
+
+  useEffect(() => {
+    setSelectedUserId(null);
+  });
 
   return (
     <View style={styles.container}>
       <GoBackHeader title={'용돈 관리'} navigation={navigation} />
       <FamilyList pageInfo={'ManagingPocketMoney'} />
-      <AutomaticPaymentList />
+      <View>
+        <AutomaticPaymentList />
+      </View>
       <Pressable style={styles.plusButton} onPress={() => setModalVisible(true)}>
         <Image source={icons.plus} style={styles.plusImage} />
       </Pressable>
@@ -28,7 +36,7 @@ const ManagingPocketMoney = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     backgroundColor: 'pink',
   },
   header: {},

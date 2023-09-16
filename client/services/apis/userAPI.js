@@ -13,8 +13,6 @@ export const getUserInfo = async userId => {
   // 일반 계좌만 받아오도록 필터링
   if (userInfoRes.ok) {
     const result = await userInfoRes.json();
-    console.log('userInfo', result.data);
-    console.log('호출성공');
 
     return result.data;
   }

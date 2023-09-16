@@ -18,7 +18,7 @@ export const getFamilyMemberIdList = async userId => {
     const result = await familyInfoRes.json();
 
     console.log('familyAPI data', result.data.usersId);
-    return result;
+    return result.data;
   }
   return null;
 };
