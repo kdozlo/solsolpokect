@@ -13,32 +13,12 @@ import {
   ScrollView,
   Platform,
   ImageBackground,
+  Alert,
 } from 'react-native';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { getAccountList } from '../services/apis/accountListAPI';
-import { atom, useRecoilState } from 'recoil';
 import axios from 'axios';
-
-export const usernameState = atom({
-  key: 'usernameState',
-  default: '',
-});
-
-export const userIdState = atom({
-  key: 'userIdState',
-  default: '',
-});
-
-export const userPasswordState = atom({
-  key: 'userPasswordState',
-  default: '',
-});
-
-export const userRoleState = atom({
-  key: 'userRoleState',
-  default: '',
-});
 
 const ICONS = {
   0: images.background,
@@ -56,20 +36,21 @@ export const SignUp = ({ navigation }) => {
   const [selectedRole, setSelectedRole] = useState(null); // 선택된 역할
   const [roleModalVisible, setRoleModalVisible] = useState(false);
 
-  const [username, setUsername] = useRecoilState(usernameState);
-  const [userPassword, setUserPassword] = useRecoilState(userPasswordState);
+  const [username, setUsername] = useState('');
+  const [userID, setUserID] = useState('');
+  const [userPassword, setUserPassword] = useState('');
 
   const userInfo = {
     role: selectedRole,
     username: username,
     account: selectedAccount?.['계좌번호'],
-    userId: 'wjsaos2081',
+    userId: userID,
     password: userPassword,
   };
 
   const submit = async () => {
     await axios
-      .post('http://3.39.248.247:8080/api/users/signup', {
+      .post('http://3.34.50.120:8080/api/users/signup', {
         role: userInfo.role,
         username: userInfo.username,
         account: userInfo.account,
@@ -77,10 +58,18 @@ export const SignUp = ({ navigation }) => {
         password: userInfo.password,
       })
       .then(function (response) {
-        console.log(response);
+        console.log(response.data.data);
+        navigation.navigate('FirstPage');
       })
       .catch(function (error) {
-        console.error(error.response);
+        console.log(userInfo.userId);
+        const msg = error.response.data.error.msg;
+        Alert.alert(msg, '', [
+          {
+            text: '돌아가기',
+            style: 'cancel',
+          },
+        ]);
       });
   };
 
@@ -173,6 +162,34 @@ export const SignUp = ({ navigation }) => {
             selectionColor={'black'} // 텍스트 입력의 강조 표시 및 커서 색상입니다.
             value={username}
             onChangeText={setUsername}
+          />
+        </View>
+
+        <View
+          style={{
+            marginTop: SIZES.padding * 3,
+          }}>
+          <Text
+            style={{
+              color: 'black',
+              ...FONTS.body3,
+            }}>
+            계정 아이디
+          </Text>
+          <TextInput
+            style={{
+              marginVertical: SIZES.padding,
+              borderBottomColor: 'black',
+              borderBottomWidth: 1,
+              height: 40,
+              color: 'black',
+              ...FONTS.body3,
+            }}
+            placeholder="아이디를 입력해주세요."
+            placeholderTextColor={'black'}
+            selectionColor={'black'} // 텍스트 입력의 강조 표시 및 커서 색상입니다.
+            value={userID}
+            onChangeText={setUserID}
           />
         </View>
 
@@ -335,8 +352,7 @@ export const SignUp = ({ navigation }) => {
           }}
           onPress={() => {
             // console.log(userInfo);
-            // submit();
-            navigation.navigate('Main');
+            submit();
           }}>
           <Text style={{ color: COLORS.white, ...FONTS.h3 }}>회원 가입!</Text>
         </TouchableOpacity>
@@ -381,7 +397,7 @@ export const SignUp = ({ navigation }) => {
               <FlatList
                 data={accountList}
                 renderItem={accountItem}
-                keyExtractor={(account, index) => `계좌-${index}`}
+                keyExtractor={(account, index) => `계좌-${index++}`}
                 showsVerticalScrollIndicator={false}
                 style={{
                   padding: SIZES.padding * 2,
