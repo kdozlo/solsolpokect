@@ -1,42 +1,67 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Alert } from 'react-native';
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import UserInfo, {
+  DB_KEYState,
+  QuestListState,
+  appealState,
+  missionNameState,
+  nameListState,
+  nameState,
+  rewardState,
+  URL,
+} from '../recoil/UserInfo';
+import axios from 'axios';
 
 const ASYNC_KEY = {
   QUESTLIST: 'questList',
 };
 
-export const QuestListState = atom({
-  key: 'QuestListState',
-  default: [
-    {
-      id: -1,
-      type: 3,
-    },
-  ],
-});
-
-export const nameState = atom({
-  key: 'nameState',
-  default: '',
-});
-export const missionNameState = atom({
-  key: 'missionNameState',
-  default: '',
-});
-export const rewardState = atom({
-  key: 'rewardState',
-  default: '',
-});
-export const appealState = atom({
-  key: 'appealState',
-  default: '',
-});
-
 export const useQuestList = () => {
+  const { nameList, setNameList, missionName, setMissionName, reward, setReward, appeal, setAppeal } = UserInfo();
+
+  const DB_KEY = useRecoilValue(DB_KEYState);
+
+  // 가족 정보를 리스트에서 하나씩 빼와서 만드는 함수
+  const getFamilyInfo = async () => {
+    await axios
+      .get(`http://${URL}/api/family/info/${DB_KEY}`)
+      .then(function (response) {
+        const v = response.request._response;
+        const ParsedV = JSON.parse(v);
+
+        const id = ParsedV.data.usersId;
+        const usersName = ParsedV.data.usersName;
+        const roles = ParsedV.data.roles;
+
+        console.log(id.length);
+
+        const familyList = [];
+
+        for (let i = 0; i < id.length; i++) {
+          let element1 = id[i];
+          let element2 = usersName[i];
+          let element3 = roles[i];
+
+          const newArray = [element1, element2, element3];
+
+          console.log(newArray);
+
+          familyList.push(newArray);
+        }
+
+        setNameList(familyList);
+
+        console.log(nameList);
+      })
+      .catch(function (error) {
+        console.error(error.response);
+      });
+  };
+
   const DATA = [
     // {
     //   id: 1,
@@ -59,7 +84,7 @@ export const useQuestList = () => {
     },
     {
       id: 4,
-      type: name,
+      type: nameList,
       title: '이 도전을 할 사람은?',
       holder: '도전할 사람의 이름을 적어주세요!',
     },
@@ -74,10 +99,6 @@ export const useQuestList = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('');
   const [dateInputVisible, setDateInputVisible] = useState(0);
-  const [name, setName] = useRecoilState(nameState);
-  const [missionName, setMissionName] = useRecoilState(missionNameState);
-  const [reward, setReward] = useRecoilState(rewardState);
-  const [appeal, setAppeal] = useRecoilState(appealState);
 
   const questList = useRecoilValue(QuestListState);
   const setQuestList = useSetRecoilState(QuestListState);
@@ -103,8 +124,6 @@ export const useQuestList = () => {
 
   const storeAndsetQuestList = newQuestList => {
     setQuestList(newQuestList);
-    AsyncStorage.setItem(ASYNC_KEY.QUESTLIST, JSON.stringify(newQuestList));
-    // console.log(questList);
   };
 
   const deleteList = listId => {
@@ -125,23 +144,6 @@ export const useQuestList = () => {
     ]);
   };
 
-  const initList = async () => {
-    const defaultList = {
-      id: -1,
-      type: 3,
-    };
-    const listFromStroage = await AsyncStorage.getItem(ASYNC_KEY.QUESTLIST);
-
-    if (listFromStroage !== null) {
-      const parsedList = JSON.parse(listFromStroage);
-      setQuestList([...parsedList]);
-    }
-  };
-
-  useEffect(() => {
-    initList();
-  }, []);
-
   return {
     DATA,
     isDatePickerVisible,
@@ -153,13 +155,14 @@ export const useQuestList = () => {
     questList,
     storeAndsetQuestList,
     deleteList,
-    setName,
+    setNameList,
     setMissionName,
     setReward,
     setAppeal,
-    name,
+    nameList,
     missionName,
     reward,
     appeal,
+    getFamilyInfo,
   };
 };

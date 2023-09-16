@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-var */
 /* eslint-disable prettier/prettier */
 import { useState } from 'react';
 import {
@@ -10,6 +12,7 @@ import {
   TouchableOpacity,
   Appearance,
   Button,
+  Image,
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
@@ -17,38 +20,19 @@ import { useQuestList } from '../hooks/use-questList';
 import useCamera from '../hooks/use-camera';
 import CameraModal from '../components/CameraModal';
 import TakeOrShowPic from '../components/TakeOrShowPic';
+import { images } from '../constants';
+import { useRecoilValue } from 'recoil';
+import { DB_KEYState, URL } from '../recoil/UserInfo';
+import axios, { toFormData } from 'axios';
+
+const icons = {
+  1: images.GoalTitle,
+  2: images.RewardScore,
+  3: images.DetailTitle,
+  4: images.PictureTitle,
+};
 
 export default ({ navigation, route }) => {
-  const { appeal, date, missionName, reward, name } = route.params;
-  const DATA = [
-    {
-      id: 1,
-      title: '목표 기한',
-      content: date,
-    },
-    {
-      id: 2,
-      title: '도전내용',
-      content: missionName,
-    },
-
-    {
-      id: 3,
-      title: '보상 내용',
-      content: reward,
-    },
-    {
-      id: 4,
-      title: '도전자',
-      content: name,
-    },
-    {
-      id: 5,
-      title: 'NPC가 남긴 말',
-      content: appeal,
-    },
-  ];
-
   const {
     image,
     cameraRef,
@@ -59,12 +43,36 @@ export default ({ navigation, route }) => {
     photoAlready,
     onPressToggle,
     onPressCamera,
+    submit,
   } = useCamera();
+  const { goal, missionName, picture, reward, missionId } = route.params;
 
-  const renderItem = ({ item: { title, content } }) => {
+  const DB_KEY = useRecoilValue(DB_KEYState);
+
+  const DATA = [
+    {
+      id: 1,
+      content: missionName,
+    },
+    {
+      id: 2,
+      content: reward,
+    },
+
+    {
+      id: 3,
+      content: goal,
+    },
+    {
+      id: 4,
+      content: picture,
+    },
+  ];
+
+  const renderItem = ({ item: { id, content } }) => {
     return (
       <View style={styles.forView}>
-        <Text style={styles.forText}>{title}</Text>
+        <Image source={icons[id]} style={{ width: 200, height: 50 }} />
         <Text style={styles.forText}>{content}</Text>
       </View>
     );
@@ -88,7 +96,7 @@ export default ({ navigation, route }) => {
       <TouchableOpacity
         style={styles.forLastButton}
         onPress={() => {
-          navigation.navigate(`Main`);
+          submit();
         }}>
         <Text style={styles.forLastText}> 제출하기</Text>
       </TouchableOpacity>
@@ -99,8 +107,6 @@ export default ({ navigation, route }) => {
 const styles = StyleSheet.create({
   forFullScreen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 
   forView: {
@@ -130,7 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#3D70FF',
   },
   forLastButton: {
-    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#3D70FF',

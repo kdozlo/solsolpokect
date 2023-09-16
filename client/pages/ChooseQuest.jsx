@@ -6,6 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import MakingQuest from './MakingQuest';
+import { useQuestList } from '../hooks/use-questList';
 
 const icons = {
   0: images.background,
@@ -14,6 +15,8 @@ const icons = {
 };
 
 export default ({ navigation }) => {
+  const { getFamilyInfo } = useQuestList();
+
   return (
     <Pressable onPress={() => navigation.goBack()} style={styles.fullScreen}>
       <View>
@@ -25,7 +28,8 @@ export default ({ navigation }) => {
           style={styles.forTouchable}
           onPress={() => {
             navigation.goBack();
-            navigation.navigate('MakingQuest', { type: 2 });
+            navigation.navigate('MakingQuest', { category: 1 });
+            getFamilyInfo();
           }}>
           <Image source={icons[2]} style={styles.forImage} />
         </TouchableOpacity>
@@ -34,7 +38,8 @@ export default ({ navigation }) => {
           style={styles.forTouchable}
           onPress={() => {
             navigation.goBack();
-            navigation.navigate('MakingQuest', { type: 1 });
+            navigation.navigate('MakingQuest', { category: 0 });
+            getFamilyInfo();
           }}>
           <Image source={icons[1]} style={styles.forImage} />
         </TouchableOpacity>

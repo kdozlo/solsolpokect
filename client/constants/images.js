@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/order */
 // Bank Logo
 const background = require('../assets/images/background.png');
 const TitleLogo = require('../assets/images/bankLogo/TitleLogo.png');
@@ -30,6 +32,13 @@ const questPlus = require('../assets/images/quest_plus.png');
 const questStar = require('../assets/images/quest_star.png');
 
 // 버튼쓰
+
+//제목쓰
+const DetailTitle = require('../assets/images/TitleList/DetailTitle.png');
+const GoalTitle = require('../assets/images/TitleList/GoalTitle.png');
+const PictureTitle = require('../assets/images/TitleList/PictureTitle.png');
+const QuestCountTitle = require('../assets/images/TitleList/QuestCount.png');
+const RewardScore = require('../assets/images/TitleList/rewardScore.png');
 
 // user Tear
 const userGoldCard = require('../assets/images/user_gold_card.png');
@@ -69,4 +78,11 @@ export default {
   son,
 
   background,
+
+  //제목쓰
+  DetailTitle,
+  GoalTitle,
+  PictureTitle,
+  QuestCountTitle,
+  RewardScore,
 };

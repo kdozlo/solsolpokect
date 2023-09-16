@@ -10,46 +10,41 @@ import {
   TouchableOpacity,
   Appearance,
   Button,
+  Image,
 } from 'react-native';
 
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
 import { useQuestList } from '../hooks/use-questList';
+import { images } from '../constants';
+
+const icons = {
+  1: images.GoalTitle,
+  2: images.RewardScore,
+  3: images.DetailTitle,
+};
 
 export default ({ navigation, route }) => {
-  const { appeal, date, missionName, reward, name } = route.params;
+  const { goal, missionName, picture, reward } = route.params;
   const DATA = [
     {
       id: 1,
-      title: '목표 기한',
-      content: date,
+      content: missionName,
     },
     {
       id: 2,
-      title: '도전 내용',
-      content: missionName,
+      content: reward,
     },
 
     {
       id: 3,
-      title: '보상이 여러분을 기다려요...',
-      content: reward,
-    },
-    {
-      id: 4,
-      title: '도전자',
-      content: name,
-    },
-    {
-      id: 5,
-      title: '퀘스트 NPC가 남긴 말...',
-      content: appeal,
+      content: goal,
     },
   ];
 
-  const renderItem = ({ item: { title, content } }) => {
+  const renderItem = ({ item: { id, content } }) => {
     return (
       <View style={styles.forView}>
-        <Text style={styles.forText}>{title}</Text>
+        <Image source={icons[id]} style={{ width: 200, height: 50 }} />
         <Text style={styles.forText}>{content}</Text>
       </View>
     );
