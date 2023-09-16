@@ -158,12 +158,16 @@ public class MissionService {
     public void missionAllowPicture(Long missionId, Long userId, MultipartFile picture) throws IOException {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
+        //없는 미션인 경우
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
+        //미션을 하는 당사자가 아닌 경우
         if(mission.get().getId()!=userId){
             throw new CustomException(ErrorType.NOT_MATCHING_INFO);
         }
+
+        //사진이 없는 경우
         if(picture.isEmpty())
             throw new CustomException(ErrorType.PICTURE_IS_NULL);
 
@@ -173,11 +177,22 @@ public class MissionService {
 
     }
 
-    public void missionComplete(Long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {
+    public void missionComplete(Long userId, Long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
-
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        Optional<Users> parent = usersRepository.findByIdAndDeletedAtIsNull(userId);
+        if(parent.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        //부모가 아닌 경우
+        if(!parent.get().getRole().equals("부모"))
+            throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
+
+        //같은 가족이 아닌 경우
+        if(!parent.get().getFamily().getId().equals(mission.get().getUser().getFamily().getId()))
+            throw new CustomException(ErrorType.NOT_MATCHING_FAMILY);
 
         mission.get().getUser().plusCreditScore(mission.get().getReward());
 
