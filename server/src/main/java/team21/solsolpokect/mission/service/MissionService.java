@@ -20,6 +20,7 @@ import team21.solsolpokect.user.repository.UsersRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -157,7 +158,7 @@ public class MissionService {
         missionRepository.delete(mission.get());
     }
 
-    public void missionAllowPicture(Long missionId, Long userId, MultipartFile picture) throws IOException {
+    public void missionAllowPicture(Long missionId, Long userId, MultipartFile file) throws IOException {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         //없는 미션인 경우
@@ -165,15 +166,15 @@ public class MissionService {
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
         //미션을 하는 당사자가 아닌 경우
-        if(mission.get().getId()!=userId){
+        if(!mission.get().getUser().getId().equals(userId)){
             throw new CustomException(ErrorType.NOT_MATCHING_INFO);
         }
 
         //사진이 없는 경우
-        if(picture.isEmpty())
+        if(file.isEmpty())
             throw new CustomException(ErrorType.PICTURE_IS_NULL);
 
-        String imgUrl = s3Uploader.upload(picture);
+        String imgUrl = s3Uploader.upload(file)+".jpg";
 
         mission.get().updatePicture(imgUrl);
 

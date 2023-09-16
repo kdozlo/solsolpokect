@@ -54,14 +54,14 @@ public class MissionController {
     }
 
     @PutMapping("/allow-picture/{user-id}/{mission-id}")
-    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("user-id") long userId, @PathVariable("mission-id") Long missionId,
-                                                    @RequestPart MultipartFile picture) throws IOException {
-        missionService.missionAllowPicture(missionId, userId, picture);
+    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("user-id") Long userId, @PathVariable("mission-id") Long missionId,
+                                                    @RequestPart MultipartFile file) throws IOException {
+        missionService.missionAllowPicture(missionId, userId, file);
         return ResponseUtils.ok(MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
     }
 
     @PutMapping("/complete/{user-id}/{mission-id}")
-    public ApiResponseDto<Void> missionComplete(@PathVariable("user-id") long userId, @PathVariable("mission-id") Long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
+    public ApiResponseDto<Void> missionComplete(@PathVariable("user-id") Long userId, @PathVariable("mission-id") Long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
         missionService.missionComplete(userId, missionId, missionCompleteRequestDto);
         return ResponseUtils.ok(MsgType.MISSION_COMPLETE_SUCCESSFULLY);
     }
