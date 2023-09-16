@@ -54,4 +54,25 @@ export const addAutomaticPaymentList = async (autoDate, money, userId, childAcco
   return null;
 };
 
+// 자동 이체 삭제 api
+export const deleteAutomaticPaymentList = async transferId => {
+  const deleteRes = await fetch(`http://${SOLSOL_URL}/api/auto-transfer/${transferId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json; charset = UTF-8',
+    },
+  });
+
+  // 삭제 성공
+  if (deleteRes.ok) {
+    console.log('삭제 성공');
+    const result = await deleteRes.json();
+    return result.msg;
+  } else {
+    console.log('삭제 실패');
+  }
+
+  return null;
+};
+
 export const updateAutomaticPaymentList = () => {};

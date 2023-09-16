@@ -1,13 +1,16 @@
 import React, { forwardRef, useState } from 'react';
 import { View, Text, Modal, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { COLORS, SIZES } from '../../constants';
-import { automaticPaymentItemAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import { automaticPaymentItemAtom, automaticPaymentListAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import { deleteAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
+import { DELETE_SUCCESS_MSG } from '../../utils/const/api';
 
 const HamburgerModal = ({ setModalVisible, item }) => {
   const setPocketModal = useSetRecoilState(pocketMoneyModalAtom);
-  const setAutomaticPaymentItem = useSetRecoilState(automaticPaymentItemAtom); // '+'버튼 눌렀으면 null, 수정 버튼 눌렀으면 not null
+  const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom); // '+'버튼 눌렀으면 null, 수정 버튼 눌렀으면 not null
+  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
 
   return (
     <TouchableOpacity
@@ -32,10 +35,15 @@ const HamburgerModal = ({ setModalVisible, item }) => {
             <Text>수정</Text>
           </Pressable>
           <Pressable
-            onPress={() => {
+            onPress={async () => {
               // 햄버거 모달은 끄고 삭제 api 호출
               setModalVisible(false);
-              console.log('삭제 api 호출');
+              const result = await deleteAutomaticPaymentList(automaticPaymentItem.autoTransferId);
+              if (result == DELETE_SUCCESS_MSG) {
+                setAutomaticPaymentList(pre => {
+                  return pre.filter(item => item.autoTransferId !== automaticPaymentItem.autoTransferId);
+                });
+              }
             }}>
             <Text>삭제</Text>
           </Pressable>
