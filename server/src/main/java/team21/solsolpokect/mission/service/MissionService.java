@@ -129,11 +129,28 @@ public class MissionService {
                 mission.get().getGoal(), mission.get().getPicture(), mission.get().isAllow(), mission.get().getCreatedAt(), mission.get().getCategory());
     }
 
-    public void missionDelete(Long missionId) {
+    public void missionDelete(Long userId, Long missionId) {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
-
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
+
+        //현재 로그인한 사용자
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
+        if(user.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        //미션을 할 사용자
+        Users child = mission.get().getUser();
+        if(child == null)
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+//        다른 가족인 경우
+        if(user.get().getFamily().getId().equals(child.getFamily().getId()))
+            throw new CustomException(ErrorType.NOT_MATCHING_FAMILY);
+
+//        자신이 자식이고, 같은 가족이나 자신이 아닌 자식인 경우
+        if(user.get().getRole().equals("자녀") && !user.get().getId().equals(child.getId()))
+            throw new CustomException(ErrorType.NOT_MATCHING_INFO);
 
         missionRepository.delete(mission.get());
     }

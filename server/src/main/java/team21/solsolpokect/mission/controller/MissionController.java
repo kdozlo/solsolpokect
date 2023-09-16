@@ -47,9 +47,9 @@ public class MissionController {
         return ResponseUtils.ok(missionService.missionDetail(missionId), MsgType.MISSION_DETAIL_SUCCESSFULLY);
     }
 
-    @DeleteMapping("/{mission-id}")
-    public ApiResponseDto<Void> missionDelete(@PathVariable("mission-id") Long missionId) {
-        missionService.missionDelete(missionId);
+    @DeleteMapping("/{user-id}/{mission-id}")
+    public ApiResponseDto<Void> missionDelete(@PathVariable("user-id") Long userId, @PathVariable("mission-id") Long missionId) {
+        missionService.missionDelete(userId, missionId);
         return ResponseUtils.ok(MsgType.MISSION_DELETE_SUCCESSFULLY);
     }
 
