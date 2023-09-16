@@ -1,6 +1,6 @@
 export const dummyUser = {
-  name: '대영',
   role: '부모',
+  name: '대영',
   account: 111,
   credit_score: 200,
   userId: 'b',

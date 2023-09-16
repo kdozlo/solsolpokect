@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import TransactionHistory from './TransactionHistory';
 import AccountBookUserInfo from '../components/AccountBookUserInfo';
 import Calendar from '../components/Calendar/Calendar';
-import FamilyList from '../components/FamilyList';
+import FamilyList from '../components/Family/FamilyList';
 import GoBackHeader from '../components/GoBackHeader';
 import { useCalendar } from '../hooks/use-calendar';
 import { dummyFamily } from '../test/dummyData/user';
 
-const AccountBook = props => {
+const AccountBook = ({ navigation }) => {
   const { isDatePickerVisible, handleConfirm, hideDatePicker } = useCalendar();
   const flatListRef = useRef();
 
@@ -21,9 +21,9 @@ const AccountBook = props => {
       ListHeaderComponent={() => {
         return (
           <>
-            <GoBackHeader title={`${flatListRef.familyName}이네 가계부`} />
+            <GoBackHeader title={`${dummyFamily.familyName}이네 가계부`} navigation={navigation} />
             <AccountBookView>
-              <FamilyList />
+              <FamilyList pageInfo={'AccountBook'} />
               {/* 캘린더 */}
               <Calendar />
               {/* 유저 이달의 소비 현황 및 피드백*/}
