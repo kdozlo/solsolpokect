@@ -23,7 +23,7 @@ const ManagingPocketMoney = ({ navigation }) => {
       <GoBackHeader title={'용돈 관리'} navigation={navigation} />
       <FamilyList pageInfo={'ManagingPocketMoney'} />
       <View>
-        <AutomaticPaymentList />
+        <AutomaticPaymentList navigation={navigation} />
       </View>
       <Pressable style={styles.plusButton} onPress={() => setModalVisible(true)}>
         <Image source={icons.plus} style={styles.plusImage} />

@@ -4,25 +4,35 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import HamburgerModal from './HamburgerModal';
 import { icons } from '../../constants';
-import { accountUserAtom } from '../../recoil/accountBook';
+import { accountUserAtom, familyMemberListAtom } from '../../recoil/accountBook';
 import {
   automaticCurrentMoneyAtom,
   automaticPaymentItemAtom,
   automaticPaymentListAtom,
   pocketMoneyModalAtom,
 } from '../../recoil/pocketMoney';
+import { transferAccountNumberAtom, transferSelectedBankAtom } from '../../recoil/transfer';
 import { getAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
+import { getUserInfo } from '../../services/apis/userAPI';
 
-const AutomaticPaymentList = () => {
+const AutomaticPaymentList = ({ navigation }) => {
   const selectedUserId = useRecoilValue(accountUserAtom);
+  const setTransferBankInfo = useSetRecoilState(transferSelectedBankAtom);
+  const setTransferAccount = useSetRecoilState(transferAccountNumberAtom);
+
   const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
-  // const [automaticPaymentList, setAutomaticPaymentList] = useState();
-  // useEffect(() => {
-  //   setAutomaticPaymentList(dummyPaymentList);
-  // }, []);
 
   const [modifyModalVisible, setModifyModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(0);
+
+  const getAccountNumber = async () => {
+    const accountInfo = await getUserInfo(selectedUserId);
+    setTransferAccount(accountInfo.account);
+    setTransferBankInfo(0);
+  };
+  useEffect(() => {
+    getAccountNumber();
+  }, []);
 
   // 정기용돈 리스트 받아오기
   const getPaymentData = async () => {
@@ -51,7 +61,7 @@ const AutomaticPaymentList = () => {
         <Text>{item.money.toLocaleString()}원</Text>
         <Pressable
           onPress={() => {
-            // 이체 페이지로 이동
+            navigation.navigate('SelectAccount');
           }}>
           <Text>용돈 보내기</Text>
         </Pressable>
@@ -59,6 +69,7 @@ const AutomaticPaymentList = () => {
           <Pressable
             style={styles.modifyButton}
             onPress={() => {
+              // setTransferAccount();
               setModifyModalVisible(pre => !pre);
               setSelectedItemId(item.autoTransferId);
             }}>

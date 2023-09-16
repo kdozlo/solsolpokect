@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Pressable,
 } from 'react-native';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import GoBackHeader from '../components/GoBackHeader';
 import BankListModal from '../components/Transfer/BankListModal';
@@ -20,11 +20,11 @@ import { BANK_INFO_LIST } from '../utils/const/bank';
 
 const SelectAccount = ({ navigation }) => {
   const selectedBankIndex = useRecoilValue(transferSelectedBankAtom); // 선택된 은행 이름
-  const setAccountNumber = useSetRecoilState(transferAccountNumberAtom);
+  const [accountNumber, setAccountNumber] = useRecoilState(transferAccountNumberAtom);
 
   const setModalVisible = useSetRecoilState(transferBankInfoModalAtom);
 
-  let accountNumValue = '';
+  // let accountNumValue = '';
 
   return (
     <KeyboardAvoidingView>
@@ -87,6 +87,7 @@ const SelectAccount = ({ navigation }) => {
               </View>
             </TouchableOpacity>
 
+            {/* 계좌 번호 */}
             <TextInput
               style={{
                 borderWidth: 1,
@@ -96,9 +97,10 @@ const SelectAccount = ({ navigation }) => {
                 padding: 17.5,
               }}
               onChangeText={newText => {
-                accountNumValue = newText;
-                console.log(accountNumValue);
+                setAccountNumber(newText);
+                // console.log(accountNumValue);
               }}
+              value={accountNumber}
               keyboardType="numeric"
               clearButtonMode="while-editing"
             />
@@ -113,7 +115,7 @@ const SelectAccount = ({ navigation }) => {
                 padding: 17.5,
               }}
               onPress={() => {
-                setAccountNumber(accountNumValue);
+                // setAccountNumber(accountNumValue);
                 navigation.navigate('SelectMoney');
               }}>
               <Text>다음</Text>
