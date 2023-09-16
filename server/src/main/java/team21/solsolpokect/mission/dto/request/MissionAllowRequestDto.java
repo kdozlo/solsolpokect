@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class MissionAllowRequestDto {
 
-    private long userId;
+    private Long userId;
     private boolean allow;
 }

@@ -35,7 +35,6 @@ public class MissionService {
         Optional<Users> child = usersRepository.findByIdAndDeletedAtIsNull(missionCreateRequestDto.getUserId()); //자녀
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId); //현재 로그인 사용자
 
-
         if(child.isEmpty() || user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
@@ -46,16 +45,31 @@ public class MissionService {
         missionRepository.save(Mission.of(child.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), allow, false, missionCreateRequestDto.getGoal(), missionCreateRequestDto.getCategory()));
     }
 
-    public void missionAllow(long missionId, MissionAllowRequestDto missionAllowRequestDto) {
+    public void missionAllow(Long missionId, MissionAllowRequestDto missionAllowRequestDto) {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
-        mission.get().updateAllow(missionAllowRequestDto.isAllow());
+        //부모인지 확인
+        Optional<Users> parent = usersRepository.findByIdAndDeletedAtIsNull(missionAllowRequestDto.getUserId());
+        if(parent.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        if(parent.get().getRole().equals("자녀"))
+            throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
+
+        //부모가 자녀가 가족인지 확인
+        if(!parent.get().getFamily().getId().equals(mission.get().getUser().getFamily().getId()))
+            throw new CustomException(ErrorType.NOT_MATCHING_FAMILY);
+
+        if(missionAllowRequestDto.isAllow())
+            mission.get().updateAllow(true);
+        else
+            missionRepository.delete(mission.get());
     }
 
-    public List<MissionInfosResponseDto> missionList(long userId) {
+    public List<MissionInfosResponseDto> missionList(Long userId) {
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
 
         if(user.isEmpty())
@@ -88,7 +102,7 @@ public class MissionService {
         return missionInfosResponseDtos;
     }
 
-    public MissionInfoDetailResponseDto missionDetail(long missionId) {
+    public MissionInfoDetailResponseDto missionDetail(Long missionId) {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
@@ -98,7 +112,7 @@ public class MissionService {
                 mission.get().getGoal(), mission.get().getPicture(), mission.get().isAllow(), mission.get().getCreatedAt(), mission.get().getCategory());
     }
 
-    public void missionDelete(long missionId) {
+    public void missionDelete(Long missionId) {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
@@ -107,7 +121,7 @@ public class MissionService {
         missionRepository.delete(mission.get());
     }
 
-    public void missionAllowPicture(long missionId, long userId, MultipartFile picture) throws IOException {
+    public void missionAllowPicture(Long missionId, Long userId, MultipartFile picture) throws IOException {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
@@ -125,7 +139,7 @@ public class MissionService {
 
     }
 
-    public void missionComplete(long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {
+    public void missionComplete(Long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {
         Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
