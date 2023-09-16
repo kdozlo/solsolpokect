@@ -7,8 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.service.S3Uploader;
-import team21.solsolpokect.family.entity.Family;
-import team21.solsolpokect.family.repository.FamilyRepository;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCompleteRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
