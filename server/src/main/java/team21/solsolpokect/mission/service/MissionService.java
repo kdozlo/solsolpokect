@@ -32,8 +32,8 @@ public class MissionService {
     private final S3Uploader s3Uploader;
 
     public void missionCreate(Long userId, MissionCreateRequestDto missionCreateRequestDto) {
-        Optional<Users> child = usersRepository.findById(missionCreateRequestDto.getUserId()); //자녀
-        Optional<Users> user = usersRepository.findById(userId); //현재 로그인 사용자
+        Optional<Users> child = usersRepository.findByIdAndDeletedAtIsNull(missionCreateRequestDto.getUserId()); //자녀
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId); //현재 로그인 사용자
 
 
         if(child.isEmpty() || user.isEmpty())
@@ -47,7 +47,7 @@ public class MissionService {
     }
 
     public void missionAllow(long missionId, MissionAllowRequestDto missionAllowRequestDto) {
-        Optional<Mission> mission = missionRepository.findById(missionId);
+        Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
@@ -56,7 +56,7 @@ public class MissionService {
     }
 
     public List<MissionInfosResponseDto> missionList(long userId) {
-        Optional<Users> user = usersRepository.findById(userId);
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
 
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
@@ -89,7 +89,7 @@ public class MissionService {
     }
 
     public MissionInfoDetailResponseDto missionDetail(long missionId) {
-        Optional<Mission> mission = missionRepository.findById(missionId);
+        Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
@@ -99,7 +99,7 @@ public class MissionService {
     }
 
     public void missionDelete(long missionId) {
-        Optional<Mission> mission = missionRepository.findById(missionId);
+        Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
@@ -108,7 +108,7 @@ public class MissionService {
     }
 
     public void missionAllowPicture(long missionId, long userId, MultipartFile picture) throws IOException {
-        Optional<Mission> mission = missionRepository.findById(missionId);
+        Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
@@ -126,7 +126,7 @@ public class MissionService {
     }
 
     public void missionComplete(long missionId, MissionCompleteRequestDto missionCompleteRequestDto) {
-        Optional<Mission> mission = missionRepository.findById(missionId);
+        Optional<Mission> mission = missionRepository.findByIdAndDeletedAtIsNull(missionId);
 
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
