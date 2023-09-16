@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.service.S3Uploader;
+import team21.solsolpokect.family.entity.Family;
+import team21.solsolpokect.family.repository.FamilyRepository;
 import team21.solsolpokect.mission.dto.request.MissionAllowRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCompleteRequestDto;
 import team21.solsolpokect.mission.dto.request.MissionCreateRequestDto;
@@ -61,12 +63,28 @@ public class MissionService {
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        List<Mission> missions = missionRepository.findAllByUserId(userId);
         List<MissionInfosResponseDto> missionInfosResponseDtos = new ArrayList<>();
 
-        for (Mission m : missions) {
-            missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
-                    m.isAllow(), m.getCreatedAt(), m.getUpdatedAt()));
+        if(user.get().getRole().equals("자녀")) {
+            List<Mission> missions = missionRepository.findAllByUserIdAndDeletedAtIsNull(userId);
+            System.out.println("자녀");
+            for (Mission m : missions) {
+                missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
+                        m.isAllow(), m.getCreatedAt(), m.getUpdatedAt()));
+            }
+        } else if(user.get().getRole().equals("부모")) {
+            List<Users> familyList = usersRepository.findAllByFamilyIdAndDeletedAtIsNull(user.get().getFamily().getId());
+            System.out.println("부모");
+            for(Users u : familyList) {
+                if(u.getRole().equals("자녀")) {
+                    List<Mission> missions = missionRepository.findAllByUserIdAndDeletedAtIsNull(u.getId());
+
+                    for (Mission m : missions) {
+                        missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
+                                m.isAllow(), m.getCreatedAt(), m.getUpdatedAt()));
+                    }
+                }
+            }
         }
 
         return missionInfosResponseDtos;
