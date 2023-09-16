@@ -25,13 +25,15 @@ public class AutoTransferService {
     private final AutoTransferRepository autoTransferRepository;
     private final UsersRepository usersRepository;
 
-    public void autoTransferCreate(AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
+    public AutoTransferResponseDto autoTransferCreate(AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
         Optional<Users> user = usersRepository.findById(autoTransferCreateRequestDto.getUserId());
 
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        autoTransferRepository.save(AutoTransfer.of(autoTransferCreateRequestDto, user.get()));
+        AutoTransfer autoTransfer = autoTransferRepository.save(AutoTransfer.of(autoTransferCreateRequestDto, user.get()));
+
+        return AutoTransferResponseDto.from(autoTransfer);
     }
 
     public List<AutoTransferResponseDto> autoTransferList(Long userId) {

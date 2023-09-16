@@ -20,9 +20,8 @@ public class AutoTransferController {
     private final AutoTransferService autoTransferService;
 
     @PostMapping("/create")
-    public ApiResponseDto<Void> autoTransferCreate(@RequestBody AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
-        autoTransferService.autoTransferCreate(autoTransferCreateRequestDto);
-        return ResponseUtils.ok(MsgType.AUTO_TRANSFER_CREATE_SUCCESSFULLY);
+    public ApiResponseDto<AutoTransferResponseDto> autoTransferCreate(@RequestBody AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
+        return ResponseUtils.ok(autoTransferService.autoTransferCreate(autoTransferCreateRequestDto), MsgType.AUTO_TRANSFER_CREATE_SUCCESSFULLY);
     }
 
     @GetMapping("/list/{user-id}")
