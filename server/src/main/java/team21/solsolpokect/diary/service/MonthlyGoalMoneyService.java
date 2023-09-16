@@ -28,8 +28,8 @@ public class MonthlyGoalMoneyService {
         if(!users.get().getRole().equals("부모")){
             throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
         }
-        LocalDate now = requestDto.getDate();
-        MonthlyGoalMoney monthlyGoalMoney = MonthlyGoalMoney.of(now, requestDto.getGoalMoney(), users.get());
+        LocalDate date = requestDto.getDate();
+        MonthlyGoalMoney monthlyGoalMoney = MonthlyGoalMoney.of(date, requestDto.getGoalMoney(), users.get());
         monthlyGoalMoneyRepository.save(monthlyGoalMoney);
     }
 }

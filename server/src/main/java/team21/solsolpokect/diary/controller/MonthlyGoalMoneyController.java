@@ -1,10 +1,7 @@
 package team21.solsolpokect.diary.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team21.solsolpokect.common.response.ApiResponseDto;
 import team21.solsolpokect.common.response.MsgType;
 import team21.solsolpokect.common.response.ResponseUtils;
@@ -24,4 +21,6 @@ public class MonthlyGoalMoneyController {
         service.goalMoneyCreate(requestDto);
         return ResponseUtils.ok(MsgType.GOAL_MONEY_CREATE_SUCCESSFULLY);
     }
+
+
 }
