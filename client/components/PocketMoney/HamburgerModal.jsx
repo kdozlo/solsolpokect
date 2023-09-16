@@ -3,14 +3,20 @@ import { View, Text, Modal, Pressable, StyleSheet, TouchableOpacity } from 'reac
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { COLORS, SIZES } from '../../constants';
-import { automaticPaymentItemAtom, automaticPaymentListAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import {
+  automaticCurrentMoneyAtom,
+  automaticPaymentItemAtom,
+  automaticPaymentListAtom,
+  pocketMoneyModalAtom,
+} from '../../recoil/pocketMoney';
 import { deleteAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
 import { DELETE_SUCCESS_MSG } from '../../utils/const/api';
 
-const HamburgerModal = ({ setModalVisible, item }) => {
+const HamburgerModal = ({ setModalVisible, selectedItem }) => {
   const setPocketModal = useSetRecoilState(pocketMoneyModalAtom);
-  const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom); // '+'버튼 눌렀으면 null, 수정 버튼 눌렀으면 not null
+  const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom);
   const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
+  const [moneyValue, setMoneyValue] = useRecoilState(automaticCurrentMoneyAtom);
 
   return (
     <TouchableOpacity
@@ -29,7 +35,8 @@ const HamburgerModal = ({ setModalVisible, item }) => {
             onPress={() => {
               // 햄버거 모달은 끄고 수정 모달 띄우기
               setModalVisible(false);
-              setAutomaticPaymentItem(item);
+              setAutomaticPaymentItem(selectedItem);
+              setMoneyValue(selectedItem.money);
               setPocketModal(true);
             }}>
             <Text>수정</Text>

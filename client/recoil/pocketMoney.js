@@ -14,3 +14,8 @@ export const automaticPaymentListAtom = atom({
   key: 'automaticPaymentListAtom',
   default: [],
 });
+
+export const automaticCurrentMoneyAtom = atom({
+  key: 'automaticCurrentMoneyAtom',
+  default: 0,
+});

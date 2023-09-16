@@ -14,29 +14,40 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { COLORS, SIZES } from '../../constants';
 import { accountUserAtom } from '../../recoil/accountBook';
-import { automaticPaymentItemAtom, automaticPaymentListAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
-import { addAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
+import {
+  automaticCurrentMoneyAtom,
+  automaticPaymentItemAtom,
+  automaticPaymentListAtom,
+  pocketMoneyModalAtom,
+} from '../../recoil/pocketMoney';
+import { addAutomaticPaymentList, updateAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
 import { getUserInfo } from '../../services/apis/userAPI';
 import { parentDummyUser } from '../../test/dummyData/user';
+import { UPDATE_SUCCESS_MSG } from '../../utils/const/api';
 
 const PocketMoneyModal = () => {
-  const [modalVisible, setModalVisible] = useRecoilState(pocketMoneyModalAtom);
-  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
-  const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom); // '+'버튼 눌렀으면 null, 수정 버튼 눌렀으면 not null
-  const selectedUserId = useRecoilValue(accountUserAtom);
-  const [selectedUserInfo, setSelectedUserInfo] = useState(null);
-  const [moneyValue, setMoneyValue] = useState(0);
+  // recoil states...
+  const [modalVisible, setModalVisible] = useRecoilState(pocketMoneyModalAtom); // 포켓 모달이 뜰지 말지
+  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom); // 추가, 수정으로 인한 list 정보 변경 반영
+  const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom); // 선택된 아이템 정보 가져오기 + 모달 꺼질 때 초기화
+  const selectedUserId = useRecoilValue(accountUserAtom); // 용돈 이체 목록의 주인(돈 받을 대상)
 
+  // components states...
+  const [selectedUserInfo, setSelectedUserInfo] = useState(null);
+  const [moneyValue, setMoneyValue] = useRecoilState(automaticCurrentMoneyAtom);
+
+  // 용돈 줄 사람의 정보 받아오기
   const getSelectedUserInfo = async () => {
-    console.log(selectedUserId);
+    // console.log(selectedUserId);
     const result = await getUserInfo(selectedUserId);
     setSelectedUserInfo(result);
   };
   useEffect(() => {
     getSelectedUserInfo();
-    console.log(selectedUserInfo);
+    // console.log(selectedUserInfo);
   }, []);
 
+  // 모달이 꺼질 때
   useEffect(() => {
     if (!modalVisible) {
       setAutomaticPaymentItem(null);
@@ -75,20 +86,40 @@ const PocketMoneyModal = () => {
                 style={styles.footerRightButton}
                 onPress={async () => {
                   setModalVisible(false);
+
                   if (automaticPaymentItem) {
-                    setMoneyValue(automaticPaymentItem.money);
-                    // 수정 api 수행
                     console.log('수정 api 호출');
+                    const result = await updateAutomaticPaymentList(
+                      automaticPaymentItem.autoTransferId,
+                      '',
+                      parseInt(moneyValue),
+                    );
+                    if (result === UPDATE_SUCCESS_MSG) {
+                      setAutomaticPaymentList(pre => {
+                        const result = pre.map(item => {
+                          if (item.autoTransferId === automaticPaymentItem.autoTransferId) {
+                            console.log('동일한 아이템', moneyValue);
+                            return {
+                              ...item,
+                              money: moneyValue,
+                              autoDate: 15,
+                            };
+                          } else {
+                            return item;
+                          }
+                        });
+
+                        return result;
+                      });
+                    }
                   } else {
-                    console.log(moneyValue, parentDummyUser.id, selectedUserInfo.account);
-                    // 생성 api 수행 : autoDate, money, userId, childAccount
+                    // console.log('추가 api 호출');
                     const result = await addAutomaticPaymentList(
                       '',
                       parseInt(moneyValue),
                       parseInt(parentDummyUser.id),
                       selectedUserInfo.account,
                     );
-
                     console.log('result', result);
                     setAutomaticPaymentList(pre => [...pre, result]);
                   }

@@ -4,25 +4,30 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import HamburgerModal from './HamburgerModal';
 import { icons } from '../../constants';
-import { automaticPaymentItemAtom, automaticPaymentListAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import {
+  automaticCurrentMoneyAtom,
+  automaticPaymentItemAtom,
+  automaticPaymentListAtom,
+  pocketMoneyModalAtom,
+} from '../../recoil/pocketMoney';
 import { getAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
 import { parentDummyUser } from '../../test/dummyData/user';
 
 const AutomaticPaymentList = () => {
-  const setAutomaticPaymentItem = useSetRecoilState(automaticPaymentItemAtom);
-  const [modifyModalVisible, setModifyModalVisible] = useState(false);
   const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
+  const [modifyModalVisible, setModifyModalVisible] = useState(false);
 
+  // 정기용돈 리스트 받아오기
   const getPaymentData = async () => {
     const result = await getAutomaticPaymentList(parentDummyUser.id);
     setAutomaticPaymentList(result);
   };
-
   useEffect(() => {
     getPaymentData();
-    console.log(automaticPaymentList);
+    // console.log(automaticPaymentList);
   }, []);
 
+  // 헤더 컴포넌트
   const renderHeader = () => {
     return (
       <View>
@@ -31,9 +36,8 @@ const AutomaticPaymentList = () => {
     );
   };
 
-  // onLayout은 상대좌표만 주기 때문에 useRef를 쓰는게 맞다.
   const renderPaymentItem = ({ item, index }) => {
-    console.log(item, '출력되고 있습니다.');
+    // console.log(item, '출력되고 있습니다.');
     return (
       <View>
         <Text>매월 {item.autoDate ?? 17}일</Text>
@@ -48,11 +52,10 @@ const AutomaticPaymentList = () => {
           <Pressable
             style={styles.modifyButton}
             onPress={() => {
-              setAutomaticPaymentItem(item);
               setModifyModalVisible(pre => !pre);
             }}>
             <Image source={icons.more} style={styles.modifyImage} />
-            {modifyModalVisible && <HamburgerModal setModalVisible={setModifyModalVisible} item={item} />}
+            {modifyModalVisible && <HamburgerModal setModalVisible={setModifyModalVisible} selectedItem={item} />}
           </Pressable>
         </View>
       </View>

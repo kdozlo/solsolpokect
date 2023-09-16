@@ -21,6 +21,7 @@ export const getAutomaticPaymentList = async userId => {
 
 // 자동 이체 생성 api
 export const addAutomaticPaymentList = async (autoDate, money, userId, childAccount) => {
+  console.log('add params', autoDate, money, userId, childAccount);
   const addPaymentListRes = await fetch(`http://${SOLSOL_URL}/api/auto-transfer/create`, {
     method: 'POST',
     headers: {
@@ -39,16 +40,36 @@ export const addAutomaticPaymentList = async (autoDate, money, userId, childAcco
   // 생성 성공
   if (addPaymentListRes.ok) {
     console.log('생성 성공');
-    return {
-      autoTransferId: 35,
-      money: 25000,
-      autoDate: 15,
-      childAccount: '456137999',
-    };
-    // const result = await addPaymentListRes.json();
-    // return result.data;
+    const result = await addPaymentListRes.json();
+    return result.data;
   } else {
     console.log('생성 실패');
+  }
+
+  return null;
+};
+
+// 자동 이체 수정 api
+export const updateAutomaticPaymentList = async (transferId, autoDate, money) => {
+  const updateRes = await fetch(`http://${SOLSOL_URL}/api/auto-transfer/${transferId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json; charset = UTF-8',
+    },
+
+    body: JSON.stringify({
+      autoDate: '',
+      money,
+    }),
+  });
+
+  // 생성 성공
+  if (updateRes.ok) {
+    console.log('수정 성공');
+    const result = await updateRes.json();
+    return result.msg;
+  } else {
+    console.log('수정 실패');
   }
 
   return null;
@@ -74,5 +95,3 @@ export const deleteAutomaticPaymentList = async transferId => {
 
   return null;
 };
-
-export const updateAutomaticPaymentList = () => {};
