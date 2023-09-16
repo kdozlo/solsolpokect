@@ -72,11 +72,11 @@ const PocketMoneyModal = () => {
         <View style={styles.modalView}>
           <Pressable style={styles.modifyView} onPress={Keyboard.dismiss}>
             <View style={styles.modifyHeader}>
-              <Text>{`자동 이체 ${automaticPaymentItem ? '수정' : '등록'}`}</Text>
+              <Text style={styles.modifyHeaderText}>{`자동 이체 ${automaticPaymentItem ? '수정' : '등록'}`}</Text>
             </View>
             {/* 자동 이체 일 정하기 */}
             <View style={styles.modifyDate}>
-              <View>
+              <View style={styles.modifyDateTextView}>
                 <Text>매월</Text>
               </View>
               <DateDropdown autoDate={automaticPaymentItem ? automaticPaymentItem.autoDate : 1} />
@@ -161,40 +161,60 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 400,
     width: SIZES.width * 0.8,
-    backgroundColor: COLORS.gray,
+    padding: 20,
+    backgroundColor: COLORS.white,
     borderRadius: SIZES.radius,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  modifyHeader: {},
+  modifyHeader: {
+    fontSize: 24,
+  },
+  modifyHeaderText: {
+    fontSize: 20,
+  },
   modifyDate: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
+    zIndex: 10,
+  },
+  modifyDateTextView: {
+    marginLeft: 50,
   },
   modifyMoney: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
   },
-  moneyInput: {},
-  moneyText: {},
+  moneyInput: { fontSize: 18, marginRight: 5 },
+  moneyText: { fontSize: 18 },
   modifyFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 20,
   },
   footerLeftButton: {
     flex: 1,
     alignItems: 'center',
     paddingVertical: 10,
     borderRadius: 5,
-    backgroundColor: 'blue',
+    backgroundColor: COLORS.blue,
   },
   footerRightButton: {
     flex: 1,
     alignItems: 'center',
     paddingVertical: 10,
     borderRadius: 5,
-    backgroundColor: 'blue',
+    backgroundColor: COLORS.blue,
+    marginLeft: 10,
   },
 });
 export default PocketMoneyModal;

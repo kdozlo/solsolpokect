@@ -32,7 +32,7 @@ export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="AccountBook">
+        <Stack.Navigator initialRouteName="ManagingPocketMoney">
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
 
           <Stack.Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }} />

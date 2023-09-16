@@ -28,7 +28,6 @@ const PocketMoneyMember = ({ user }) => {
         });
         setBankIndex(pre => 0);
         setAccountNum(pre => user.account);
-        // console.log(selectedUserId, accountNum, bankIndex);
       }}>
       <View style={{ transform: [{ scale: user.id === selectedUserId ? 1.5 : 1 }] }}>
         <Image source={images.father} />

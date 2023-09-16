@@ -64,7 +64,7 @@ const AccountBook = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 20,
   },
   contents: {
     alignItems: 'center',
