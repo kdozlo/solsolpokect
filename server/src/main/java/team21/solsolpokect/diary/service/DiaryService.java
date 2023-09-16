@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team21.solsolpokect.common.entity.DateUtils;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.common.infra.ShinhanApiService;
@@ -99,6 +100,19 @@ public class DiaryService {
         user.get().minusCreditScore(diary.get().getDailyScore()); //기존 일일 점수 minus
         user.get().plusCreditScore(requestDto.getDailyScore()); //새로운 일일 점수 plus
         diary.get().scoreUpdate(requestDto.getDailyScore());
+    }
+
+    public int diaryScoreDetail(Long userId, String diaryDate) {
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
+        if (user.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        Optional<Diary> diary = diaryRepository.findByDailyDate(StringToLocalDateTime(diaryDate));
+
+        if(diary.isEmpty())
+            throw new CustomException(ErrorType.NOT_FOUND_DIARY);
+
+        return diary.get().getDailyScore();
     }
 
     public LocalDateTime StringToLocalDateTime(String date) {

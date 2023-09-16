@@ -38,4 +38,9 @@ public class DiaryController {
         diaryService.scoreUpdate(diaryId, requestDto);
         return ResponseUtils.ok(MsgType.DAILY_SCORE_UPDATE_SUCCESSFULLY);
     }
+
+    @GetMapping("/score")
+    public ApiResponseDto<Integer> diaryScoreDetail(@RequestParam("user-id") Long userId, @RequestParam("diary-date") String diaryDate) {
+        return ResponseUtils.ok(diaryService.diaryScoreDetail(userId, diaryDate), MsgType.DAILY_SCORE_DETAIL_SUCCESSFULLY);
+    }
 }
