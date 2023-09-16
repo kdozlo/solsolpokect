@@ -16,6 +16,7 @@ import { parentDummyUser } from '../../test/dummyData/user';
 const AutomaticPaymentList = () => {
   const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
   const [modifyModalVisible, setModifyModalVisible] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(0);
 
   // 정기용돈 리스트 받아오기
   const getPaymentData = async () => {
@@ -38,6 +39,7 @@ const AutomaticPaymentList = () => {
 
   const renderPaymentItem = ({ item, index }) => {
     // console.log(item, '출력되고 있습니다.');
+    console.log(item, selectedItemId);
     return (
       <View>
         <Text>매월 {item.autoDate ?? 17}일</Text>
@@ -53,9 +55,12 @@ const AutomaticPaymentList = () => {
             style={styles.modifyButton}
             onPress={() => {
               setModifyModalVisible(pre => !pre);
+              setSelectedItemId(item.autoTransferId);
             }}>
             <Image source={icons.more} style={styles.modifyImage} />
-            {modifyModalVisible && <HamburgerModal setModalVisible={setModifyModalVisible} selectedItem={item} />}
+            {modifyModalVisible && item.autoTransferId === selectedItemId && (
+              <HamburgerModal setModalVisible={setModifyModalVisible} selectedItem={item} />
+            )}
           </Pressable>
         </View>
       </View>

@@ -45,10 +45,12 @@ const HamburgerModal = ({ setModalVisible, selectedItem }) => {
             onPress={async () => {
               // 햄버거 모달은 끄고 삭제 api 호출
               setModalVisible(false);
-              const result = await deleteAutomaticPaymentList(automaticPaymentItem.autoTransferId);
-              if (result == DELETE_SUCCESS_MSG) {
+              // console.log(selectedItem.autoTransferId);
+              const result = await deleteAutomaticPaymentList(selectedItem.autoTransferId);
+              if (result === DELETE_SUCCESS_MSG) {
+                // console.log(result);
                 setAutomaticPaymentList(pre => {
-                  return pre.filter(item => item.autoTransferId !== automaticPaymentItem.autoTransferId);
+                  return pre.filter(item => item.autoTransferId !== selectedItem.autoTransferId);
                 });
               }
             }}>
