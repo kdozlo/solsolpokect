@@ -1,12 +1,25 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable import/order */
 // Bank Logo
-const shinhan = require('../assets/images/bankLogo/shinhan.png');
 const background = require('../assets/images/background.png');
-const mascot = require('../assets/images/bankLogo/mascotBear.png');
 const TitleLogo = require('../assets/images/bankLogo/TitleLogo.png');
+const giup = require('../assets/images/bankLogo/giup.png');
+const gukmin = require('../assets/images/bankLogo/gukmin.png');
+const mascot = require('../assets/images/bankLogo/mascotBear.png');
+const nonghyup = require('../assets/images/bankLogo/nonghyup.png');
+const shinhan = require('../assets/images/bankLogo/shinhan.png');
 
 // Family
+const CameraCloud = require('../assets/images/buttons/CameraCloud.png');
+const Cam = require('../assets/images/buttons/CameraDesign.png');
+const Id = require('../assets/images/buttons/IDbutton.png');
+const Login = require('../assets/images/buttons/LoginButton.png');
+const MoneyCloud = require('../assets/images/buttons/MoneyChallengeCloud.png');
+const Password = require('../assets/images/buttons/PasswordButton.png');
+const AddCloud = require('../assets/images/buttons/QuestCloud.png');
+const Regist = require('../assets/images/buttons/RegistButton.png');
+const star = require('../assets/images/buttons/StarDesign.png');
+const EmptyCloud = require('../assets/images/buttons/emptyCloud.png');
 const daughter = require('../assets/images/family/daughter.png');
 const father = require('../assets/images/family/father.png');
 const mather = require('../assets/images/family/mather.png');
@@ -19,16 +32,6 @@ const questPlus = require('../assets/images/quest_plus.png');
 const questStar = require('../assets/images/quest_star.png');
 
 // 버튼쓰
-const AddCloud = require('../assets/images/buttons/QuestCloud.png');
-const MoneyCloud = require('../assets/images/buttons/MoneyChallengeCloud.png');
-const CameraCloud = require('../assets/images/buttons/CameraCloud.png');
-const EmptyCloud = require('../assets/images/buttons/emptyCloud.png');
-const star = require('../assets/images/buttons/StarDesign.png');
-const Cam = require('../assets/images/buttons/CameraDesign.png');
-const Login = require('../assets/images/buttons/LoginButton.png');
-const Regist = require('../assets/images/buttons/RegistButton.png');
-const Id = require('../assets/images/buttons/IDbutton.png');
-const Password = require('../assets/images/buttons/PasswordButton.png');
 
 //제목쓰
 const DetailTitle = require('../assets/images/TitleList/DetailTitle.png');
@@ -65,8 +68,9 @@ export default {
 
   // Bank logo
   shinhan,
-  mascot,
-  TitleLogo,
+  nonghyup,
+  gukmin,
+  giup,
   // Family
   father,
   mather,

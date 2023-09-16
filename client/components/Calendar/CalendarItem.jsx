@@ -3,15 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 
 import { COLUMN_SIZE } from '../../utils/const/CalendarConstant';
 
-const CalendarItem = ({
-  text,
-  color,
-  opacity,
-  disabled,
-  onPress,
-  isSelected,
-  hasTodo,
-}) => {
+const CalendarItem = ({ text, color, opacity, disabled, onPress, isSelected, hasTodo }) => {
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -24,10 +16,7 @@ const CalendarItem = ({
         backgroundColor: isSelected ? '#c2c2c2' : 'transparent',
         borderRadius: COLUMN_SIZE / 2,
       }}>
-      <Text
-        style={{ color, opacity, fontWeight: isSelected ? 'bold' : 'normal' }}>
-        {text}
-      </Text>
+      <Text style={{ color, opacity, fontWeight: isSelected ? 'bold' : 'normal' }}>{text}</Text>
     </TouchableOpacity>
   );
 };

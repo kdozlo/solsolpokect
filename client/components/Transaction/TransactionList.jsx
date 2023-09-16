@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text, FlatList } from 'react-native';
 import { styled } from 'styled-components';
 
 import TransactionItem from './TransactionItem';
@@ -15,12 +15,8 @@ const TransactionList = ({ data }) => {
     const componentList = [];
     for (const [date, transactions] of transactionsByDate.entries()) {
       componentList.push(
-        <Transactions
-          ListHeaderComponent={
-            <Text>
-              {date.slice(0, 4) + '.' + date.slice(4, 6) + '.' + date.slice(6)}
-            </Text>
-          }
+        <FlatList
+          ListHeaderComponent={<Text>{date.slice(0, 4) + '.' + date.slice(4, 6) + '.' + date.slice(6)}</Text>}
           key={`${date} 거래 내역 묶음`}
           data={transactions}
           renderItem={renderTransactionItem}
@@ -35,7 +31,5 @@ const TransactionList = ({ data }) => {
 
   return <>{renderTransactions()}</>;
 };
-
-const Transactions = styled.FlatList``;
 
 export default TransactionList;

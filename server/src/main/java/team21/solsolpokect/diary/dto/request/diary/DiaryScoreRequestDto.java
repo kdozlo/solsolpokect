@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class DiaryScoreRequestDto {
 
-    private String userId;
+    private Long userId;
     private int dailyScore;
+    private String date;
 }

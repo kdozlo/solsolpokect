@@ -7,6 +7,7 @@ public enum MsgType {
 
     DIARY_CHECK_SUCCESSFULLY("가계부 조회 성공"),
     GOAL_MONEY_CREATE_SUCCESSFULLY("월별 목표 금액 설정 성공"),
+    GOAL_MONEY_DETAIL_SUCCESSFULLY("월별 목표 금액 조회 성공"),
     FEEDBACK_CREATE_SUCCESSFULLY("피드백 작성 성공"),
     MISSION_CREATE_SUCCESSFULLY("도전 과제 생성 성공"),
     MISSION_ALLOW_SUCCESSFULLY("도전 과제 요청 성공"),
@@ -26,6 +27,10 @@ public enum MsgType {
     FAMILY_DETAIL_SUCCESSFULLY("가족 정보 조회 성공"),
     SIGNUP_SUCCESSFULLY("회원가입 성공"),
     LOGIN_SUCCESSFULLY("로그인 성공"),
+    USER_INFO_SUCCESSFULLY("유저정보 조회 성공"),
+    DAILY_SCORE_CREATE_SUCCESSFULLY("일일 점수 작성 성공"),
+    DAILY_SCORE_UPDATE_SUCCESSFULLY("일일 점수 수정 성공"),
+    DAILY_SCORE_DETAIL_SUCCESSFULLY("일일 점수 조회 성공"),
     ;
 
     private final String msg;

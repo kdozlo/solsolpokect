@@ -4,14 +4,7 @@ import { TextInput, TouchableOpacity, View } from 'react-native';
 
 import { bottomSpace, ITEM_WIDTH } from '../utils/CalendarUtils';
 
-export default ({
-  value,
-  onChangeText,
-  placeholder,
-  onPressAdd,
-  onSubmitEditing,
-  onFocus,
-}) => {
+export default ({ value, onChangeText, placeholder, onPressAdd, onSubmitEditing, onFocus }) => {
   return (
     <View
       style={{

@@ -9,4 +9,5 @@ public class MissionCreateRequestDto {
     private String missionName;
     private int reward;
     private String goal;
+    private int category;
 }

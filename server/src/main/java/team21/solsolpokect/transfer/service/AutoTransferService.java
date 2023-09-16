@@ -2,6 +2,7 @@ package team21.solsolpokect.transfer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team21.solsolpokect.common.exception.CustomException;
 import team21.solsolpokect.common.exception.ErrorType;
 import team21.solsolpokect.transfer.dto.request.AutoTransferCreateRequestDto;
@@ -18,28 +19,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AutoTransferService {
 
-    AutoTransferRepository autoTransferRepository;
+    private final AutoTransferRepository autoTransferRepository;
     private final UsersRepository usersRepository;
 
-    public void autoTransferCreate(AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
+    public AutoTransferResponseDto autoTransferCreate(AutoTransferCreateRequestDto autoTransferCreateRequestDto) {
         Optional<Users> user = usersRepository.findById(autoTransferCreateRequestDto.getUserId());
 
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        autoTransferRepository.save(AutoTransfer.of(autoTransferCreateRequestDto, user.get()));
+        AutoTransfer autoTransfer = autoTransferRepository.save(AutoTransfer.of(autoTransferCreateRequestDto, user.get()));
+
+        return AutoTransferResponseDto.from(autoTransfer);
     }
 
     public List<AutoTransferResponseDto> autoTransferList(Long userId) {
-        Optional<Users> user = usersRepository.findById(userId);
+        Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(userId);
 
         if(user.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_USER);
 
         List<AutoTransfer> autoTransferList =
-                autoTransferRepository.findAllByUserId(userId);
+                autoTransferRepository.findAllByUserIdAndDeletedAtIsNull(userId);
 
         List<AutoTransferResponseDto> autoTransferResponseDtoList = new ArrayList<>();
 
@@ -51,7 +55,7 @@ public class AutoTransferService {
     }
 
     public void autoTransferUpdate(Long transferId, AutoTransferUpdateRequestDto autoTransferUpdateRequestDto) {
-        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findById(transferId);
+        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findByIdAndDeletedAtIsNull(transferId);
 
         if(autoTransfer.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_AUTO_TRANSFER);
@@ -60,7 +64,7 @@ public class AutoTransferService {
     }
 
     public void autoTransferDelete(Long transferId) {
-        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findById(transferId);
+        Optional<AutoTransfer> autoTransfer = autoTransferRepository.findByIdAndDeletedAtIsNull(transferId);
 
         if(autoTransfer.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_AUTO_TRANSFER);

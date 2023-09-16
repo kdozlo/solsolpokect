@@ -20,15 +20,7 @@ const CalendarBody = ({ monthDates }) => {
           const dayText = getDayText(dayOfWeek);
           const dayColor = getDayColor(dayOfWeek);
 
-          return (
-            <CalendarItem
-              key={`day-${dayOfWeek}`}
-              text={dayText}
-              color={dayColor}
-              opacity={1}
-              disabled={true}
-            />
-          );
+          return <CalendarItem key={`day-${dayOfWeek}`} text={dayText} color={dayColor} opacity={1} disabled={true} />;
         })}
       </View>
     );

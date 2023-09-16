@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 import team21.solsolpokect.common.entity.BaseTime;
 import team21.solsolpokect.user.entity.Users;
 
@@ -12,11 +13,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE mission set deleted_at = CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul') where id = ?")
 public class Mission extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String missionName;
@@ -33,6 +35,9 @@ public class Mission extends BaseTime {
 
     private String picture;
 
+    @Column(nullable = false)
+    private int category;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
     private Users user;
@@ -41,7 +46,7 @@ public class Mission extends BaseTime {
     private boolean allow;
 
     @Builder
-    public Mission(String missionName, int reward, boolean complete, String goal, String picture, Users user, boolean allow) {
+    public Mission(String missionName, int reward, boolean complete, String goal, String picture, Users user, boolean allow, int category) {
         this.missionName = missionName;
         this.reward = reward;
         this.complete = complete;
@@ -49,15 +54,18 @@ public class Mission extends BaseTime {
         this.picture = picture;
         this.user = user;
         this.allow = allow;
+        this.category= category;
     }
 
-    public static Mission of(Users user, String missionName, int reward, boolean complete, String goal) {
+    public static Mission of(Users user, String missionName, int reward, boolean allow, boolean complete, String goal, int category) {
         return builder()
                 .user(user)
                 .missionName(missionName)
                 .reward(reward)
+                .allow(allow)
                 .complete(complete)
                 .goal(goal)
+                .category(category)
                 .build();
     }
 

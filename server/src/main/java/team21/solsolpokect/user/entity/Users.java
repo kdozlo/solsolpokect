@@ -18,7 +18,7 @@ public class Users extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, length = 10)
     private String role;
@@ -65,5 +65,13 @@ public class Users extends BaseTime {
 
     public void updateFamily(Family family) {
         this.family = family;
+    }
+
+    public void plusCreditScore(int score) {
+        this.creditScore += score;
+    }
+
+    public void minusCreditScore(int score) {
+        this.creditScore -= score;
     }
 }

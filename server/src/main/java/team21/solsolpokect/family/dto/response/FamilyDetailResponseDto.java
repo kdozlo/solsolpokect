@@ -3,7 +3,6 @@ package team21.solsolpokect.family.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import team21.solsolpokect.family.entity.Family;
-import team21.solsolpokect.user.entity.Users;
 
 import java.util.List;
 
@@ -11,20 +10,26 @@ import java.util.List;
 public class FamilyDetailResponseDto {
 
     Long id;
-    List<String> userId;
+    List<Long> usersId;
+    List<String> usersName;
+    List<String> roles;
     String familyName;
 
     @Builder
-    private FamilyDetailResponseDto(Long id, List<String> userId, String familyName) {
+    private FamilyDetailResponseDto(Long id, List<Long> usersId, List<String> usersName, List<String> roles, String familyName) {
         this.id = id;
-        this.userId = userId;
+        this.usersId = usersId;
+        this.usersName = usersName;
+        this.roles = roles;
         this.familyName = familyName;
     }
 
-    public static FamilyDetailResponseDto of(List<String> usersIdList, Family family) {
+    public static FamilyDetailResponseDto of(List<Long> usersId, List<String> usersName, List<String> roles, Family family) {
         return builder()
                 .id(family.getId())
-                .userId(usersIdList)
+                .usersId(usersId)
+                .usersName(usersName)
+                .roles(roles)
                 .familyName(family.getFamilyName())
                 .build();
     }
