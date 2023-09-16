@@ -11,7 +11,7 @@ const TransferMoney = ({ pageKind }) => {
   const renderSubText = () => {
     if (pageKind === 'SelectMoney') {
       return (
-        <View style={{ backgroundColor: 'red' }}>
+        <View style={{ color: 'lightgray' }}>
           <Text>{formatKoreanMoney(money)}원</Text>
         </View>
       );

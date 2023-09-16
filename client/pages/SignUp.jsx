@@ -20,8 +20,6 @@ import { atom, useRecoilState } from 'recoil';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { getAccountList } from '../services/apis/accountListAPI';
-import axios from 'axios';
-
 
 const ICONS = {
   0: images.background,
