@@ -1,1 +1,1 @@
-export const COLUMN_SIZE = 50;
+export const COLUMN_SIZE = 40;

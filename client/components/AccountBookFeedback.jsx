@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Text, View, TouchableOpacity, Animated } from 'react-native';
+import { Text, View, TouchableOpacity, Animated, StyleSheet } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { ScrollHeightAtom, isFeedbackVisibleAtom } from '../recoil/accountBook';
@@ -20,24 +20,35 @@ const AccountBookFeedback = ({ flatListRef, isWriter, dailyScore }) => {
   };
 
   return (
-    <TouchableOpacity
-      disabled={!isWriter}
-      style={{
-        flex: 1,
-        padding: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center',
-        backgroundColor: 'pink',
-      }}
-      onPress={handleFeedbackPress}>
-      <View style={{ marginRight: 20 }}>
+    <TouchableOpacity disabled={!isWriter} style={styles.container} onPress={handleFeedbackPress}>
+      <View style={styles.textBox}>
         <Text>오늘의</Text>
         <Text>점수</Text>
       </View>
-      <Text>{dailyScore}점</Text>
+      <Text style={styles.score}>{dailyScore}점</Text>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'pink',
+    borderRadius: 10,
+  },
+  textBox: {
+    marginRight: 20,
+    // textAlign: 'center',
+    alignItems: 'center',
+  },
+  score: {
+    fontSize: 20,
+    fontWeight: 700,
+  },
+});
 
 export default AccountBookFeedback;
