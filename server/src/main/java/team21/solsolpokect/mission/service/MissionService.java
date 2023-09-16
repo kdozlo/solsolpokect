@@ -48,7 +48,6 @@ public class MissionService {
             throw new CustomException(ErrorType.NOT_MATCHING_ROLE);
 
         boolean allow = false;
-        //미션 작성자의 role
         if(user.get().getRole().equals("부모")) {
                 if(!child.get().getFamily().getId().equals(user.get().getFamily().getId()))
                     throw new CustomException(ErrorType.NOT_FOUND_FAMILY);
