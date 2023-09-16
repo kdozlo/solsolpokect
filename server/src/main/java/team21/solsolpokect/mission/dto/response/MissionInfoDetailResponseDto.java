@@ -15,10 +15,11 @@ public class MissionInfoDetailResponseDto {
     private String picture;
     private boolean allow;
     private LocalDateTime createdAt;
+    private int category;
 
     @Builder
     private MissionInfoDetailResponseDto(String missionName, int reward, boolean complete, String goal,
-                                        String picture, boolean allow, LocalDateTime createdAt) {
+                                        String picture, boolean allow, LocalDateTime createdAt, int category) {
         this.missionName = missionName;
         this.reward = reward;
         this.complete = complete;
@@ -26,10 +27,11 @@ public class MissionInfoDetailResponseDto {
         this.picture = picture;
         this.allow = allow;
         this.createdAt = createdAt;
+        this.category=category;
     }
 
     public static MissionInfoDetailResponseDto of(String missionName, int reward, boolean complete, String goal,
-                                             String picture, boolean allow, LocalDateTime createdAt) {
+                                             String picture, boolean allow, LocalDateTime createdAt, int category) {
         return builder()
                 .missionName(missionName)
                 .reward(reward)
@@ -38,6 +40,7 @@ public class MissionInfoDetailResponseDto {
                 .picture(picture)
                 .allow(allow)
                 .createdAt(createdAt)
+                .category(category)
                 .build();
     }
 }
