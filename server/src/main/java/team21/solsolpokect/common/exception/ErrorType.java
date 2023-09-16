@@ -6,10 +6,13 @@ import lombok.Getter;
 public enum ErrorType {
 
     NOT_FOUND_USER(401, "등록된 사용자가 없습니다."),
+    NOT_VALID_USER(401, "등록된 사용자가 유효하지 않습니다."),
     NOT_FOUND_MISSION(401, "등록된 도전과제가 없습니다."),
+    NOT_CREATE_MISSION(401, "해당 도전과제를 만들 수 없습니다."),
     NOT_FOUND_FEEDBACK(401, "등록된 피드백이 없습니다."),
     NOT_FOUND_AUTO_TRANSFER(401, "등록된 자동이체가 없습니다"),
     NOT_FOUND_FAMILY(401, "등록된 가족이 없습니다"),
+    NOT_MATCHING_FAMILY(401, "가족 정보가 일치하지 않습니다."),
     PICTURE_IS_NULL(400, "이미지가 첨부되지 않았습니다."),
     ALREADY_EXIST_USERID(401, "이미 존재하는 아이디입니다."),
     NOT_MATCHING_INFO(401, "회원 정보가 일치하지 않습니다."),

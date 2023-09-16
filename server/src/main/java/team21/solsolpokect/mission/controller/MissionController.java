@@ -47,23 +47,22 @@ public class MissionController {
         return ResponseUtils.ok(missionService.missionDetail(missionId), MsgType.MISSION_DETAIL_SUCCESSFULLY);
     }
 
-    @DeleteMapping("/{mission-id}")
-    public ApiResponseDto<Void> missionDelete(@PathVariable("mission-id") Long missionId) {
-        missionService.missionDelete(missionId);
+    @DeleteMapping("/{user-id}/{mission-id}")
+    public ApiResponseDto<Void> missionDelete(@PathVariable("user-id") Long userId, @PathVariable("mission-id") Long missionId) {
+        missionService.missionDelete(userId, missionId);
         return ResponseUtils.ok(MsgType.MISSION_DELETE_SUCCESSFULLY);
     }
 
-    @PutMapping("/allow-picture/{mission-id}/{user-id}")
-    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("mission-id") Long missionId, @PathVariable("user-id") long userId,
+    @PutMapping("/allow-picture/{user-id}/{mission-id}")
+    public ApiResponseDto<Void> missionAllowPicture(@PathVariable("user-id") long userId, @PathVariable("mission-id") Long missionId,
                                                     @RequestPart MultipartFile picture) throws IOException {
-        System.out.println("mission id : " + missionId + "user id : " + userId);
         missionService.missionAllowPicture(missionId, userId, picture);
         return ResponseUtils.ok(MsgType.MISSION_ALLOW_PICTURE_SUCCESSFULLY);
     }
 
-    @PutMapping("/complete/{mission-id}")
-    public ApiResponseDto<Void> missionComplete(@PathVariable("mission-id") Long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
-        missionService.missionComplete(missionId, missionCompleteRequestDto);
+    @PutMapping("/complete/{user-id}/{mission-id}")
+    public ApiResponseDto<Void> missionComplete(@PathVariable("user-id") long userId, @PathVariable("mission-id") Long missionId, @RequestBody MissionCompleteRequestDto missionCompleteRequestDto) {
+        missionService.missionComplete(userId, missionId, missionCompleteRequestDto);
         return ResponseUtils.ok(MsgType.MISSION_COMPLETE_SUCCESSFULLY);
     }
 }
