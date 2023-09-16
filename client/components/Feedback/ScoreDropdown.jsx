@@ -14,7 +14,7 @@ const ScoreDropdown = ({ dailyScore }) => {
   ]);
 
   return (
-    <View style={{}}>
+    <View>
       <DropDownPicker
         style={{ borderWidth: 0 }}
         open={open}

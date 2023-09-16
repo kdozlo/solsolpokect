@@ -39,9 +39,7 @@ const PocketMoneyMember = ({ user }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginRight: 50,
-  },
+  container: { marginRight: 20 },
 });
 
 export default PocketMoneyMember;

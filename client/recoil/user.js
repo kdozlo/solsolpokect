@@ -6,3 +6,8 @@ export const loggedInUserAtom = atom({
   key: 'loggedInUserAtom',
   default: parentDummyUser,
 });
+
+export const selectedUserInfoAtom = atom({
+  key: 'selectedUserInfoAtom',
+  default: null,
+});

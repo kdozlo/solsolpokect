@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput, Pressable } from 'react-native';
+import { Text, View, TextInput, Pressable, StyleSheet } from 'react-native';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import ScoreDropdown from './ScoreDropdown';
@@ -18,22 +18,10 @@ const FeedbackWriteComment = ({ commentText, dailyScore }) => {
   };
 
   return (
-    <View
-      style={{
-        flexDirection: 'column',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        margin: 5,
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-      }}
-      onLayout={handleFeedbackBtnHeight}>
+    <View style={styles.container} onLayout={handleFeedbackBtnHeight}>
       <ScoreDropdown dailyScore={dailyScore} />
-      <View style={{ flexDirection: 'row' }}>
-        <TextInput style={{ flex: 4, marginLeft: 10 }} placeholder="피드백을 남겨주세요">
+      <View style={styles.textBox}>
+        <TextInput style={styles.textInput} placeholder="피드백을 남겨주세요">
           {commentText}
         </TextInput>
         <Pressable
@@ -48,5 +36,27 @@ const FeedbackWriteComment = ({ commentText, dailyScore }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    padding: 5,
+    marginTop: 10,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderRadius: 5,
+  },
+  textBox: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingRight: 10,
+  },
+  textInput: {
+    flex: 4,
+    marginLeft: 10,
+  },
+  confirmButton: {},
+});
 
 export default FeedbackWriteComment;

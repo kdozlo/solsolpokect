@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import AccountBookMember from './AccountBookMember';
 import PocketMoneyMember from './PocketMoneyMember';
 import { images } from '../../constants';
-import { accountUserAtom, familyMemberIdListAtom, familyMemberListAtom } from '../../recoil/accountBook';
+import { accountUserAtom, familyMemberApiResAtom, familyMemberListAtom } from '../../recoil/accountBook';
 import { loggedInUserAtom } from '../../recoil/user';
 import { getFamilyInfo, getFamilyMemberIdList } from '../../services/apis/familyAPI';
 import { getUserInfo } from '../../services/apis/userAPI';
@@ -14,39 +14,36 @@ import { dummyUser, dummyUsers } from '../../test/dummyData/user';
 import { SOLSOL_URL } from '../../utils/const/api';
 
 // FlatList 사용도로고 리팩터링
-const FamilyList = ({ pageInfo }) => {
+const FamilyList = ({ pageInfo, memberApiRes }) => {
   // recoil states..
   const setSelectedUserId = useSetRecoilState(accountUserAtom); // 현재 선택된 유저로 보여줄 유저의 id
-  const [memberIdList, setMemberIdList] = useRecoilState(familyMemberIdListAtom);
+  // const [memberApiRes, setMemberApiRes] = useRecoilState(familyMemberApiResAtom);
   const [memberInfoList, setMemberInfoList] = useRecoilState(familyMemberListAtom);
   const loggedInUser = useRecoilValue(loggedInUserAtom); // 로그인된 유저 정보
 
-  // components states..
-  // const [withoutUser, setWithoutUser] = useState([]);
-  // const [renderingFamilyList, setRenderingFamilyList] = useState([]); // 실제로 그려줄 멤버들을 저장하는 배열
-
   // 가족 id 정보 받아오기
-  useEffect(() => {
-    const getFamilyMemberList = async () => {
-      const result = await getFamilyMemberIdList(loggedInUser.id);
-      setMemberIdList(result.usersId);
-    };
+  // useEffect(() => {
+  //   const getFamilyMemberList = async () => {
+  //     const result = await getFamilyMemberIdList(loggedInUser.id);
+  //     setMemberApiRes(result);
+  //   };
 
-    getFamilyMemberList();
-  }, []);
+  //   getFamilyMemberList();
+  // }, []);
 
   // console.log('memberID', memberIdList);
 
   // 가족 정보 받아오기
   useEffect(() => {
     const getUserInfoList = async () => {
-      const userInfoList = [];
-      for (let i = 0; i < memberIdList.length; i++) {
-        const userInfo = await getUserInfo(memberIdList[i]);
-        userInfoList.push(userInfo);
+      const apiResList = [];
+      for (let i = 0; i < memberApiRes.usersId.length; i++) {
+        const userInfoRes = await getUserInfo(memberApiRes.usersId[i]);
+        apiResList.push(userInfoRes);
       }
 
-      const withoutInfoList = userInfoList.filter(member => member.id !== loggedInUser.id);
+      const withoutInfoList = apiResList.filter(member => member.id !== loggedInUser.id);
+      const memberInfoList = [loggedInUser, ...withoutInfoList];
 
       switch (pageInfo) {
         case 'AccountBook':
@@ -56,17 +53,11 @@ const FamilyList = ({ pageInfo }) => {
           setSelectedUserId(withoutInfoList[0].id);
       }
 
-      setMemberInfoList([...userInfoList]);
+      setMemberInfoList([...memberInfoList]);
     };
 
     getUserInfoList();
-  }, [memberIdList]);
-
-  // console.log('double api res', familyMemberList[0]);
-  // console.log('withoutList', withoutUserList);
-  // console.log('renderingList', renderingFamilyList);
-
-  // const renderList = pageKind === 'AccountBook' ? [...familyMemberList]:]
+  }, [memberApiRes]);
 
   // 선택된 유저는 transition을 통해서 좀 더 크게 표현하기 + 티어 높은 순으로 표현
   const renderUserProfile = ({ item }) => {
@@ -86,24 +77,24 @@ const FamilyList = ({ pageInfo }) => {
         if (pageInfo == 'AccountBook') {
           return <AccountBookMember user={member} key={`member-${index}`} />;
         } else {
+          if (member.id === loggedInUser.id) {
+            return <></>;
+          }
           return <PocketMoneyMember user={member} key={`member-${index}`} />;
         }
       })}
     </View>
   );
 };
-// <FlatList
-//   style={styles.familyList}
-//   data={renderingFamilyList}
-//   numColumns={renderingFamilyList.length}
-//   keyExtractor={(_, index) => `member-${index}`}
-//   renderItem={renderUserProfile}
-// />
-// { renderingFamilyList.map(member => <></>) }
 
 const styles = StyleSheet.create({
   familyList: {
+    width: '60%',
+    // flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    // flex: 1,
     // width: '40%',
     // marginBottom: 20,
     // backgroundColor: 'red',

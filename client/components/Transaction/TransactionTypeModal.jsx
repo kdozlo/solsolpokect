@@ -1,5 +1,14 @@
 import React from 'react';
-import { Modal, Text, TouchableWithoutFeedback, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import {
+  Modal,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from 'react-native';
 import { useRecoilState } from 'recoil';
 
 import { COLORS, SIZES, icons } from '../../constants';
@@ -45,21 +54,15 @@ const TransactionTypeModal = ({ modalVisible, setModalVisible }) => {
 
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      <View style={styles.container}>
         <View
           style={{
-            height: 200,
+            height: 170,
             width: SIZES.width * 0.8,
-            backgroundColor: COLORS.darkgray,
+            backgroundColor: COLORS.lightGray,
             borderRadius: SIZES.radius,
             marginLeft: 10,
           }}>
-          {/* <Text>모달 컴포넌트 입니다.</Text> */}
           <FlatList
             ListHeaderComponent={renderHeader()}
             data={TRANSACTION_TYPES}
@@ -73,26 +76,23 @@ const TransactionTypeModal = ({ modalVisible, setModalVisible }) => {
           />
         </View>
       </View>
-      {/* <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-        <View
-        style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View
-            style={{
-              height: 400,
-              width: SIZES.width * 0.8,
-              backgroundColor: COLORS.darkgray,
-              borderRadius: SIZES.radius,
-            }}>
-            <Text>모달 컴포넌트</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback> */}
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowBox: {
+      width: 230,
+      height: 230,
+      backgroundColor: 'white',
+      elevation: 10, // 그림자 효과를 주는 elevation 속성
+      borderRadius: 10, // 모서리 둥글게 만들기
+    },
+  },
+});
 
 export default TransactionTypeModal;
