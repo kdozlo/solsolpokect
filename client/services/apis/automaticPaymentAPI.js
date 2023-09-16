@@ -1,6 +1,6 @@
 import { SOLSOL_URL } from '../../utils/const/api';
 
-// 자동 조회 생성 api
+// 자동 이체 조회 생성 api
 export const getAutomaticPaymentList = async userId => {
   const paymentListRes = await fetch(`http://${SOLSOL_URL}/api/auto-transfer/list/${userId}`, {
     method: 'GET',

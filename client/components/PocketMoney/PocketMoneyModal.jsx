@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import {
   Keyboard,
@@ -10,12 +11,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
+import DateDropdown from './DateDropdown';
 import { COLORS, SIZES } from '../../constants';
-import { accountUserAtom } from '../../recoil/accountBook';
+import { useCalendar } from '../../hooks/use-calendar';
+import { accountDateAtom, accountUserAtom } from '../../recoil/accountBook';
 import {
   automaticCurrentMoneyAtom,
+  automaticPaymentDateAtom,
   automaticPaymentItemAtom,
   automaticPaymentListAtom,
   pocketMoneyModalAtom,
@@ -28,9 +32,12 @@ import { UPDATE_SUCCESS_MSG } from '../../utils/const/api';
 const PocketMoneyModal = () => {
   // recoil states...
   const [modalVisible, setModalVisible] = useRecoilState(pocketMoneyModalAtom); // 포켓 모달이 뜰지 말지
-  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom); // 추가, 수정으로 인한 list 정보 변경 반영
+  const setAutomaticPaymentList = useSetRecoilState(automaticPaymentListAtom); // 추가, 수정으로 인한 list 정보 변경 반영
   const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom); // 선택된 아이템 정보 가져오기 + 모달 꺼질 때 초기화
+
+  const itemDate = useRecoilValue(automaticPaymentDateAtom); // 선택된 달력 날짜
   const selectedUserId = useRecoilValue(accountUserAtom); // 용돈 이체 목록의 주인(돈 받을 대상)
+  const selectedDate = useRecoilValue(accountDateAtom);
 
   // components states...
   const [selectedUserInfo, setSelectedUserInfo] = useState(null);
@@ -42,6 +49,7 @@ const PocketMoneyModal = () => {
     const result = await getUserInfo(selectedUserId);
     setSelectedUserInfo(result);
   };
+  // initial setting..
   useEffect(() => {
     getSelectedUserInfo();
     // console.log(selectedUserInfo);
@@ -66,6 +74,14 @@ const PocketMoneyModal = () => {
             <View style={styles.modifyHeader}>
               <Text>{`자동 이체 ${automaticPaymentItem ? '수정' : '등록'}`}</Text>
             </View>
+            {/* 자동 이체 일 정하기 */}
+            <View style={styles.modifyDate}>
+              <View>
+                <Text>매월</Text>
+              </View>
+              <DateDropdown autoDate={automaticPaymentItem ? automaticPaymentItem.autoDate : 1} />
+            </View>
+            {/* 자동 이체 금액 정하기 */}
             <View style={styles.modifyMoney}>
               <TextInput
                 style={styles.moneyInput}
@@ -91,7 +107,7 @@ const PocketMoneyModal = () => {
                     console.log('수정 api 호출');
                     const result = await updateAutomaticPaymentList(
                       automaticPaymentItem.autoTransferId,
-                      '',
+                      itemDate,
                       parseInt(moneyValue),
                     );
                     if (result === UPDATE_SUCCESS_MSG) {
@@ -149,6 +165,12 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
   },
   modifyHeader: {},
+  modifyDate: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
   modifyMoney: {
     flexDirection: 'row',
     width: '100%',

@@ -11,10 +11,16 @@ import {
   pocketMoneyModalAtom,
 } from '../../recoil/pocketMoney';
 import { getAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
+import { dummyPaymentList } from '../../test/dummyData/managingPocketMoney';
 import { parentDummyUser } from '../../test/dummyData/user';
 
 const AutomaticPaymentList = () => {
   const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
+  // const [automaticPaymentList, setAutomaticPaymentList] = useState();
+  useEffect(() => {
+    setAutomaticPaymentList(dummyPaymentList);
+  }, []);
+
   const [modifyModalVisible, setModifyModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(0);
 

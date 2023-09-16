@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import { View, Text, Modal, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { COLORS, SIZES } from '../../constants';
 import {
@@ -14,9 +14,9 @@ import { DELETE_SUCCESS_MSG } from '../../utils/const/api';
 
 const HamburgerModal = ({ setModalVisible, selectedItem }) => {
   const setPocketModal = useSetRecoilState(pocketMoneyModalAtom);
-  const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom);
-  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
-  const [moneyValue, setMoneyValue] = useRecoilState(automaticCurrentMoneyAtom);
+  const setAutomaticPaymentItem = useSetRecoilState(automaticPaymentItemAtom);
+  const setAutomaticPaymentList = useSetRecoilState(automaticPaymentListAtom);
+  const setMoneyValue = useSetRecoilState(automaticCurrentMoneyAtom);
 
   return (
     <TouchableOpacity
