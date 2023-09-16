@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Keyboard,
   Modal,
@@ -13,15 +13,34 @@ import {
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { COLORS, SIZES } from '../../constants';
-import { automaticPaymentItemAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import { accountUserAtom } from '../../recoil/accountBook';
+import { automaticPaymentItemAtom, automaticPaymentListAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import { addAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
+import { getUserInfo } from '../../services/apis/userAPI';
+import { parentDummyUser } from '../../test/dummyData/user';
 
 const PocketMoneyModal = () => {
   const [modalVisible, setModalVisible] = useRecoilState(pocketMoneyModalAtom);
+  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
   const [automaticPaymentItem, setAutomaticPaymentItem] = useRecoilState(automaticPaymentItemAtom); // '+'버튼 눌렀으면 null, 수정 버튼 눌렀으면 not null
+  const selectedUserId = useRecoilValue(accountUserAtom);
+  const [selectedUserInfo, setSelectedUserInfo] = useState(null);
+  const [moneyValue, setMoneyValue] = useState(0);
+
+  const getSelectedUserInfo = async () => {
+    console.log(selectedUserId);
+    const result = await getUserInfo(selectedUserId);
+    setSelectedUserInfo(result);
+  };
+  useEffect(() => {
+    getSelectedUserInfo();
+    console.log(selectedUserInfo);
+  }, []);
 
   useEffect(() => {
     if (!modalVisible) {
       setAutomaticPaymentItem(null);
+      setMoneyValue(0);
     }
   }, [modalVisible]);
 
@@ -40,8 +59,12 @@ const PocketMoneyModal = () => {
               <TextInput
                 style={styles.moneyInput}
                 keyboardType="numeric"
-                placeholder={automaticPaymentItem ? String(automaticPaymentItem.money) : '변경할 금액을 입력해주세요'}
-              />
+                placeholder={'변경할 금액을 입력해주세요'}
+                onChangeText={moneyText => {
+                  setMoneyValue(moneyText);
+                }}>
+                {moneyValue}
+              </TextInput>
               <Text style={styles.moneyText}>원</Text>
             </View>
             <View style={styles.modifyFooter}>
@@ -50,9 +73,25 @@ const PocketMoneyModal = () => {
               </Pressable>
               <Pressable
                 style={styles.footerRightButton}
-                onPress={() => {
+                onPress={async () => {
                   setModalVisible(false);
-                  // 자동이체 수정이나 등록 api 실행
+                  if (automaticPaymentItem) {
+                    setMoneyValue(automaticPaymentItem.money);
+                    // 수정 api 수행
+                    console.log('수정 api 호출');
+                  } else {
+                    console.log(moneyValue, parentDummyUser.id, selectedUserInfo.account);
+                    // 생성 api 수행 : autoDate, money, userId, childAccount
+                    const result = await addAutomaticPaymentList(
+                      '',
+                      parseInt(moneyValue),
+                      parseInt(parentDummyUser.id),
+                      selectedUserInfo.account,
+                    );
+
+                    console.log('result', result);
+                    setAutomaticPaymentList(pre => [...pre, result]);
+                  }
                 }}>
                 <Text>확인</Text>
               </Pressable>

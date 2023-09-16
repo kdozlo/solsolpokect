@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Pressable, StyleSheet, Text, Image, FlatList } from 'react-native';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import HamburgerModal from './HamburgerModal';
 import { icons } from '../../constants';
-import { automaticPaymentItemAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
+import { automaticPaymentItemAtom, automaticPaymentListAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
 import { getAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
 import { parentDummyUser } from '../../test/dummyData/user';
 
 const AutomaticPaymentList = () => {
   const setAutomaticPaymentItem = useSetRecoilState(automaticPaymentItemAtom);
   const [modifyModalVisible, setModifyModalVisible] = useState(false);
-  const [automaticPaymentList, setAutomaticPaymentList] = useState([]);
+  const [automaticPaymentList, setAutomaticPaymentList] = useRecoilState(automaticPaymentListAtom);
 
   const getPaymentData = async () => {
     const result = await getAutomaticPaymentList(parentDummyUser.id);

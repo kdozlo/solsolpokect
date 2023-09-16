@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import { atom } from 'recoil';
 
-import { dummyUser } from '../test/dummyData/user';
+import { childDummyUser, parentDummyUser } from '../test/dummyData/user';
 
 export const accountUserAtom = atom({
   key: 'accountUser',
-  default: dummyUser.userId,
+  default: childDummyUser.id,
 });
 
 export const accountDateAtom = atom({

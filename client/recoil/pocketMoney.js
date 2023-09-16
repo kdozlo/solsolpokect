@@ -9,3 +9,8 @@ export const automaticPaymentItemAtom = atom({
   key: 'automaticPaymentItemAtom',
   default: null,
 });
+
+export const automaticPaymentListAtom = atom({
+  key: 'automaticPaymentListAtom',
+  default: [],
+});
