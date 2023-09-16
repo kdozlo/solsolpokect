@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE Auto_Transfer set deleted_at = CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul') where id = ?")
+@SQLDelete(sql = "UPDATE auto_transfer set deleted_at = CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul') where id = ?")
 public class AutoTransfer extends BaseTime {
 
     @Id
