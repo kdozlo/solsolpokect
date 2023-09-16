@@ -24,6 +24,7 @@ public enum ErrorType {
     FAILED_TO_ACQUIRE_LOCK(401, "락 획득에 실패했습니다."),
     NOT_FOUND_MONTHLY_GOAL_MONEY(401, "등록된 월별 목표 금액이 없습니다."),
     INTERRUPTED_WHILE_WAITING_FOR_LOCK(401, "락을 기다리는 동안 인터럽트가 발생하였습니다"),
+    ALREADY_EXISTED_DIARY_SCORE(401, "이미 해당 날짜에 일일 점수가 존재 합니다."),
     ;
     private int code;
     private String msg;

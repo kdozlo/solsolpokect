@@ -29,7 +29,7 @@ public class DiaryController {
 
     @PostMapping("/score/create")
     public ApiResponseDto<Void> scoreCreate(@RequestBody DiaryScoreRequestDto requestDto){
-        diaryService.scoreCreaete(requestDto);
+        diaryService.scoreCreate(requestDto);
         return ResponseUtils.ok(MsgType.DAILY_SCORE_CREATE_SUCCESSFULLY);
     }
 

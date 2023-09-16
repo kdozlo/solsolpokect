@@ -80,9 +80,13 @@ public class DiaryService {
         }
     }
 
-    public void scoreCreaete(DiaryScoreRequestDto requestDto) {
+    public void scoreCreate(DiaryScoreRequestDto requestDto) {
         Optional<Users> user = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
         if (user.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        Optional<Diary> d = diaryRepository.findByDailyDate(StringToLocalDateTime(requestDto.getDate()));
+        if(d.isPresent())
+            throw new CustomException(ErrorType.ALREADY_EXISTED_DIARY_SCORE);
 
         user.get().plusCreditScore(requestDto.getDailyScore());
 
