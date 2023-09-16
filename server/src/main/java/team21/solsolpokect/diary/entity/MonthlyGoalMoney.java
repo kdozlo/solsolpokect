@@ -35,9 +35,9 @@ public class MonthlyGoalMoney {
         this.users = users;
     }
 
-    public static MonthlyGoalMoney of(LocalDate now, int goalMoney, Users users) {
+    public static MonthlyGoalMoney of(LocalDate date, int goalMoney, Users users) {
         return builder()
-                .date(now)
+                .date(date)
                 .dailyScore(goalMoney)
                 .users(users)
                 .build();
