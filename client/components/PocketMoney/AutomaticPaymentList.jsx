@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Pressable, StyleSheet, Text, Image, FlatList } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 
 import HamburgerModal from './HamburgerModal';
 import { icons } from '../../constants';
 import { automaticPaymentItemAtom, pocketMoneyModalAtom } from '../../recoil/pocketMoney';
-import { automaticPaymentList } from '../../test/dummyData/managingPocketMoney';
+import { getAutomaticPaymentList } from '../../services/apis/automaticPaymentAPI';
+import { parentDummyUser } from '../../test/dummyData/user';
 
 const AutomaticPaymentList = () => {
-  const [modifyModalVisible, setModifyModalVisible] = useState(false);
   const setAutomaticPaymentItem = useSetRecoilState(automaticPaymentItemAtom);
+  const [modifyModalVisible, setModifyModalVisible] = useState(false);
+  const [automaticPaymentList, setAutomaticPaymentList] = useState([]);
+
+  const getPaymentData = async () => {
+    const result = await getAutomaticPaymentList(parentDummyUser.id);
+    setAutomaticPaymentList(result);
+  };
+
+  useEffect(() => {
+    getPaymentData();
+    console.log(automaticPaymentList);
+  }, []);
 
   const renderHeader = () => {
     return (
@@ -21,10 +33,10 @@ const AutomaticPaymentList = () => {
 
   // onLayout은 상대좌표만 주기 때문에 useRef를 쓰는게 맞다.
   const renderPaymentItem = ({ item, index }) => {
-    console.log(item);
+    console.log(item, '출력되고 있습니다.');
     return (
       <View>
-        <Text>매월 {item.autoDate}일</Text>
+        <Text>매월 {item.autoDate ?? 17}일</Text>
         <Text>{item.money.toLocaleString()}원</Text>
         <Pressable
           onPress={() => {
