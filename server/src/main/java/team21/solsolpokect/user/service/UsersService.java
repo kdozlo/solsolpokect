@@ -69,6 +69,7 @@ public class UsersService {
 
     private static UsersInfoResponseDto getUsersInfoResponseDto(Optional<Users> user) {
         Long id = user.get().getId();
+        String userId = user.get().getUserId();
         String role = user.get().getRole();
         String username = user.get().getUserName();
         Long familyId = 0L;
@@ -76,6 +77,6 @@ public class UsersService {
         String account = user.get().getAccount();
         int creditScore = user.get().getCreditScore();
 
-        return UsersInfoResponseDto.of(id, role, username, familyId, account, creditScore);
+        return UsersInfoResponseDto.of(id, userId, role, username, familyId, account, creditScore);
     }
 }
