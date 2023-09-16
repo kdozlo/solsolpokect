@@ -42,7 +42,7 @@ public class FeedbackService {
         Feedback feedback = Feedback.of(contents, users.get());
         feedbackRepository.save(feedback);
 
-        Optional<Diary> diary = diaryRepository.findByUsers(users.get());
+        Optional<Diary> diary = diaryRepository.findById(requestDto.getDairyId());
         if(diary.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
         diary.get().feedbackUpdate(feedback);
@@ -52,8 +52,12 @@ public class FeedbackService {
 
         Optional<Feedback> feedback = feedbackRepository.findByIdAndDeletedAtIsNull(feedbackId);
         if(feedback.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_FEEDBACK);
+
         Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(requestDto.getUserId());
         if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
+
+        Optional<Diary> dairy = diaryRepository.findById(requestDto.getDairyId());
+        if(dairy.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_DIARY);
 
         if (users.get().getId() != feedback.get().getUsers().getId()) {
             throw new CustomException(ErrorType.NOT_MATCHING_INFO);
@@ -68,7 +72,14 @@ public class FeedbackService {
         Optional<Users> users = usersRepository.findByIdAndDeletedAtIsNull(userId);
         if(users.isEmpty()) throw new CustomException(ErrorType.NOT_FOUND_USER);
 
-        List<Feedback> feedbackList = feedbackRepository.findAllByUsersAndCreatedAtBetweenAndDeletedAtIsNull(users.get(), DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
+        List<Diary> diaryList = diaryRepository.findAllByUsersAndDailyDateBetween(users.get(), DateUtils.getStartOfMonth(year,month), DateUtils.getEndOfMonth(year,month));
+        List<Feedback> feedbackList = new ArrayList<>();
+
+        for(Diary d : diaryList) {
+            if(d.getFeedback() != null)
+                feedbackList.add(d.getFeedback());
+        }
+
         List<FeedbackInfosResponseDto> answer = new ArrayList<>();
         for(Feedback f : feedbackList){
             if (f != null) {
