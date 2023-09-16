@@ -45,7 +45,7 @@ public class MissionService {
         if(user.get().getRole().equals("부모"))
             allow = true;
 
-        missionRepository.save(Mission.of(child.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), allow,false, missionCreateRequestDto.getGoal()));
+        missionRepository.save(Mission.of(child.get(), missionCreateRequestDto.getMissionName(), missionCreateRequestDto.getReward(), allow, false, missionCreateRequestDto.getGoal(), missionCreateRequestDto.getCategory()));
     }
 
     public void missionAllow(long missionId, MissionAllowRequestDto missionAllowRequestDto) {
@@ -70,7 +70,7 @@ public class MissionService {
             System.out.println("자녀");
             for (Mission m : missions) {
                 missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
-                        m.isAllow(), m.getCreatedAt(), m.getUpdatedAt()));
+                        m.isAllow(), m.getCreatedAt(), m.getUpdatedAt(), m.getCategory()));
             }
         } else if(user.get().getRole().equals("부모")) {
             List<Users> familyList = usersRepository.findAllByFamilyIdAndDeletedAtIsNull(user.get().getFamily().getId());
@@ -81,7 +81,7 @@ public class MissionService {
 
                     for (Mission m : missions) {
                         missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
-                                m.isAllow(), m.getCreatedAt(), m.getUpdatedAt()));
+                                m.isAllow(), m.getCreatedAt(), m.getUpdatedAt(),m.getCategory()));
                     }
                 }
             }
@@ -97,7 +97,7 @@ public class MissionService {
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
         return MissionInfoDetailResponseDto.of(mission.get().getMissionName(), mission.get().getReward() , mission.get().isComplete(),
-                mission.get().getGoal(), mission.get().getPicture(), mission.get().isAllow(), mission.get().getCreatedAt());
+                mission.get().getGoal(), mission.get().getPicture(), mission.get().isAllow(), mission.get().getCreatedAt(), mission.get().getCategory());
     }
 
     public void missionDelete(long missionId) {
@@ -115,6 +115,9 @@ public class MissionService {
         if(mission.isEmpty())
             throw new CustomException(ErrorType.NOT_FOUND_MISSION);
 
+        if(mission.get().getId()!=userId){
+            throw new CustomException(ErrorType.NOT_MATCHING_INFO);
+        }
         if(picture.isEmpty())
             throw new CustomException(ErrorType.PICTURE_IS_NULL);
 

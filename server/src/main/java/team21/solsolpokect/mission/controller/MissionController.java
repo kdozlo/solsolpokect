@@ -41,7 +41,7 @@ public class MissionController {
         return ResponseUtils.ok(missionService.missionList(userId), MsgType.MISSION_LIST_SUCCESSFULLY);
     }
 
-    @GetMapping("/detail/{mission-id}")
+    @GetMapping("/list/detail/{mission-id}")
     public ApiResponseDto<MissionInfoDetailResponseDto> missionDetail(@PathVariable("mission-id") Long missionId) {
 
         return ResponseUtils.ok(missionService.missionDetail(missionId), MsgType.MISSION_DETAIL_SUCCESSFULLY);
