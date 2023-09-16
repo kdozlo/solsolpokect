@@ -68,7 +68,8 @@ public class MissionService {
             System.out.println("자녀");
             for (Mission m : missions) {
                 missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
-                        m.isAllow(), m.getCreatedAt(), m.getUpdatedAt(), m.getCategory()));
+                        m.isAllow(), m.getCreatedAt(), m.getUpdatedAt(), m.getCategory(),
+                        m.getReward(), m.getGoal(), m.getPicture()));
             }
         } else if(user.get().getRole().equals("부모")) {
             List<Users> familyList = usersRepository.findAllByFamilyIdAndDeletedAtIsNull(user.get().getFamily().getId());
@@ -79,7 +80,8 @@ public class MissionService {
 
                     for (Mission m : missions) {
                         missionInfosResponseDtos.add(MissionInfosResponseDto.of(m.getId(), m.getMissionName(), m.isComplete(),
-                                m.isAllow(), m.getCreatedAt(), m.getUpdatedAt(),m.getCategory()));
+                                m.isAllow(), m.getCreatedAt(), m.getUpdatedAt(),m.getCategory(),
+                                m.getReward(), m.getGoal(), m.getPicture()));
                     }
                 }
             }
