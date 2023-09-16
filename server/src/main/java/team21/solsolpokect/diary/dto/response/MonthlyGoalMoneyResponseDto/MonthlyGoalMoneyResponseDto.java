@@ -12,7 +12,7 @@ public class MonthlyGoalMoneyResponseDto {
     private int goalMoney;
 
     @Builder
-    public MonthlyGoalMoneyResponseDto(LocalDate date, int goalMoney) {
+    private MonthlyGoalMoneyResponseDto(LocalDate date, int goalMoney) {
         this.date = date;
         this.goalMoney = goalMoney;
     }
