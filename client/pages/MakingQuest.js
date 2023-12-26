@@ -10,99 +10,136 @@ import {
   Appearance,
   Button,
   Alert,
+  TouchableHighlight,
 } from 'react-native';
 
 import { DateTimePickerModal } from 'react-native-modal-datetime-picker';
 import { useQuestList } from '../hooks/use-questList';
 import axios from 'axios';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { nameListState, URL, DB_KEYState, QuestListState } from '../recoil/UserInfo';
 /* eslint-disable prettier/prettier */
 
 export default ({ navigation, route }) => {
-  const { type } = route.params;
+  const { category } = route.params;
 
-  const {
-    DATA,
-    isDatePickerVisible,
-    dateInputVisible,
-    showDatePicker,
-    handleConfirm,
-    hideDatePicker,
-    getGoalDate,
-    questList,
-    storeAndsetQuestList,
-    name,
-    missionName,
-    reward,
-    appeal,
-    setName,
-    setMissionName,
-    setReward,
-    setAppeal,
-  } = useQuestList();
+  const { DATA, getGoalDate, questList, storeAndsetQuestList } = useQuestList();
+
+  const WeAreFamily = useRecoilValue(nameListState);
+  const [userDB_key, setUserDB_key] = useState(0);
+  const [missionName, setMissionName] = useState('');
+  const [reward, setReward] = useState('');
+  const [appeal, setAppeal] = useState('');
+  const QuestLists = useRecoilValue(QuestListState);
+  const setQuestList = useSetRecoilState(QuestListState);
+  const DB_KEY = useRecoilValue(DB_KEYState);
 
   const addQuestList = async () => {
     const lastId = questList.length === 0 ? 0 : questList[questList.length - 1].id;
 
     const newQuest = {
       id: lastId + 1,
-      type,
+      category,
       date: getGoalDate(),
-
-      name,
+      userDB_key,
       missionName,
       reward,
       appeal,
     };
 
+    console.log('퀘스트 리스트입니다.');
+    console.log(newQuest);
+
+    console.log(newQuest.userDB_key);
+    console.log(DB_KEY);
+
+    const answer = 'dddd';
+
     await axios
-      .post('http://3.39.248.247:8080/api/mission/create', {
-        userId: newQuest.name,
+      .post(`http://${URL}/api/mission/create/${DB_KEY}`, {
+        userId: newQuest.userDB_key,
         missionName: newQuest.missionName,
         reward: newQuest.reward,
-        goal: newQuest.appeal,
+        goal: answer,
+        category: newQuest.category,
       })
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
+        console.log('퀘스트 생성 내용 전송 에러 입니다.');
         console.error(error.response);
       });
 
-    storeAndsetQuestList([newQuest, ...questList]);
+    await axios
+      .get(`http://${URL}/api/mission/list?userId=${DB_KEY}`)
+      .then(function (response) {
+        const QList = response.request._response;
+        const parsedList = JSON.parse(QList);
+        const defaultList = {
+          id: -1,
+          type: 3,
+        };
+
+        setQuestList([defaultList, ...parsedList.data]);
+        console.log(...QuestLists);
+        navigation.navigate('Main');
+      })
+      .catch(function (error) {
+        const msg = error.response;
+        console.error(msg);
+      });
   };
 
-  const renderItem = ({ item: { id, type, setType, holder, title } }) => {
-    // if (id === 1) {
-    //   return (
-    //     <View style={styles.forView}>
-    //       <Text style={styles.forText}>{title}</Text>
-    //       <View
-    //         style={{
-    //           backgroundColor: '#007AFF',
-    //           width: 150,
-    //           marginTop: 20,
-    //           marginLeft: 20,
-    //           borderRadius: 50,
-    //         }}>
-    //         <Button title="날짜 정하기!" color="#ffffff" onPress={showDatePicker} />
-    //       </View>
+  const familyRenderItem = ({ item }) => {
+    if (item[0] === userDB_key) {
+      return (
+        <TouchableOpacity
+          key={item[0]}
+          onPress={() => {
+            setUserDB_key(item[0]);
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              opacity: 1,
+            }}>
+            <Text style={{ margin: 20 }}>{item[0]}</Text>
+            <Text style={{ margin: 20 }}>{item[1]}</Text>
+            <Text style={{ margin: 20 }}>{item[2]}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          key={item[0]}
+          onPress={() => {
+            setUserDB_key(item[0]);
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              opacity: 0.3,
+            }}>
+            <Text style={{ margin: 20 }}>{item[0]}</Text>
+            <Text style={{ margin: 20 }}>{item[1]}</Text>
+            <Text style={{ margin: 20 }}>{item[2]}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  };
 
-    //       <TextInput
-    //         style={[styles.input, { opacity: dateInputVisible }]}
-    //         onChangeText={setType}
-    //         value={getGoalDate()}
-    //         placeholder={holder}
-    //         onEndEditing={() => {}}
-    //       />
-    //       <DateTimePickerModal
-    //         isVisible={isDatePickerVisible}
-    //         mode="time"
-    //         onConfirm={handleConfirm}
-    //         onCancel={hideDatePicker}
-    //       />
-    //     </View>
-    //   );
-    // }
+  const renderItem = ({ item: { id, type, holder, title } }) => {
+    if (id === 4) {
+      return (
+        <View style={[styles.forView]}>
+          <Text style={styles.forText}>{title}</Text>
+          <FlatList data={WeAreFamily} renderItem={familyRenderItem} />
+        </View>
+      );
+    }
 
     if (id === 5) {
       return (
@@ -120,7 +157,7 @@ export default ({ navigation, route }) => {
               },
             ]}
             onChangeText={setAppeal}
-            value={type}
+            value={setAppeal}
             placeholder={holder}
             editable
             multiline={true}
@@ -136,8 +173,8 @@ export default ({ navigation, route }) => {
         <Text style={styles.forText}>{title}</Text>
         <TextInput
           style={styles.input}
-          onChangeText={id === 2 ? setMissionName : id === 3 ? setReward : setName}
-          value={type}
+          onChangeText={id === 2 ? setMissionName : setReward}
+          value={id === 2 ? setMissionName : setReward}
           placeholder={holder}
         />
       </View>
@@ -157,7 +194,6 @@ export default ({ navigation, route }) => {
               onPress: () => {
                 addQuestList();
                 navigation.navigate('Main');
-                // navigation.navigate('Main');
               },
             },
           ]);
@@ -200,7 +236,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#3D70FF',
   },
   forLastButton: {
-    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#3D70FF',

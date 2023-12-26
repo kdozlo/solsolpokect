@@ -1,7 +1,11 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-var */
 /* eslint-disable prettier/prettier */
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import { Camera } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
+import { URL } from '../recoil/UserInfo';
 
 const ASYNC_KEY = {
   IMAGE: 'image',
@@ -20,7 +24,7 @@ export default () => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync(); // 카메라 접근 동의 받기
       setHasCameraPermission(cameraPermission.status === 'granted'); // 동의하면 권한 상태변수 true로 바꿈.
-      setImage(''); // 이미지 초기화
+      // setImage(''); // 이미지 초기화
       const imageFromStorage = await AsyncStorage.getItem(ASYNC_KEY.IMAGE);
       // 데이터베이스로 부터 저번에 찍은 이미지 uri 가져오기
       if (imageFromStorage !== null) {
@@ -36,19 +40,39 @@ export default () => {
     if (!cameraRef) return;
     const data = await cameraRef.current.takePictureAsync(null); // 참조를 통해 Camera 태그에 접근해서 해당 내장 함수 이용
     setImage(data.uri); // 찍은 사진의 uri를 setImage에 넣는다.
-    const jsonData = JSON.stringify(data); // data 객체를 string 화 시켜서
-    await AsyncStorage.setItem(ASYNC_KEY.IMAGE, jsonData); // 저장고 안에 넣기
+
+    const data2 = new FormData();
+
+    data2.append('file', {
+      uri: data.uri,
+      type: 'image/jpeg',
+      name: data.uri,
+    });
+
+    await axios
+      .put(`http://${URL}/api/mission/allow-picture/8/9`, data2, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.error(error.response);
+      });
+
     setModalVisible(false); // 사진 모달 닫기
     setPhotoAlready(true); // 사진 보여주기
   };
 
+  const submit = async () => {
+    console.log(image.uri);
+  };
+
   const onPressToggle = () => {
     // Camera 화면 전환 토글
-    setToggle(
-      toggle === Camera.Constants.Type.front
-        ? Camera.Constants.Type.back
-        : Camera.Constants.Type.front,
-    );
+    setToggle(toggle === Camera.Constants.Type.front ? Camera.Constants.Type.back : Camera.Constants.Type.front);
   };
 
   const onPressCamera = () => {
@@ -68,5 +92,6 @@ export default () => {
     setFirstScreenVisible,
     onPressToggle,
     onPressCamera,
+    submit,
   };
 };

@@ -5,21 +5,20 @@ import { images } from '../../constants';
 import { accountUserAtom } from '../../recoil/accountBook';
 
 const AccountBookMember = ({ user }) => {
-  const [selectedUser, setSelectedUser] = useRecoilState(accountUserAtom);
+  const [selectedUserId, setSelectedUserId] = useRecoilState(accountUserAtom);
 
   return (
     <TouchableWithoutFeedback
       disabled={false}
       key={user.userId}
       onPress={() => {
-        console.log(selectedUser);
-        setSelectedUser(prev => {
-          return user.userId;
+        setSelectedUserId(prev => {
+          return user.id;
         });
       }}>
-      <View style={{ transform: [{ scale: user.userId === selectedUser ? 1.5 : 1 }] }}>
+      <View style={{ transform: [{ scale: user.id === selectedUserId ? 1.5 : 1 }] }}>
         <Image source={images.father} />
-        <Text>{user.name}</Text>
+        <Text>{user.username}</Text>
       </View>
     </TouchableWithoutFeedback>
   );

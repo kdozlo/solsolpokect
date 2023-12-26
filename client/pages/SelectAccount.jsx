@@ -10,30 +10,34 @@ import {
   TouchableWithoutFeedback,
   Pressable,
 } from 'react-native';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import GoBackHeader from '../components/GoBackHeader';
 import BankListModal from '../components/Transfer/BankListModal';
-import { icons, images } from '../constants';
+import { COLORS, icons, images } from '../constants';
 import { transferAccountNumberAtom, transferBankInfoModalAtom, transferSelectedBankAtom } from '../recoil/transfer';
 import { BANK_INFO_LIST } from '../utils/const/bank';
 
 const SelectAccount = ({ navigation }) => {
   const selectedBankIndex = useRecoilValue(transferSelectedBankAtom); // 선택된 은행 이름
-  const setAccountNumber = useSetRecoilState(transferAccountNumberAtom);
+  const [accountNumber, setAccountNumber] = useRecoilState(transferAccountNumberAtom);
 
   const setModalVisible = useSetRecoilState(transferBankInfoModalAtom);
 
-  let accountNumValue = '';
+  // let accountNumValue = '';
 
   return (
-    <KeyboardAvoidingView>
+    <KeyboardAvoidingView
+      style={{
+        padding: 20,
+      }}>
       <TouchableWithoutFeedback
         onPress={() => {
           Keyboard.dismiss();
         }}>
         <View style={{ height: '100%' }}>
           <GoBackHeader title={'누구에게 보낼까요?'} navigation={navigation} />
+
           <Text style={{ marginVertical: 20 }}>계좌번호 입력</Text>
 
           <View>
@@ -46,6 +50,7 @@ const SelectAccount = ({ navigation }) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 padding: 10,
+                marginBottom: 20,
               }}
               onPress={() => setModalVisible(true)}>
               <View
@@ -87,6 +92,7 @@ const SelectAccount = ({ navigation }) => {
               </View>
             </TouchableOpacity>
 
+            {/* 계좌 번호 */}
             <TextInput
               style={{
                 borderWidth: 1,
@@ -94,18 +100,21 @@ const SelectAccount = ({ navigation }) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 padding: 17.5,
+                marginBottom: 20,
               }}
               onChangeText={newText => {
-                accountNumValue = newText;
-                console.log(accountNumValue);
+                setAccountNumber(newText);
+                // console.log(accountNumValue);
               }}
+              value={accountNumber}
               keyboardType="numeric"
               clearButtonMode="while-editing"
             />
 
             <Pressable
               style={{
-                borderWidth: 1,
+                // borderWidth: 1,
+                backgroundColor: COLORS.blue,
                 borderRadius: 5,
                 flexDirection: 'row',
                 justifyContent: 'center',
@@ -113,7 +122,7 @@ const SelectAccount = ({ navigation }) => {
                 padding: 17.5,
               }}
               onPress={() => {
-                setAccountNumber(accountNumValue);
+                // setAccountNumber(accountNumValue);
                 navigation.navigate('SelectMoney');
               }}>
               <Text>다음</Text>
